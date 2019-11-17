@@ -65,9 +65,8 @@ export class DemoListComponent implements OnInit, OnChanges {
       this.selectedItem = changes.selectedItem.currentValue;
     }
     if (changes.height && changes.height.currentValue > 0) {
-      console.debug(changes.height.currentValue);
       const totalHeight = this.itemSize * this.items.length;
-      const height = Math.min(totalHeight, changes.height.currentValue);
+      const height = Math.min(totalHeight, changes.height.currentValue - 1);
       (this._elementRef.nativeElement as HTMLElement).style.height = height + 'px';
       this._virtualScrollViewport.checkViewportSize();
     }

@@ -71,7 +71,7 @@
 <ng-template #dropdownTemplateA let-itemData let-dropdownCtrl="dropdownController"
              let-availableHeight$="availableHeight$">
   <div class="my-toolbar-item-callout my-toolbar-item-callout-amber" style="width: 240px">
-    <app-demo-list [height]="(availableHeight$ | async) - 1"
+    <app-demo-list [height]="(availableHeight$ | async)"
                    [selectedItem]="itemData | async"
                    (selectedItemChange)="itemData.next($event); dropdownCtrl.close()"></app-demo-list>
   </div>
