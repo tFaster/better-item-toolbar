@@ -1,0 +1,10 @@
+<div class="toolbar-item"
+     [ngClass]="{'toolbar-item-with-dropdown': !!dropdownTemplate}"
+     tabindex="0"
+     cdkMonitorElementFocus
+     cdkOverlayOrigin
+     (keydown)="onKeydown($event)">
+  <ng-container [ngTemplateOutlet]="itemTemplate"
+                [ngTemplateOutletContext]="itemTemplateContext"></ng-container>
+</div>
+

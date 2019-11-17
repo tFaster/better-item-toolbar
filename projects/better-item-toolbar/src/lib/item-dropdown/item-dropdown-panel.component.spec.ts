@@ -1,0 +1,36 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
+import { Subject } from 'rxjs';
+
+describe('ItemDropdownPanelComponent', () => {
+  let component: ItemDropdownPanelComponent<any>;
+  let fixture: ComponentFixture<ItemDropdownPanelComponent<any>>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ItemDropdownPanelComponent]
+    })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ItemDropdownPanelComponent);
+    component = fixture.componentInstance;
+    component.itemDropdownController = {
+      open: () => {
+      },
+      close: () => {
+      },
+      toggle: () => {
+      },
+      availableHeight$: new Subject<number>(),
+      openChange$: new Subject<any>()
+    };
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

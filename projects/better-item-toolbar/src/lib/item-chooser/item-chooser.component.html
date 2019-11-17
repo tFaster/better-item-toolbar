@@ -1,0 +1,30 @@
+<ng-container *ngIf="items.length > 0">
+
+  <div class="toolbar-item-chooser-wrapper" (mouseleave)="isShown = false">
+
+    <div (mouseenter)="isShown = true">
+      <ng-container *ngIf="itemChooserAddIconTemplate; else defaultAddIcon"
+                    [ngTemplateOutlet]="itemChooserAddIconTemplate"></ng-container>
+      <ng-template #defaultAddIcon>
+        <div class="toolbar-item-chooser-default-add-icon">+</div>
+      </ng-template>
+    </div>
+
+    <div [@showHide]="isShown ? 'shown' : 'hidden'" class="available-item-container">
+      <ng-container *ngFor="let item of items">
+        <button (click)="onItemClick(item)" [title]="item.typeLabel">
+          <ng-container *ngIf="item.addItemTemplate; else defaultAddItemTemplate"
+                        [ngTemplateOutlet]="item.addItemTemplate"
+                        [ngTemplateOutletContext]="{$implicit: item.typeLabel}"></ng-container>
+          <ng-template #defaultAddItemTemplate>
+            <div class="toolbar-item-default-add-button">{{item.typeLabel}}</div>
+          </ng-template>
+        </button>
+      </ng-container>
+    </div>
+
+  </div>
+
+</ng-container>
+
+

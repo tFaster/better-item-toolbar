@@ -1,0 +1,14 @@
+{
+  "name": "@tfaster/better-item-toolbar",
+  "version": "1.0.0-beta.1",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/tFaster/better-item-toolbar"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^8.2.13",
+    "@angular/core": "^8.2.13",
+    "@angular/cdk": "^8.2.3"
+  }
+}

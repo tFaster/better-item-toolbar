@@ -1,0 +1,120 @@
+<h1>Demo</h1>
+
+<tfaster-item-toolbar [items]="items" class="my-item-toolbar"
+                      [itemChooserAddIconTemplate]="addIconTemplate"></tfaster-item-toolbar>
+
+<h3>Lorem Ypsum</h3>
+
+
+<ng-template #addIconTemplate>
+  <i class="material-icons md-light" style="color: white; margin: 4px">add</i>
+</ng-template>
+
+
+<ng-template #addItemTemplateB let-itemTypeLabel>
+  <i class="material-icons md-light" style="color: #CDDC39; margin: 2px">movie</i>
+</ng-template>
+
+<ng-template #addItemTemplateC let-itemTypeLabel>
+  <i class="material-icons md-light" style="color: #4CAF50; margin: 2px">access_time</i>
+</ng-template>
+
+
+<ng-template #itemTemplateA let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
+  <div class="my-toolbar-item my-toolbar-item-amber" (click)="dropdownCtrl.toggle(itemData)">
+    <i class="material-icons md-light">face</i>&nbsp;
+    <ng-container *ngIf="itemData | async as data">
+      <span>{{data.label}}</span>&nbsp;
+    </ng-container>
+    <i class="material-icons md-light"
+       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+  </div>
+</ng-template>
+
+<ng-template #itemTemplateB let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
+  <div class="my-toolbar-item my-toolbar-item-lime" (click)="dropdownCtrl.toggle(itemData)">
+    <i class="material-icons md-light">movie</i>&nbsp;
+    <span>{{itemData.label}}</span>&nbsp;
+    <i class="material-icons md-light"
+       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+    <i class="material-icons md-light" (click)="removeClick()">close</i>
+  </div>
+</ng-template>
+
+<ng-template #itemTemplateC let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
+  <div class="my-toolbar-item my-toolbar-item-green" (click)="dropdownCtrl.toggle(itemData)">
+    <i class="material-icons md-light">access_time</i>&nbsp;
+    <span>{{itemData.label}}</span>&nbsp;
+    <i class="material-icons md-light"
+       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+    <i class="material-icons md-light" (click)="removeClick()">close</i>
+  </div>
+</ng-template>
+
+<ng-template #itemTemplateD let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
+  <div class="my-toolbar-item my-toolbar-item-cyan">
+    <div (click)="dropdownCtrl.toggle(itemData)" style="display: flex; align-items: center;">
+      <i class="material-icons md-light">search</i>
+      <ng-container *ngIf="itemData.searchTerm$ | async as searchTerm">
+        <span>&nbsp;{{searchTerm}}&nbsp;</span>
+        <i class="material-icons md-light"
+           [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+      </ng-container>
+    </div>
+    <ng-container *ngIf="itemData.searchTerm$ | async">
+      <i class="material-icons md-light" style="display: inline-block"
+         (click)="itemData.searchTerm$.next('');">close</i>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #dropdownTemplateA let-itemData let-dropdownCtrl="dropdownController"
+             let-availableHeight$="availableHeight$">
+  <div class="my-toolbar-item-callout my-toolbar-item-callout-amber" style="width: 240px">
+    <app-demo-list [height]="(availableHeight$ | async) - 1"
+                   [selectedItem]="itemData | async"
+                   (selectedItemChange)="itemData.next($event); dropdownCtrl.close()"></app-demo-list>
+  </div>
+</ng-template>
+
+<ng-template #dropdownTemplateB let-itemData let-dropdownCtrl="dropdownController">
+  <div class="my-toolbar-item-callout my-toolbar-item-callout-lime"
+       style="width: 240px"
+       cdkTrapFocus
+       cdkTrapFocusAutoCapture="true">
+    <div style="flex: 1 1 0%; overflow: auto">
+      <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]" style="padding: 4px 8px">
+        <input type="checkbox" [id]="'opt' + i">
+        <label [for]="'opt' + i">Option {{i}}</label>
+      </div>
+    </div>
+    <button (click)="dropdownCtrl.close()">Apply</button>
+  </div>
+</ng-template>
+
+<ng-template #dropdownTemplateC let-itemData let-dropdownCtrl="dropdownController">
+  <div class="my-toolbar-item-callout my-toolbar-item-callout-green" style="width: 600px; height: 100%;">
+    <div style="flex: 1 1 0%; overflow: auto">
+      <div style="height: 1000px; padding: 24px">Large Box</div>
+    </div>
+    <button (click)="dropdownCtrl.close()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #dropdownTemplateD let-itemData let-dropdownCtrl="dropdownController">
+  <form class="my-toolbar-item-callout my-toolbar-item-callout-cyan"
+        style="padding: 8px 8px"
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture="true">
+    <input type="text"
+           style="width: 220px"
+           [value]="itemData.searchTerm$ | async"
+           (keyup)="itemData.searchTerm$.next($event.target.value)">
+    <div style="padding: 8px 0">
+      <input type="checkbox" id="searchMatchCase">
+      <label for="searchMatchCase">Match case</label>
+      <input type="checkbox" id="searchMatchWords">
+      <label for="searchMatchWords">Words</label>
+    </div>
+  </form>
+</ng-template>

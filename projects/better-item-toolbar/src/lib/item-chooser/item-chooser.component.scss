@@ -1,0 +1,30 @@
+:host {
+  margin-left: 12px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  user-select: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+.toolbar-item-chooser-wrapper {
+  display: flex;
+  align-items: center;
+  transition: background-color 100ms ease-out;
+}
+
+.available-item-container {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  button {
+    height: 100%;
+    cursor: pointer ;
+    background: none;
+    border: none;
+  }
+}
