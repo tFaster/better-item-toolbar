@@ -6,14 +6,14 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemToolbarService<T> implements OnDestroy {
+export class ItemToolbarService implements OnDestroy {
 
   private _destroy$: Subject<void> = new Subject<void>();
 
   constructor(private _overlayService: Overlay) {
   }
 
-  overlayBuilder(): ItemDropdownOverlayBuilder<T> {
+  overlayBuilder<T, C>(): ItemDropdownOverlayBuilder<T, C> {
     return new ItemDropdownOverlayBuilder(this._overlayService);
   }
 

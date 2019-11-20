@@ -4,8 +4,8 @@ import { ToolbarItemComponent } from './toolbar-item.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('ToolbarItemComponent', () => {
-  let component: ToolbarItemComponent<any>;
-  let fixture: ComponentFixture<ToolbarItemComponent<any>>;
+  let component: ToolbarItemComponent<any, any>;
+  let fixture: ComponentFixture<ToolbarItemComponent<any, any>>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

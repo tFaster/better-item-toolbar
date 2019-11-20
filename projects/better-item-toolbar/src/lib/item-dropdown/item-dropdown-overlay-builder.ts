@@ -22,7 +22,7 @@ const DEFAULT_CONFIG: ItemOverlayBuilderConfig = {
   openOnCreate: false
 };
 
-export class ItemDropdownOverlayBuilder<T> {
+export class ItemDropdownOverlayBuilder<T, C> {
 
   private _config: ItemOverlayBuilderConfig = DEFAULT_CONFIG;
 
@@ -40,7 +40,7 @@ export class ItemDropdownOverlayBuilder<T> {
     return this;
   }
 
-  public buildAndConnect(cdkOverlayOrigin: CdkOverlayOrigin, overlayTemplate: TemplateRef<any>): ItemDropdownController<T> {
+  public buildAndConnect(cdkOverlayOrigin: CdkOverlayOrigin, overlayTemplate: TemplateRef<any>): ItemDropdownController<T, C> {
     const positionStrategy: FlexibleConnectedPositionStrategy = this._createPositionStrategy(cdkOverlayOrigin.elementRef);
     const overlayRef = this._createOverlay(positionStrategy);
     const openChange$ = merge(
@@ -58,22 +58,22 @@ export class ItemDropdownOverlayBuilder<T> {
       this._registerDetachOnEscKey(overlayRef);
     }
 
-    const itemOverlayCtrl: ItemDropdownController<T> = {
+    const itemOverlayCtrl: ItemDropdownController<T, C> = {
       close: () => {
         if (overlayRef.hasAttached()) {
           overlayRef.detach();
         }
       },
-      open: (itemData?: T) => {
+      open: (itemData?: T, itemConfig?: C) => {
         if (!overlayRef.hasAttached()) {
-          this._showOverlay(overlayTemplate, overlayRef, itemData, itemOverlayCtrl, openChange$);
+          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, openChange$);
         }
       },
-      toggle: (itemData?: T) => {
+      toggle: (itemData?: T, itemConfig?: C) => {
         if (overlayRef.hasAttached()) {
           overlayRef.detach();
         } else {
-          this._showOverlay(overlayTemplate, overlayRef, itemData, itemOverlayCtrl, openChange$);
+          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, openChange$);
         }
       },
       openChange$,
@@ -123,20 +123,22 @@ export class ItemDropdownOverlayBuilder<T> {
   private _showOverlay(overlayTemplate: TemplateRef<any>,
                        overlayRef: OverlayRef,
                        itemData: T,
-                       itemOverlayCtrl: ItemDropdownController<T>,
+                       itemConfig: C,
+                       itemOverlayCtrl: ItemDropdownController<T, C>,
                        openChange$: Observable<ItemOverlayOpenChange>): void {
-    const overlayComponent: ItemDropdownPanelComponent<T> = this._createAndAttachOverlayComponentPortal(overlayRef);
+    const overlayComponent: ItemDropdownPanelComponent<T, C> = this._createAndAttachOverlayComponentPortal(overlayRef);
     overlayComponent.panelTemplate = overlayTemplate;
     overlayComponent.itemDropdownController = itemOverlayCtrl;
     overlayComponent.itemData = itemData;
+    overlayComponent.itemConfig = itemConfig;
     overlayComponent.emitAvailableHeightOnResize = this._config.emitAvailableHeightOnResize;
   }
 
-  private _createAndAttachOverlayComponentPortal(overlayRef: OverlayRef): ItemDropdownPanelComponent<T> {
-    const overlayPortal: ComponentPortal<ItemDropdownPanelComponent<T>> =
-      new ComponentPortal<ItemDropdownPanelComponent<T>>(ItemDropdownPanelComponent);
-    const itemOverlayPanelComponentRef: ComponentRef<ItemDropdownPanelComponent<T>> =
-      overlayRef.attach<ItemDropdownPanelComponent<T>>(overlayPortal);
+  private _createAndAttachOverlayComponentPortal(overlayRef: OverlayRef): ItemDropdownPanelComponent<T, C> {
+    const overlayPortal: ComponentPortal<ItemDropdownPanelComponent<T, C>> =
+      new ComponentPortal<ItemDropdownPanelComponent<T, C>>(ItemDropdownPanelComponent);
+    const itemOverlayPanelComponentRef: ComponentRef<ItemDropdownPanelComponent<T, C>> =
+      overlayRef.attach<ItemDropdownPanelComponent<T, C>>(overlayPortal);
     return itemOverlayPanelComponentRef.instance;
   }
 

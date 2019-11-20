@@ -9,11 +9,12 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
   styleUrls: ['./item-dropdown-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemDropdownPanelComponent<T> implements OnInit, AfterViewInit, OnDestroy {
+export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() panelTemplate: TemplateRef<any>;
-  @Input() itemDropdownController: ItemDropdownController<T>;
+  @Input() itemDropdownController: ItemDropdownController<T, C>;
   @Input() itemData: T;
+  @Input() itemConfig: C;
   @Input() emitAvailableHeightOnResize = false;
 
   public panelTemplateContext: any;
@@ -26,6 +27,7 @@ export class ItemDropdownPanelComponent<T> implements OnInit, AfterViewInit, OnD
   ngOnInit() {
     this.panelTemplateContext = {
       $implicit: this.itemData,
+      itemConfig: this.itemConfig,
       dropdownController: this.itemDropdownController,
       availableHeight$: this.itemDropdownController.availableHeight$.asObservable()
     };

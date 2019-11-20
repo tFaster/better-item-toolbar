@@ -11,23 +11,14 @@ import { DemoListItem } from './demo-list/demo-list.component';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('addItemTemplateB', {static: true})
-  addItemTemplateB: TemplateRef<any>;
+  @ViewChild('itemChooserItemTemplate', {static: true})
+  itemChooserItemTemplate: TemplateRef<any>;
 
-  @ViewChild('addItemTemplateC', {static: true})
-  addItemTemplateC: TemplateRef<any>;
+  @ViewChild('dropdownItemTemplate', {static: true})
+  dropdownItemTemplate: TemplateRef<any>;
 
-  @ViewChild('itemTemplateA', {static: true})
-  itemTemplateA: TemplateRef<any>;
-
-  @ViewChild('itemTemplateB', {static: true})
-  itemTemplateB: TemplateRef<any>;
-
-  @ViewChild('itemTemplateC', {static: true})
-  itemTemplateC: TemplateRef<any>;
-
-  @ViewChild('itemTemplateD', {static: true})
-  itemTemplateD: TemplateRef<any>;
+  @ViewChild('searchItemTemplate', {static: true})
+  searchItemTemplate: TemplateRef<any>;
 
   @ViewChild('dropdownTemplateA', {static: true})
   dropdownTemplateA: TemplateRef<any>;
@@ -38,16 +29,20 @@ export class AppComponent implements OnInit {
   @ViewChild('dropdownTemplateC', {static: true})
   dropdownTemplateC: TemplateRef<any>;
 
-  @ViewChild('dropdownTemplateD', {static: true})
-  dropdownTemplateD: TemplateRef<any>;
+  @ViewChild('searchItemDropdownTemplate', {static: true})
+  searchItemDropdownTemplate: TemplateRef<any>;
+
+  @ViewChild('buttonsTemplate', {static: true})
+  buttonsTemplate: TemplateRef<any>;
 
   public items: ToolbarItem[] = [];
 
   public ngOnInit(): void {
     this.items = [
       {
-        typeLabel: 'Hero',
-        itemTemplate: this.itemTemplateA,
+        itemChooserLabel: 'Hero',
+        itemChooserTemplate: this.itemChooserItemTemplate,
+        itemTemplate: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateA,
           overlayConfig: {
@@ -55,14 +50,20 @@ export class AppComponent implements OnInit {
             emitAvailableHeightOnResize: true
           }
         },
-        data: new BehaviorSubject<DemoListItem>({id: 'Robin', label: 'Robin'}),
+        data: {
+          selectedItem$: new BehaviorSubject<DemoListItem>({id: 'Robin', label: 'Robin'})
+        },
+        config: {
+          colorClass: 'my-toolbar-item-amber',
+          iconName: 'face'
+        },
         order: 1,
-        fixed: true
+        fixed: false
       },
       {
-        typeLabel: 'Movie',
-        addItemTemplate: this.addItemTemplateB,
-        itemTemplate: this.itemTemplateB,
+        itemChooserLabel: 'Movie',
+        itemChooserTemplate: this.itemChooserItemTemplate,
+        itemTemplate: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateB,
           overlayConfig: {
@@ -70,15 +71,16 @@ export class AppComponent implements OnInit {
             openOnCreate: true
           }
         },
-        data: {
-          label: 'Movie'
+        config: {
+          colorClass: 'my-toolbar-item-lime',
+          iconName: 'movie'
         },
         order: 2
       },
       {
-        typeLabel: 'Time',
-        addItemTemplate: this.addItemTemplateC,
-        itemTemplate: this.itemTemplateC,
+        itemChooserLabel: 'Time',
+        itemChooserTemplate: this.itemChooserItemTemplate,
+        itemTemplate: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateC,
           overlayConfig: {
@@ -86,17 +88,18 @@ export class AppComponent implements OnInit {
             openOnCreate: true
           }
         },
-
-        data: {
-          label: 'Time'
+        config: {
+          colorClass: 'my-toolbar-item-green',
+          iconName: 'access_time',
         },
         order: 3
       },
       {
-        typeLabel: 'Search',
-        itemTemplate: this.itemTemplateD,
+        itemChooserLabel: 'Search',
+        itemChooserTemplate: this.itemChooserItemTemplate,
+        itemTemplate: this.searchItemTemplate,
         dropdownConfig: {
-          template: this.dropdownTemplateD,
+          template: this.searchItemDropdownTemplate,
           overlayConfig: {
             offsetY: 4
           }
@@ -104,7 +107,16 @@ export class AppComponent implements OnInit {
         data: {
           searchTerm$: new BehaviorSubject<string>('')
         },
+        config: {
+          colorClass: 'my-toolbar-item-cyan',
+          iconName: 'search',
+        },
         order: 20,
+        fixed: true,
+        afterItemChooser: true
+      },
+      {
+        itemTemplate: this.buttonsTemplate,
         fixed: true
       }
     ];

@@ -4,8 +4,8 @@ import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
 import { Subject } from 'rxjs';
 
 describe('ItemDropdownPanelComponent', () => {
-  let component: ItemDropdownPanelComponent<any>;
-  let fixture: ComponentFixture<ItemDropdownPanelComponent<any>>;
+  let component: ItemDropdownPanelComponent<any, any>;
+  let fixture: ComponentFixture<ItemDropdownPanelComponent<any, any>>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

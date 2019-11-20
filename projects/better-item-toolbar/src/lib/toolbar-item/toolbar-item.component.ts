@@ -11,7 +11,7 @@ import { DOWN_ARROW, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
   styleUrls: ['./toolbar-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarItemComponent<T> implements OnInit {
+export class ToolbarItemComponent<T, C> implements OnInit {
 
   @ViewChild(CdkOverlayOrigin, {static: true})
   private _itemDropdownOrigin: CdkOverlayOrigin;
@@ -28,24 +28,28 @@ export class ToolbarItemComponent<T> implements OnInit {
   @Input()
   public itemData: T;
 
+  @Input()
+  public itemConfig: C;
+
   @Output()
   public removeClick = new EventEmitter<void>();
 
   public itemTemplateContext: any;
 
-  private _itemDropdownCtrl: ItemDropdownController<T>;
+  private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
-  constructor(private _itemToolbarService: ItemToolbarService<T>) {
+  constructor(private _itemToolbarService: ItemToolbarService) {
   }
 
   ngOnInit() {
     if (this._hasDropdown) {
       this._itemDropdownCtrl = this._itemToolbarService
-        .overlayBuilder()
+        .overlayBuilder<T, C>()
         .withConfig(this.dropdownOverlayConfig)
         .buildAndConnect(this._itemDropdownOrigin, this.dropdownTemplate);
       this.itemTemplateContext = {
         $implicit: this.itemData,
+        itemConfig: this.itemConfig,
         dropdownController: this._itemDropdownCtrl,
         removeClick: () => {
           this._itemDropdownCtrl.close();
@@ -53,11 +57,12 @@ export class ToolbarItemComponent<T> implements OnInit {
         }
       };
       if (this.dropdownOverlayConfig.openOnCreate) {
-        this._itemDropdownCtrl.open();
+        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
       }
     } else {
       this.itemTemplateContext = {
         $implicit: this.itemData,
+        itemConfig: this.itemConfig,
         removeClick: () => {
           this.removeClick.emit();
         }
@@ -68,13 +73,13 @@ export class ToolbarItemComponent<T> implements OnInit {
   onKeydown(event: KeyboardEvent): void {
     switch (event.keyCode) {
       case SPACE:
-        this._itemDropdownCtrl.toggle(this.itemData);
+        this._itemDropdownCtrl.toggle(this.itemData, this.itemConfig);
         break;
       case UP_ARROW:
         this._itemDropdownCtrl.close();
         break;
       case DOWN_ARROW:
-        this._itemDropdownCtrl.open(this.itemData);
+        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
         break;
     }
   }

@@ -1,9 +1,9 @@
 import { Observable, Subject } from 'rxjs';
 
-export interface ItemDropdownController<T> {
-  open: (data?: T) => void;
+export interface ItemDropdownController<T, C> {
+  open: (data?: T, config?: C) => void;
   close: () => void;
-  toggle: (data?: T) => void;
+  toggle: (data?: T, config?: C) => void;
   openChange$: Observable<ItemOverlayOpenChange>;
   availableHeight$: Subject<number>;
 }
