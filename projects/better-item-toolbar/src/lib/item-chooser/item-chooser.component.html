@@ -17,21 +17,22 @@
     </button>
 
     <div [@showHide]="isShown ? 'shown' : 'hidden'"
-         class="toolbar-item-chooser-available-item-container"
+         class="toolbar-item-chooser-item-container"
          #availableItemContainer
          (keydown.escape)="isShown = false">
       <ng-container *ngFor="let item of items">
-        <button class="toolbar-item-chooser-available-item"
+        <button class="toolbar-item-chooser-item"
+                [ngClass]="item.itemChooserConfig.styleClass"
                 (click)="onItemClick(item)"
-                [title]="item.itemChooserLabel"
+                [title]="item.itemChooserConfig.label"
                 [tabIndex]="isShown ? 0 : -1"
                 cdkMonitorElementFocus
                 (focusout)="isShown = isFocusOnAddButtonOrInItemContainer($event)">
-          <ng-container *ngIf="item.itemChooserTemplate; else defaultItemChooserTemplate"
-                        [ngTemplateOutlet]="item.itemChooserTemplate"
-                        [ngTemplateOutletContext]="{$implicit: item.config}"></ng-container>
+          <ng-container *ngIf="item.itemChooserConfig.template; else defaultItemChooserTemplate"
+                        [ngTemplateOutlet]="item.itemChooserConfig.template"
+                        [ngTemplateOutletContext]="{$implicit: item.itemChooserConfig, itemConfig: item.config}"></ng-container>
           <ng-template #defaultItemChooserTemplate>
-            <div class="toolbar-item-chooser-default-item-template">{{item.itemChooserLabel}}</div>
+            <div class="toolbar-item-chooser-default-item-template">{{item.itemChooserConfig.label}}</div>
           </ng-template>
         </button>
       </ng-container>

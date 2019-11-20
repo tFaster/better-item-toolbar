@@ -1,23 +1,21 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemToolbarService } from '../item-toolbar.service';
 import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
 import { ItemOverlayBuilderConfig } from './item-dropdown/item-dropdown-overlay-builder';
 import { DOWN_ARROW, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
+import { ToolbarTemplateItemBaseComponent } from '../toolbar-template-item/toolbar-template-item-base.component';
 
 @Component({
   selector: 'tfaster-toolbar-item-with-dropdown',
-  templateUrl: './toolbar-item-with-dropdown.component.html',
-  styleUrls: ['./toolbar-item-with-dropdown.component.scss'],
+  templateUrl: './toolbar-template-item-with-dropdown.component.html',
+  styleUrls: ['./toolbar-template-item-with-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarItemWithDropdownComponent<T, C> implements OnInit {
+export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTemplateItemBaseComponent<T, C> implements OnInit {
 
   @ViewChild(CdkOverlayOrigin, {static: true})
   private _itemDropdownOrigin: CdkOverlayOrigin;
-
-  @Input()
-  public itemTemplate: TemplateRef<any>;
 
   @Input()
   public dropdownTemplate: TemplateRef<any>;
@@ -25,20 +23,10 @@ export class ToolbarItemWithDropdownComponent<T, C> implements OnInit {
   @Input()
   public dropdownOverlayConfig: ItemOverlayBuilderConfig;
 
-  @Input()
-  public itemData: T;
-
-  @Input()
-  public itemConfig: C;
-
-  @Output()
-  public removeClick = new EventEmitter<void>();
-
-  public itemTemplateContext: any;
-
   private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
   constructor(private _itemToolbarService: ItemToolbarService) {
+    super();
   }
 
   ngOnInit() {

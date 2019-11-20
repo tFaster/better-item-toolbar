@@ -1,7 +1,7 @@
 <ng-container *ngFor="let item of addedItems;">
 
-  <ng-container *ngIf="isToolbarItem(item); else templateItem">
-    <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.itemTemplate"
+  <ng-container *ngIf="isItemWithDropdown(item); else templateItem">
+    <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
                                         [dropdownTemplate]="getDropdownConfig(item)?.template"
                                         [dropdownOverlayConfig]="getDropdownConfig(item)?.overlayConfig"
                                         [itemData]="item.data"
@@ -10,13 +10,15 @@
   </ng-container>
 
   <ng-template #templateItem>
-    <ng-container [ngTemplateOutlet]="item.itemTemplate"
-                  [ngTemplateOutletContext]="getItemTemplateContext(item)"></ng-container>
+    <tfaster-toolbar-template-item [itemTemplate]="item.template"
+                                   [itemData]="item.data"
+                                   [itemConfig]="item.config"
+                                   (removeClick)="removeItem(item)"></tfaster-toolbar-template-item>
   </ng-template>
 
 </ng-container>
 
 
 <tfaster-item-chooser (itemClick)="addItem($event)"
-                      [items]="availableItems"
+                      [items]="choosableItems"
                       [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"></tfaster-item-chooser>
