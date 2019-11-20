@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemToolbarComponent } from './item-toolbar.component';
-import { ToolbarItemComponent } from '../toolbar-item/toolbar-item.component';
+import { ToolbarItemWithDropdownComponent } from '../toolbar-item-with-dropdown/toolbar-item-with-dropdown.component';
 import { ItemChooserComponent } from '../item-chooser/item-chooser.component';
 
 describe('ItemToolbarComponent', () => {
@@ -12,7 +12,7 @@ describe('ItemToolbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ItemToolbarComponent,
-        ToolbarItemComponent,
+        ToolbarItemWithDropdownComponent,
         ItemChooserComponent
       ]
     }).compileComponents();

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ToolbarItem } from '../../../better-item-toolbar/src/lib/toolbar-item';
+import { ToolbarItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
 import { DemoListItem } from './demo-list/demo-list.component';
 
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   @ViewChild('buttonsTemplate', {static: true})
   buttonsTemplate: TemplateRef<any>;
 
-  public items: ToolbarItem[] = [];
+  public items: ToolbarItemWithDropdown[] = [];
 
   public ngOnInit(): void {
     this.items = [

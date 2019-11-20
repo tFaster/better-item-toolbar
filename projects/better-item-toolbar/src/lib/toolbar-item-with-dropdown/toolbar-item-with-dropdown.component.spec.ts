@@ -1,16 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToolbarItemComponent } from './toolbar-item.component';
+import { ToolbarItemWithDropdownComponent } from './toolbar-item-with-dropdown.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-describe('ToolbarItemComponent', () => {
-  let component: ToolbarItemComponent<any, any>;
-  let fixture: ComponentFixture<ToolbarItemComponent<any, any>>;
+describe('ToolbarItemWithDropdownComponent', () => {
+  let component: ToolbarItemWithDropdownComponent<any, any>;
+  let fixture: ComponentFixture<ToolbarItemWithDropdownComponent<any, any>>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ToolbarItemComponent
+        ToolbarItemWithDropdownComponent
       ],
       imports: [
         OverlayModule
@@ -19,7 +19,7 @@ describe('ToolbarItemComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ToolbarItemComponent);
+    fixture = TestBed.createComponent(ToolbarItemWithDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

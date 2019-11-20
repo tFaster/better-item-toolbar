@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemToolbarService } from '../item-toolbar.service';
-import { ItemDropdownController } from '../item-dropdown/item-dropdown-controller';
-import { ItemOverlayBuilderConfig } from '../item-dropdown/item-dropdown-overlay-builder';
+import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
+import { ItemOverlayBuilderConfig } from './item-dropdown/item-dropdown-overlay-builder';
 import { DOWN_ARROW, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
 
 @Component({
-  selector: 'tfaster-toolbar-item',
-  templateUrl: './toolbar-item.component.html',
-  styleUrls: ['./toolbar-item.component.scss'],
+  selector: 'tfaster-toolbar-item-with-dropdown',
+  templateUrl: './toolbar-item-with-dropdown.component.html',
+  styleUrls: ['./toolbar-item-with-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarItemComponent<T, C> implements OnInit {
+export class ToolbarItemWithDropdownComponent<T, C> implements OnInit {
 
   @ViewChild(CdkOverlayOrigin, {static: true})
   private _itemDropdownOrigin: CdkOverlayOrigin;

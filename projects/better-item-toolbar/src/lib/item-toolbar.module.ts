@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { ToolbarItemComponent } from './toolbar-item/toolbar-item.component';
+import { ToolbarItemWithDropdownComponent } from './toolbar-item-with-dropdown/toolbar-item-with-dropdown.component';
 import { ItemChooserComponent } from './item-chooser/item-chooser.component';
 import { ItemToolbarComponent } from './item-toolbar/item-toolbar.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ItemDropdownPanelComponent } from './item-dropdown/item-dropdown-panel.component';
+import { ItemDropdownPanelComponent } from './toolbar-item-with-dropdown/item-dropdown/item-dropdown-panel.component';
 import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     ItemToolbarComponent,
-    ToolbarItemComponent,
+    ToolbarItemWithDropdownComponent,
     ItemChooserComponent,
     ItemDropdownPanelComponent
   ],
@@ -24,7 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   exports: [
     ItemToolbarComponent,
-    ToolbarItemComponent
+    ToolbarItemWithDropdownComponent
   ],
   entryComponents: [
     ItemDropdownPanelComponent

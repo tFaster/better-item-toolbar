@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ToolbarItem } from '../toolbar-item';
+import { ToolbarItemWithDropdown } from '../toolbar-item-with-dropdown';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
@@ -42,13 +42,13 @@ export class ItemChooserComponent implements OnInit {
   private _availableItemContainer;
 
   @Input()
-  public items: ToolbarItem[] = [];
+  public items: ToolbarItemWithDropdown[] = [];
 
   @Input()
   public itemChooserAddIconTemplate: TemplateRef<HTMLElement>;
 
   @Output()
-  public itemClick = new EventEmitter<ToolbarItem>();
+  public itemClick = new EventEmitter<ToolbarItemWithDropdown>();
 
   public isShown = false;
 
@@ -74,7 +74,7 @@ export class ItemChooserComponent implements OnInit {
     }
   }
 
-  onItemClick(item: ToolbarItem): void {
+  onItemClick(item: ToolbarItemWithDropdown): void {
     this.itemClick.emit(item);
     this.isShown = false;
   }

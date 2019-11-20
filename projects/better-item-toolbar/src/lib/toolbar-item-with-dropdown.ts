@@ -1,5 +1,5 @@
 import { TemplateRef } from '@angular/core';
-import { ItemOverlayBuilderConfig } from './item-dropdown/item-dropdown-overlay-builder';
+import { ItemOverlayBuilderConfig } from './toolbar-item-with-dropdown/item-dropdown/item-dropdown-overlay-builder';
 
 export interface ToolbarItemBase<T = any, C = any> {
   itemTemplate: TemplateRef<any>;
@@ -12,7 +12,7 @@ export interface ToolbarItemBase<T = any, C = any> {
   config?: C;
 }
 
-export interface ToolbarItem<T = any> extends ToolbarItemBase<T> {
+export interface ToolbarItemWithDropdown<T = any> extends ToolbarItemBase<T> {
   dropdownConfig?: ToolbarItemDropdownConfig;
 }
 

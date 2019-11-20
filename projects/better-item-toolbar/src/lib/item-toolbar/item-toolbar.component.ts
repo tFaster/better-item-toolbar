@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { ToolbarItem, ToolbarItemBase, ToolbarItemDropdownConfig } from '../toolbar-item';
+import { ToolbarItemWithDropdown, ToolbarItemBase, ToolbarItemDropdownConfig } from '../toolbar-item-with-dropdown';
 
 @Component({
   selector: 'tfaster-item-toolbar',
@@ -37,15 +37,22 @@ export class ItemToolbarComponent implements OnInit {
 
   }
 
-  public isToolbarItem(item: ToolbarItemBase): item is ToolbarItem {
+  public isToolbarItem(item: ToolbarItemBase): item is ToolbarItemWithDropdown {
     return 'dropdownConfig' in item;
   }
 
-  public getDropdownConfig(item: ToolbarItem): ToolbarItemDropdownConfig {
+  public getDropdownConfig(item: ToolbarItemWithDropdown): ToolbarItemDropdownConfig {
     return item.dropdownConfig;
   }
 
-  public addItem(item: ToolbarItem): void {
+  public getItemTemplateContext(item: ToolbarItemBase) {
+    return {
+      $implicit: item.data,
+      itemConfig: item.config
+    };
+  }
+
+  public addItem(item: ToolbarItemWithDropdown): void {
     this._addedItems.add(item);
   }
 

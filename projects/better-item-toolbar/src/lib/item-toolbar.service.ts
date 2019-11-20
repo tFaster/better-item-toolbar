@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
-import { ItemDropdownOverlayBuilder } from './item-dropdown/item-dropdown-overlay-builder';
+import { ItemDropdownOverlayBuilder } from './toolbar-item-with-dropdown/item-dropdown/item-dropdown-overlay-builder';
 import { Subject } from 'rxjs';
 
 @Injectable({
