@@ -11,8 +11,8 @@
 </ng-template>
 
 
-<ng-template #itemChooserItemTemplate let-itemConfig>
-  <i class="material-icons md-light" style="color: #CDDC39; margin: 2px">{{itemConfig.iconName}}</i>
+<ng-template #itemChooserItemTemplate let-itemChooserConfig let-itemConfig="itemConfig">
+  <i class="material-icons md-light" style="margin: 2px">{{itemConfig.iconName}}</i>
 </ng-template>
 
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { ToolbarItem, ToolbarItemBase, ToolbarItemDropdownConfig } from '../toolbar-item';
+import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 
 @Component({
   selector: 'tfaster-item-toolbar',
@@ -10,21 +10,21 @@ import { ToolbarItem, ToolbarItemBase, ToolbarItemDropdownConfig } from '../tool
 export class ItemToolbarComponent implements OnInit {
 
   @Input()
-  public items: ToolbarItemBase[] = [];
+  public items: ToolbarTemplateItem[] = [];
 
   @Input()
   public itemChooserAddIconTemplate: TemplateRef<any>;
 
-  private _addedItems = new Set<ToolbarItemBase>();
+  private _addedItems = new Set<ToolbarTemplateItem>();
 
-  public get availableItems(): ToolbarItemBase[] {
-    return this.items.filter((item: ToolbarItemBase) => !item.fixed && !Array.from(this._addedItems.values()).includes(item));
+  public get choosableItems(): ToolbarTemplateItem[] {
+    return this.items.filter((item: ToolbarTemplateItem) => this._isChoosableItem(item));
   }
 
-  public get addedItems(): ToolbarItemBase[] {
-    const fixedItems: ToolbarItemBase[] = this.items.filter((item: ToolbarItemBase) => !!item.fixed);
-    const items: ToolbarItemBase[] = [...Array.from(this._addedItems), ...fixedItems];
-    items.sort((itemA: ToolbarItemBase, itemB: ToolbarItemBase) => {
+  public get addedItems(): ToolbarTemplateItem[] {
+    const fixedItems: ToolbarTemplateItem[] = this.items.filter((item: ToolbarTemplateItem) => !item.itemChooserConfig);
+    const items: ToolbarTemplateItem[] = [...Array.from(this._addedItems), ...fixedItems];
+    items.sort((itemA: ToolbarTemplateItem, itemB: ToolbarTemplateItem) => {
       return itemA.order < itemB.order ? -1 : 1;
     });
     return items;
@@ -37,21 +37,24 @@ export class ItemToolbarComponent implements OnInit {
 
   }
 
-  public isToolbarItem(item: ToolbarItemBase): item is ToolbarItem {
+  public isItemWithDropdown(item: ToolbarTemplateItem): item is ToolbarTemplateItemWithDropdown {
     return 'dropdownConfig' in item;
   }
 
-  public getDropdownConfig(item: ToolbarItem): ToolbarItemDropdownConfig {
+  public getDropdownConfig(item: ToolbarTemplateItemWithDropdown): ToolbarItemDropdownConfig {
     return item.dropdownConfig;
   }
 
-  public addItem(item: ToolbarItem): void {
+  public addItem(item: ToolbarTemplateItemWithDropdown): void {
     this._addedItems.add(item);
   }
 
-  public removeItem(item: ToolbarItemBase): void {
+  public removeItem(item: ToolbarTemplateItem): void {
     this._addedItems.delete(item);
   }
 
+  private _isChoosableItem(item): boolean {
+    return !!item.itemChooserConfig && !Array.from(this._addedItems.values()).includes(item);
+  }
 
 }

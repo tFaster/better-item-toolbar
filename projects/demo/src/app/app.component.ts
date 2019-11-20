@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ToolbarItem } from '../../../better-item-toolbar/src/lib/toolbar-item';
+import { ToolbarTemplateItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-template-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
 import { DemoListItem } from './demo-list/demo-list.component';
 
@@ -35,14 +35,17 @@ export class AppComponent implements OnInit {
   @ViewChild('buttonsTemplate', {static: true})
   buttonsTemplate: TemplateRef<any>;
 
-  public items: ToolbarItem[] = [];
+  public items: ToolbarTemplateItemWithDropdown[] = [];
 
   public ngOnInit(): void {
     this.items = [
       {
-        itemChooserLabel: 'Hero',
-        itemChooserTemplate: this.itemChooserItemTemplate,
-        itemTemplate: this.dropdownItemTemplate,
+        itemChooserConfig: {
+          label: 'Hero',
+          template: this.itemChooserItemTemplate,
+          styleClass: 'my-toolbar-item-chooser-amber'
+        },
+        template: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateA,
           overlayConfig: {
@@ -58,12 +61,14 @@ export class AppComponent implements OnInit {
           iconName: 'face'
         },
         order: 1,
-        fixed: false
       },
       {
-        itemChooserLabel: 'Movie',
-        itemChooserTemplate: this.itemChooserItemTemplate,
-        itemTemplate: this.dropdownItemTemplate,
+        itemChooserConfig: {
+          label: 'Movie',
+          template: this.itemChooserItemTemplate,
+          styleClass: 'my-toolbar-item-chooser-lime'
+        },
+        template: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateB,
           overlayConfig: {
@@ -78,9 +83,12 @@ export class AppComponent implements OnInit {
         order: 2
       },
       {
-        itemChooserLabel: 'Time',
-        itemChooserTemplate: this.itemChooserItemTemplate,
-        itemTemplate: this.dropdownItemTemplate,
+        itemChooserConfig: {
+          label: 'Time',
+          template: this.itemChooserItemTemplate,
+          styleClass: 'my-toolbar-item-chooser-green'
+        },
+        template: this.dropdownItemTemplate,
         dropdownConfig: {
           template: this.dropdownTemplateC,
           overlayConfig: {
@@ -90,14 +98,12 @@ export class AppComponent implements OnInit {
         },
         config: {
           colorClass: 'my-toolbar-item-green',
-          iconName: 'access_time',
+          iconName: 'access_time'
         },
         order: 3
       },
       {
-        itemChooserLabel: 'Search',
-        itemChooserTemplate: this.itemChooserItemTemplate,
-        itemTemplate: this.searchItemTemplate,
+        template: this.searchItemTemplate,
         dropdownConfig: {
           template: this.searchItemDropdownTemplate,
           overlayConfig: {
@@ -109,15 +115,12 @@ export class AppComponent implements OnInit {
         },
         config: {
           colorClass: 'my-toolbar-item-cyan',
-          iconName: 'search',
+          iconName: 'search'
         },
         order: 20,
-        fixed: true,
-        afterItemChooser: true
       },
       {
-        itemTemplate: this.buttonsTemplate,
-        fixed: true
+        template: this.buttonsTemplate,
       }
     ];
   }

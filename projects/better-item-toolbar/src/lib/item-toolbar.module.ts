@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
-import { ToolbarItemComponent } from './toolbar-item/toolbar-item.component';
+import { ToolbarTemplateItemWithDropdownComponent } from './toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
 import { ItemChooserComponent } from './item-chooser/item-chooser.component';
 import { ItemToolbarComponent } from './item-toolbar/item-toolbar.component';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ItemDropdownPanelComponent } from './item-dropdown/item-dropdown-panel.component';
+import { ItemDropdownPanelComponent } from './toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-panel.component';
 import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToolbarTemplateItemComponent } from './toolbar-template-item/toolbar-template-item.component';
 
 
 @NgModule({
   declarations: [
     ItemToolbarComponent,
-    ToolbarItemComponent,
+    ToolbarTemplateItemWithDropdownComponent,
     ItemChooserComponent,
-    ItemDropdownPanelComponent
+    ItemDropdownPanelComponent,
+    ToolbarTemplateItemComponent
   ],
   imports: [
     A11yModule,
@@ -24,7 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   exports: [
     ItemToolbarComponent,
-    ToolbarItemComponent
+    ToolbarTemplateItemWithDropdownComponent
   ],
   entryComponents: [
     ItemDropdownPanelComponent

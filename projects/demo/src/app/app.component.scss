@@ -23,16 +23,31 @@
   background-color: #CDDC39;
 }
 
+::ng-deep .my-toolbar-item-chooser-lime {
+  color: #CDDC39;
+}
+
 .my-toolbar-item-amber {
   background-color: #FFC107;
+}
+
+::ng-deep .my-toolbar-item-chooser-amber {
+  color: #FFC107;
 }
 
 .my-toolbar-item-green {
   background-color: #4CAF50;
 }
 
+::ng-deep .my-toolbar-item-chooser-green i {
+  color: #4CAF50;
+}
+
 .my-toolbar-item-cyan {
   background-color: #18FFFF;
+}
+::ng-deep .my-toolbar-item-chooser-cyan {
+  color: #18FFFF;
 }
 
 .my-toolbar-item-callout {
@@ -87,7 +102,7 @@
     }
   }
 
-  .toolbar-item-chooser-add-button {
+  .toolbar-item-chooser-add-button, .toolbar-item-chooser-item {
     &.cdk-focused.cdk-keyboard-focused, &.cdk-focused.cdk-program-focused {
       outline: 2px solid white;
     }
@@ -100,8 +115,9 @@
     width: 24px;
   }
 
-  .toolbar-item-chooser-available-item {
+  .toolbar-item-chooser-item {
     margin: 2px;
+
     &.cdk-focused.cdk-keyboard-focused, &.cdk-focused.cdk-program-focused {
       outline: 2px solid white;
     }
