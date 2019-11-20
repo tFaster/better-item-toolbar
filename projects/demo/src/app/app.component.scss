@@ -79,9 +79,17 @@
 
   .toolbar-item-chooser-wrapper {
     border-radius: 3px;
+    padding: 2px;
+    margin: -4px 0;
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .toolbar-item-chooser-add-button {
+    &.cdk-focused.cdk-keyboard-focused, &.cdk-focused.cdk-program-focused {
+      outline: 2px solid white;
     }
   }
 
@@ -92,7 +100,14 @@
     width: 24px;
   }
 
-  .toolbar-item-default-add-button {
+  .toolbar-item-chooser-available-item {
+    margin: 2px;
+    &.cdk-focused.cdk-keyboard-focused, &.cdk-focused.cdk-program-focused {
+      outline: 2px solid white;
+    }
+  }
+
+  .toolbar-item-chooser-default-item-template {
     text-align: center;
     padding: 5px 4px;
   }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { ToolbarItem } from '../toolbar-item';
+import { ToolbarItem, ToolbarItemBase, ToolbarItemDropdownConfig } from '../toolbar-item';
 
 @Component({
   selector: 'tfaster-item-toolbar',
@@ -10,21 +10,21 @@ import { ToolbarItem } from '../toolbar-item';
 export class ItemToolbarComponent implements OnInit {
 
   @Input()
-  public items: ToolbarItem[] = [];
+  public items: ToolbarItemBase[] = [];
 
   @Input()
   public itemChooserAddIconTemplate: TemplateRef<any>;
 
-  private _addedItems = new Set<ToolbarItem>();
+  private _addedItems = new Set<ToolbarItemBase>();
 
-  public get availableItems(): ToolbarItem[] {
-    return this.items.filter((item: ToolbarItem) => !item.fixed && !Array.from(this._addedItems.values()).includes(item));
+  public get availableItems(): ToolbarItemBase[] {
+    return this.items.filter((item: ToolbarItemBase) => !item.fixed && !Array.from(this._addedItems.values()).includes(item));
   }
 
-  public get addedItems(): ToolbarItem[] {
-    const fixedItems: ToolbarItem[] = this.items.filter((item: ToolbarItem) => !!item.fixed);
-    const items: ToolbarItem[] = [...Array.from(this._addedItems), ...fixedItems];
-    items.sort((itemA: ToolbarItem, itemB: ToolbarItem) => {
+  public get addedItems(): ToolbarItemBase[] {
+    const fixedItems: ToolbarItemBase[] = this.items.filter((item: ToolbarItemBase) => !!item.fixed);
+    const items: ToolbarItemBase[] = [...Array.from(this._addedItems), ...fixedItems];
+    items.sort((itemA: ToolbarItemBase, itemB: ToolbarItemBase) => {
       return itemA.order < itemB.order ? -1 : 1;
     });
     return items;
@@ -37,11 +37,19 @@ export class ItemToolbarComponent implements OnInit {
 
   }
 
+  public isToolbarItem(item: ToolbarItemBase): item is ToolbarItem {
+    return 'dropdownConfig' in item;
+  }
+
+  public getDropdownConfig(item: ToolbarItem): ToolbarItemDropdownConfig {
+    return item.dropdownConfig;
+  }
+
   public addItem(item: ToolbarItem): void {
     this._addedItems.add(item);
   }
 
-  public removeItem(item: ToolbarItem): void {
+  public removeItem(item: ToolbarItemBase): void {
     this._addedItems.delete(item);
   }
 

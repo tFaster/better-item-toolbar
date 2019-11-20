@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ToolbarItem } from '../toolbar-item';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
+import { ENTER, SPACE } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'tfaster-item-chooser',
@@ -34,6 +35,12 @@ import { animate, group, state, style, transition, trigger } from '@angular/anim
 })
 export class ItemChooserComponent implements OnInit {
 
+  @ViewChild('itemChooserAddButton', {static: false})
+  private _itemChooserAddButton;
+
+  @ViewChild('availableItemContainer', {static: false})
+  private _availableItemContainer;
+
   @Input()
   public items: ToolbarItem[] = [];
 
@@ -45,10 +52,26 @@ export class ItemChooserComponent implements OnInit {
 
   public isShown = false;
 
-  constructor() {
+  constructor(private _elementRef: ElementRef) {
   }
 
   ngOnInit() {
+  }
+
+  isFocusOnAddButtonOrInItemContainer(event: FocusEvent): boolean {
+    const currentFocusedElement: HTMLElement = (event.relatedTarget as HTMLElement);
+    return currentFocusedElement
+      && (currentFocusedElement.parentElement === this._availableItemContainer.nativeElement
+        || currentFocusedElement === this._itemChooserAddButton.nativeElement);
+  }
+
+  onAddButtonKeydown(event: KeyboardEvent): void {
+    if (event.keyCode === ENTER || event.keyCode === SPACE) {
+      this.isShown = true;
+      setTimeout(() => {
+        (this._availableItemContainer.nativeElement.children[0] as HTMLElement).focus();
+      }, 0);
+    }
   }
 
   onItemClick(item: ToolbarItem): void {

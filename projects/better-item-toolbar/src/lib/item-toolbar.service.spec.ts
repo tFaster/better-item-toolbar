@@ -11,7 +11,7 @@ describe('ItemOverlayBuilderService', () => {
   }));
 
   it('should be created', () => {
-    const service: ItemToolbarService<any> = TestBed.get(ItemToolbarService);
+    const service: ItemToolbarService = TestBed.get(ItemToolbarService);
     expect(service).toBeTruthy();
   });
 });

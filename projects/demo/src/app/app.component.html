@@ -11,48 +11,29 @@
 </ng-template>
 
 
-<ng-template #addItemTemplateB let-itemTypeLabel>
-  <i class="material-icons md-light" style="color: #CDDC39; margin: 2px">movie</i>
-</ng-template>
-
-<ng-template #addItemTemplateC let-itemTypeLabel>
-  <i class="material-icons md-light" style="color: #4CAF50; margin: 2px">access_time</i>
+<ng-template #itemChooserItemTemplate let-itemConfig>
+  <i class="material-icons md-light" style="color: #CDDC39; margin: 2px">{{itemConfig.iconName}}</i>
 </ng-template>
 
 
-<ng-template #itemTemplateA let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
-  <div class="my-toolbar-item my-toolbar-item-amber" (click)="dropdownCtrl.toggle(itemData)">
-    <i class="material-icons md-light">face</i>&nbsp;
-    <ng-container *ngIf="itemData | async as data">
+<ng-template #dropdownItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
+             let-removeClick="removeClick">
+  <div class="my-toolbar-item"
+       [ngClass]="itemConfig.colorClass"
+       (click)="dropdownCtrl.toggle(itemData?.selectedItem$, itemConfig)">
+    <i class="material-icons md-light">{{itemConfig.iconName}}</i>&nbsp;
+    <ng-container *ngIf="itemData?.selectedItem$ | async as data">
       <span>{{data.label}}</span>&nbsp;
     </ng-container>
     <i class="material-icons md-light"
        [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
-  </div>
-</ng-template>
-
-<ng-template #itemTemplateB let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
-  <div class="my-toolbar-item my-toolbar-item-lime" (click)="dropdownCtrl.toggle(itemData)">
-    <i class="material-icons md-light">movie</i>&nbsp;
-    <span>{{itemData.label}}</span>&nbsp;
-    <i class="material-icons md-light"
-       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
     <i class="material-icons md-light" (click)="removeClick()">close</i>
   </div>
 </ng-template>
 
-<ng-template #itemTemplateC let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
-  <div class="my-toolbar-item my-toolbar-item-green" (click)="dropdownCtrl.toggle(itemData)">
-    <i class="material-icons md-light">access_time</i>&nbsp;
-    <span>{{itemData.label}}</span>&nbsp;
-    <i class="material-icons md-light"
-       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
-    <i class="material-icons md-light" (click)="removeClick()">close</i>
-  </div>
-</ng-template>
-
-<ng-template #itemTemplateD let-itemData let-dropdownCtrl="dropdownController" let-removeClick="removeClick">
-  <div class="my-toolbar-item my-toolbar-item-cyan">
+<ng-template #searchItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
+             let-removeClick="removeClick">
+  <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async)?.length > 0 || (dropdownCtrl.openChange$ | async)?.isOpen ? itemConfig.colorClass : ''">
     <div (click)="dropdownCtrl.toggle(itemData)" style="display: flex; align-items: center;">
       <i class="material-icons md-light">search</i>
       <ng-container *ngIf="itemData.searchTerm$ | async as searchTerm">
@@ -68,17 +49,20 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateA let-itemData let-dropdownCtrl="dropdownController"
+<ng-template #dropdownTemplateA let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
              let-availableHeight$="availableHeight$">
-  <div class="my-toolbar-item-callout my-toolbar-item-callout-amber" style="width: 240px">
+  <div class="my-toolbar-item-callout"
+       [ngClass]="itemConfig.colorClass"
+       style="width: 240px">
     <app-demo-list [height]="(availableHeight$ | async)"
                    [selectedItem]="itemData | async"
                    (selectedItemChange)="itemData.next($event); dropdownCtrl.close()"></app-demo-list>
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateB let-itemData let-dropdownCtrl="dropdownController">
-  <div class="my-toolbar-item-callout my-toolbar-item-callout-lime"
+<ng-template #dropdownTemplateB let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
+  <div class="my-toolbar-item-callout"
+       [ngClass]="itemConfig.colorClass"
        style="width: 240px"
        cdkTrapFocus
        cdkTrapFocusAutoCapture="true">
@@ -92,8 +76,10 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateC let-itemData let-dropdownCtrl="dropdownController">
-  <div class="my-toolbar-item-callout my-toolbar-item-callout-green" style="width: 600px; height: 100%;">
+<ng-template #dropdownTemplateC let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
+  <div class="my-toolbar-item-callout"
+       [ngClass]="itemConfig.colorClass"
+       style="width: 600px; height: 100%;">
     <div style="flex: 1 1 0%; overflow: auto">
       <div style="height: 1000px; padding: 24px">Large Box</div>
     </div>
@@ -101,7 +87,7 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateD let-itemData let-dropdownCtrl="dropdownController">
+<ng-template #searchItemDropdownTemplate let-itemData let-dropdownCtrl="dropdownController">
   <form class="my-toolbar-item-callout my-toolbar-item-callout-cyan"
         style="padding: 8px 8px"
         cdkTrapFocus
@@ -117,4 +103,8 @@
       <label for="searchMatchWords">Words</label>
     </div>
   </form>
+</ng-template>
+
+<ng-template #buttonsTemplate>
+  <!-- <button>Xsvs</button>-->
 </ng-template>
