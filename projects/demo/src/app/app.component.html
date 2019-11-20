@@ -33,7 +33,7 @@
 
 <ng-template #searchItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
              let-removeClick="removeClick">
-  <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async).length > 0 || (dropdownCtrl.openChange$ | async)?.isOpen? itemConfig.colorClass : ''">
+  <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async)?.length > 0 || (dropdownCtrl.openChange$ | async)?.isOpen ? itemConfig.colorClass : ''">
     <div (click)="dropdownCtrl.toggle(itemData)" style="display: flex; align-items: center;">
       <i class="material-icons md-light">search</i>
       <ng-container *ngIf="itemData.searchTerm$ | async as searchTerm">
