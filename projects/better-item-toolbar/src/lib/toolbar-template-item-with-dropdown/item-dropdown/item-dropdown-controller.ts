@@ -4,10 +4,6 @@ export interface ItemDropdownController<T, C> {
   open: (data?: T, config?: C) => void;
   close: () => void;
   toggle: (data?: T, config?: C) => void;
-  openChange$: Observable<ItemOverlayOpenChange>;
+  dropdownOpen$: Observable<boolean>;
   availableHeight$: Subject<number>;
-}
-
-export interface ItemOverlayOpenChange {
-  isOpen: boolean;
 }

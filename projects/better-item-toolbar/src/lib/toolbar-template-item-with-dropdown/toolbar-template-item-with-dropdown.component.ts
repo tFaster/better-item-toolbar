@@ -3,7 +3,7 @@ import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemToolbarService } from '../item-toolbar.service';
 import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
 import { ItemOverlayBuilderConfig } from './item-dropdown/item-dropdown-overlay-builder';
-import { DOWN_ARROW, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
+import { DOWN_ARROW, ENTER, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
 import { ToolbarTemplateItemBaseComponent } from '../toolbar-template-item/toolbar-template-item-base.component';
 
 @Component({
@@ -45,7 +45,9 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
         }
       };
       if (this.dropdownOverlayConfig.openOnCreate) {
-        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
+        setTimeout(() => {
+          this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
+        }, 500);
       }
     } else {
       this.itemTemplateContext = {
@@ -61,6 +63,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   onKeydown(event: KeyboardEvent): void {
     switch (event.keyCode) {
       case SPACE:
+      case ENTER:
         this._itemDropdownCtrl.toggle(this.itemData, this.itemConfig);
         break;
       case UP_ARROW:

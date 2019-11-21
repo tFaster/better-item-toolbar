@@ -25,7 +25,7 @@ describe('ItemDropdownPanelComponent', () => {
       toggle: () => {
       },
       availableHeight$: new Subject<number>(),
-      openChange$: new Subject<any>()
+      dropdownOpen$: new Subject<boolean>()
     };
     fixture.detectChanges();
   });
