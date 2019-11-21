@@ -1,6 +1,10 @@
 <h1>Demo</h1>
 
-<tfaster-item-toolbar [items]="items" class="my-item-toolbar"
+<tfaster-item-toolbar class="my-item-toolbar"
+                      [fixedItemsLeft]="fixedItemsLeft"
+                      [addableItems]="addableItems"
+                      [fixedItemsRight]="fixedItemsRight"
+                      [fixedItemsOuterRight]="fixedItemsOuterRight"
                       [itemChooserAddIconTemplate]="addIconTemplate"></tfaster-item-toolbar>
 
 <h3>Lorem Ypsum</h3>
@@ -15,6 +19,18 @@
   <i class="material-icons md-light" style="margin: 2px">{{itemConfig.iconName}}</i>
 </ng-template>
 
+<ng-template #fixedDropdownItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
+  <div class="my-toolbar-item"
+       [ngClass]="itemConfig.colorClass"
+       (click)="dropdownCtrl.toggle(itemData?.selectedItem$, itemConfig)">
+    <i class="material-icons md-light">{{itemConfig.iconName}}</i>&nbsp;
+    <ng-container *ngIf="itemData?.selectedItem$ | async as data">
+      <span>{{data.label}}</span>&nbsp;
+    </ng-container>
+    <i class="material-icons md-light"
+       [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+  </div>
+</ng-template>
 
 <ng-template #dropdownItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
              let-removeClick="removeClick">
@@ -26,20 +42,20 @@
       <span>{{data.label}}</span>&nbsp;
     </ng-container>
     <i class="material-icons md-light"
-       [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+       [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
     <i class="material-icons md-light" (click)="removeClick()">close</i>
   </div>
 </ng-template>
 
 <ng-template #searchItemTemplate let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
              let-removeClick="removeClick">
-  <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async)?.length > 0 || (dropdownCtrl.openChange$ | async)?.isOpen ? itemConfig.colorClass : ''">
+  <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async)?.length > 0 || (dropdownCtrl.dropdownOpen$ | async)? itemConfig.colorClass : ''">
     <div (click)="dropdownCtrl.toggle(itemData)" style="display: flex; align-items: center;">
-      <i class="material-icons md-light">search</i>
+      <i class="material-icons md-light" [style.color]="(dropdownCtrl.dropdownOpen$ | async) || (itemData.searchTerm$ | async)?.length > 0 ? 'black' : 'white'">search</i>
       <ng-container *ngIf="itemData.searchTerm$ | async as searchTerm">
         <span>&nbsp;{{searchTerm}}&nbsp;</span>
         <i class="material-icons md-light"
-           [ngStyle]="{'transform': (dropdownCtrl.openChange$ | async)?.isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
+           [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
       </ng-container>
     </div>
     <ng-container *ngIf="itemData.searchTerm$ | async">
@@ -49,7 +65,7 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateA let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
+<ng-template #dropdownTemplateHeroes let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController"
              let-availableHeight$="availableHeight$">
   <div class="my-toolbar-item-callout"
        [ngClass]="itemConfig.colorClass"
@@ -60,7 +76,7 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateB let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
+<ng-template #dropdownTemplateMovies let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
   <div class="my-toolbar-item-callout"
        [ngClass]="itemConfig.colorClass"
        style="width: 240px"
@@ -76,7 +92,7 @@
   </div>
 </ng-template>
 
-<ng-template #dropdownTemplateC let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
+<ng-template #dropdownTemplateTime let-itemData let-itemConfig="itemConfig" let-dropdownCtrl="dropdownController">
   <div class="my-toolbar-item-callout"
        [ngClass]="itemConfig.colorClass"
        style="width: 600px; height: 100%;">
@@ -87,7 +103,7 @@
   </div>
 </ng-template>
 
-<ng-template #searchItemDropdownTemplate let-itemData let-dropdownCtrl="dropdownController">
+<ng-template #dropdownTemplateSearch let-itemData let-dropdownCtrl="dropdownController">
   <form class="my-toolbar-item-callout my-toolbar-item-callout-cyan"
         style="padding: 8px 8px"
         cdkTrapFocus
@@ -105,6 +121,6 @@
   </form>
 </ng-template>
 
-<ng-template #buttonsTemplate>
-  <!-- <button>Xsvs</button>-->
+<ng-template #buttonsItemTemplate>
+   <button>Menu</button>
 </ng-template>

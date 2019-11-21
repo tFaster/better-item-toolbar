@@ -7,7 +7,7 @@ import {
   PositionStrategy
 } from '@angular/cdk/overlay';
 import { ESCAPE } from '@angular/cdk/keycodes';
-import { ItemDropdownController, ItemOverlayOpenChange } from './item-dropdown-controller';
+import { ItemDropdownController } from './item-dropdown-controller';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -43,16 +43,11 @@ export class ItemDropdownOverlayBuilder<T, C> {
   public buildAndConnect(cdkOverlayOrigin: CdkOverlayOrigin, overlayTemplate: TemplateRef<any>): ItemDropdownController<T, C> {
     const positionStrategy: FlexibleConnectedPositionStrategy = this._createPositionStrategy(cdkOverlayOrigin.elementRef);
     const overlayRef = this._createOverlay(positionStrategy);
-    const openChange$ = merge(
+    const dropdownOpen$ = merge(
       overlayRef.attachments().pipe(map(() => true)),
-      overlayRef.detachments().pipe(map(() => false))).pipe(
-      map((isAttached: boolean) => {
-        return {
-          isOpen: isAttached
-        };
-      })
+      overlayRef.detachments().pipe(map(() => false))
     );
-    this._registerOutsideClickListener(cdkOverlayOrigin.elementRef.nativeElement, overlayRef, openChange$);
+    this._registerOutsideClickListener(cdkOverlayOrigin.elementRef.nativeElement, overlayRef, dropdownOpen$);
 
     if (this._config.detachOnEscKey) {
       this._registerDetachOnEscKey(overlayRef);
@@ -66,17 +61,17 @@ export class ItemDropdownOverlayBuilder<T, C> {
       },
       open: (itemData?: T, itemConfig?: C) => {
         if (!overlayRef.hasAttached()) {
-          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, openChange$);
+          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, dropdownOpen$);
         }
       },
       toggle: (itemData?: T, itemConfig?: C) => {
         if (overlayRef.hasAttached()) {
           overlayRef.detach();
         } else {
-          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, openChange$);
+          this._showOverlay(overlayTemplate, overlayRef, itemData, itemConfig, itemOverlayCtrl, dropdownOpen$);
         }
       },
-      openChange$,
+      dropdownOpen$,
       availableHeight$: new Subject<number>()
     };
     return itemOverlayCtrl;
@@ -105,15 +100,11 @@ export class ItemDropdownOverlayBuilder<T, C> {
 
   private _registerOutsideClickListener(overlayOriginEl: HTMLElement,
                                         overlayRef: OverlayRef,
-                                        openChange$: Observable<ItemOverlayOpenChange>): void {
+                                        dropdownOpen$: Observable<boolean>): void {
     this._documentClickPath$.pipe(
-      withLatestFrom(openChange$),
-      filter(([eventPath, openChange]) => {
-        return openChange.isOpen;
-      }),
-      map(([eventPath, openChange]) => eventPath),
-      filter((eventPath: EventTarget[]) => {
-        return !eventPath.includes(overlayRef.overlayElement) && !eventPath.includes(overlayOriginEl);
+      withLatestFrom(dropdownOpen$),
+      filter(([eventPath, isOpen]) => {
+        return isOpen && !eventPath.includes(overlayRef.overlayElement) && !eventPath.includes(overlayOriginEl);
       })
     ).subscribe(() => {
       overlayRef.detach();
@@ -125,7 +116,7 @@ export class ItemDropdownOverlayBuilder<T, C> {
                        itemData: T,
                        itemConfig: C,
                        itemOverlayCtrl: ItemDropdownController<T, C>,
-                       openChange$: Observable<ItemOverlayOpenChange>): void {
+                       dropdownOpen$: Observable<boolean>): void {
     const overlayComponent: ItemDropdownPanelComponent<T, C> = this._createAndAttachOverlayComponentPortal(overlayRef);
     overlayComponent.panelTemplate = overlayTemplate;
     overlayComponent.itemDropdownController = itemOverlayCtrl;

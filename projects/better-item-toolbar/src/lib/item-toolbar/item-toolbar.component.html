@@ -1,5 +1,33 @@
-<ng-container *ngFor="let item of addedItems;">
+<section class="item-toolbar-left">
+  <ng-container *ngFor="let item of fixedItemsLeft;">
+    <ng-container [ngTemplateOutlet]="itemRenderTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+  </ng-container>
 
+  <ng-container *ngFor="let item of addedItems;">
+    <ng-container [ngTemplateOutlet]="itemRenderTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+  </ng-container>
+
+  <tfaster-item-chooser (itemClick)="addItem($event)"
+                        [items]="choosableItems"
+                        [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"></tfaster-item-chooser>
+
+  <ng-container *ngFor="let item of fixedItemsRight;">
+    <ng-container [ngTemplateOutlet]="itemRenderTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+  </ng-container>
+</section>
+
+<section class="item-toolbar-right">
+  <ng-container *ngFor="let item of fixedItemsOuterRight;">
+    <ng-container [ngTemplateOutlet]="itemRenderTemplate"
+                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+  </ng-container>
+</section>
+
+
+<ng-template #itemRenderTemplate let-item>
   <ng-container *ngIf="isItemWithDropdown(item); else templateItem">
     <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
                                         [dropdownTemplate]="getDropdownConfig(item)?.template"
@@ -15,10 +43,4 @@
                                    [itemConfig]="item.config"
                                    (removeClick)="removeItem(item)"></tfaster-toolbar-template-item>
   </ng-template>
-
-</ng-container>
-
-
-<tfaster-item-chooser (itemClick)="addItem($event)"
-                      [items]="choosableItems"
-                      [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"></tfaster-item-chooser>
+</ng-template>

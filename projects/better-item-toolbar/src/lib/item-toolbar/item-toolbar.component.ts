@@ -10,7 +10,17 @@ import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWith
 export class ItemToolbarComponent implements OnInit {
 
   @Input()
-  public items: ToolbarTemplateItem[] = [];
+  public fixedItemsLeft: ToolbarTemplateItem[] = [];
+
+  @Input()
+  public addableItems: ToolbarTemplateItem[] = [];
+
+  @Input()
+  public fixedItemsRight: ToolbarTemplateItem[] = [];
+
+  @Input()
+  public fixedItemsOuterRight: ToolbarTemplateItem[] = [];
+
 
   @Input()
   public itemChooserAddIconTemplate: TemplateRef<any>;
@@ -18,12 +28,11 @@ export class ItemToolbarComponent implements OnInit {
   private _addedItems = new Set<ToolbarTemplateItem>();
 
   public get choosableItems(): ToolbarTemplateItem[] {
-    return this.items.filter((item: ToolbarTemplateItem) => this._isChoosableItem(item));
+    return this.addableItems.filter((item: ToolbarTemplateItem) => this._isChoosableItem(item));
   }
 
   public get addedItems(): ToolbarTemplateItem[] {
-    const fixedItems: ToolbarTemplateItem[] = this.items.filter((item: ToolbarTemplateItem) => !item.itemChooserConfig);
-    const items: ToolbarTemplateItem[] = [...Array.from(this._addedItems), ...fixedItems];
+    const items: ToolbarTemplateItem[] = Array.from(this._addedItems);
     items.sort((itemA: ToolbarTemplateItem, itemB: ToolbarTemplateItem) => {
       return itemA.order < itemB.order ? -1 : 1;
     });

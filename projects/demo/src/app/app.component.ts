@@ -17,37 +17,38 @@ export class AppComponent implements OnInit {
   @ViewChild('dropdownItemTemplate', {static: true})
   dropdownItemTemplate: TemplateRef<any>;
 
+  @ViewChild('fixedDropdownItemTemplate', {static: true})
+  fixedDropdownItemTemplate: TemplateRef<any>;
+
   @ViewChild('searchItemTemplate', {static: true})
   searchItemTemplate: TemplateRef<any>;
 
-  @ViewChild('dropdownTemplateA', {static: true})
-  dropdownTemplateA: TemplateRef<any>;
+  @ViewChild('dropdownTemplateHeroes', {static: true})
+  dropdownTemplateHeroes: TemplateRef<any>;
 
-  @ViewChild('dropdownTemplateB', {static: true})
-  dropdownTemplateB: TemplateRef<any>;
+  @ViewChild('dropdownTemplateMovies', {static: true})
+  dropdownTemplateMovies: TemplateRef<any>;
 
-  @ViewChild('dropdownTemplateC', {static: true})
-  dropdownTemplateC: TemplateRef<any>;
+  @ViewChild('dropdownTemplateTime', {static: true})
+  dropdownTemplateTime: TemplateRef<any>;
 
-  @ViewChild('searchItemDropdownTemplate', {static: true})
-  searchItemDropdownTemplate: TemplateRef<any>;
+  @ViewChild('dropdownTemplateSearch', {static: true})
+  dropdownTemplateSearch: TemplateRef<any>;
 
-  @ViewChild('buttonsTemplate', {static: true})
-  buttonsTemplate: TemplateRef<any>;
+  @ViewChild('buttonsItemTemplate', {static: true})
+  buttonsItemTemplate: TemplateRef<any>;
 
-  public items: ToolbarTemplateItemWithDropdown[] = [];
+  public fixedItemsLeft: ToolbarTemplateItemWithDropdown[] = [];
+  public addableItems: ToolbarTemplateItemWithDropdown[] = [];
+  public fixedItemsRight: ToolbarTemplateItemWithDropdown[] = [];
+  public fixedItemsOuterRight: ToolbarTemplateItemWithDropdown[] = [];
 
   public ngOnInit(): void {
-    this.items = [
+    this.fixedItemsLeft = [
       {
-        itemChooserConfig: {
-          label: 'Hero',
-          template: this.itemChooserItemTemplate,
-          styleClass: 'my-toolbar-item-chooser-amber'
-        },
-        template: this.dropdownItemTemplate,
+        template: this.fixedDropdownItemTemplate,
         dropdownConfig: {
-          template: this.dropdownTemplateA,
+          template: this.dropdownTemplateHeroes,
           overlayConfig: {
             offsetY: 4,
             emitAvailableHeightOnResize: true
@@ -59,53 +60,58 @@ export class AppComponent implements OnInit {
         config: {
           colorClass: 'my-toolbar-item-amber',
           iconName: 'face'
-        },
-        order: 1,
-      },
+        }
+      }
+    ];
+
+    this.addableItems = [
       {
+        template: this.dropdownItemTemplate,
+        dropdownConfig: {
+          template: this.dropdownTemplateMovies,
+          overlayConfig: {
+            offsetY: 4,
+            openOnCreate: true
+          }
+        },
         itemChooserConfig: {
           label: 'Movie',
           template: this.itemChooserItemTemplate,
           styleClass: 'my-toolbar-item-chooser-lime'
         },
+        config: {
+          colorClass: 'my-toolbar-item-lime',
+          iconName: 'movie'
+        },
+        order: 1
+      },
+      {
         template: this.dropdownItemTemplate,
         dropdownConfig: {
-          template: this.dropdownTemplateB,
+          template: this.dropdownTemplateTime,
           overlayConfig: {
             offsetY: 4,
             openOnCreate: true
           }
         },
-        config: {
-          colorClass: 'my-toolbar-item-lime',
-          iconName: 'movie'
-        },
-        order: 2
-      },
-      {
         itemChooserConfig: {
           label: 'Time',
           template: this.itemChooserItemTemplate,
           styleClass: 'my-toolbar-item-chooser-green'
         },
-        template: this.dropdownItemTemplate,
-        dropdownConfig: {
-          template: this.dropdownTemplateC,
-          overlayConfig: {
-            offsetY: 4,
-            openOnCreate: true
-          }
-        },
         config: {
           colorClass: 'my-toolbar-item-green',
           iconName: 'access_time'
         },
-        order: 3
-      },
+        order: 2
+      }
+    ];
+
+    this.fixedItemsRight = [
       {
         template: this.searchItemTemplate,
         dropdownConfig: {
-          template: this.searchItemDropdownTemplate,
+          template: this.dropdownTemplateSearch,
           overlayConfig: {
             offsetY: 4
           }
@@ -116,11 +122,13 @@ export class AppComponent implements OnInit {
         config: {
           colorClass: 'my-toolbar-item-cyan',
           iconName: 'search'
-        },
-        order: 20,
-      },
+        }
+      }
+    ];
+
+    this.fixedItemsOuterRight = [
       {
-        template: this.buttonsTemplate,
+        template: this.buttonsItemTemplate
       }
     ];
   }
