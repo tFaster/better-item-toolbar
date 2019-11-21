@@ -5,8 +5,12 @@
 
 # Better Item Toolbar
 
-Installation
-------------
+Model driven toolbar with dynamic toolbar items with dropdowns
+
+**Check out the [Demo](https://tfaster.github.io/better-item-toolbar/)**
+
+
+## Installation
 
 ```bash
 $ npm i @tfaster/better-item-toolbar
