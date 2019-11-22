@@ -1,12 +1,12 @@
 <section class="item-toolbar-left">
   <ng-container *ngFor="let item of fixedItemsLeft;">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
-                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+                  [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
 
   <ng-container *ngFor="let item of addedItems;">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
-                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+                  [ngTemplateOutletContext]="{$implicit: item, enableAnimations: true}"></ng-container>
   </ng-container>
 
   <tfaster-item-chooser (itemClick)="addItem($event)"
@@ -15,29 +15,28 @@
 
   <ng-container *ngFor="let item of fixedItemsRight;">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
-                  [ngTemplateOutletContext]="{$implicit: item, disableAnimations: true}"></ng-container>
+                  [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
 </section>
 
 <section class="item-toolbar-right">
   <ng-container *ngFor="let item of fixedItemsOuterRight;">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
-                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+                  [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
 </section>
 
 
-<ng-template #itemRenderTemplate let-item let-disableAnimations="disableAnimations">
+<ng-template #itemRenderTemplate let-item let-enableAnimations="enableAnimations">
   <ng-container *ngIf="isItemWithDropdown(item); else templateItem">
-    <ng-container  [@.disabled]="disableAnimations">
-      <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
-                                          [dropdownTemplate]="getDropdownConfig(item)?.template"
-                                          [dropdownOverlayConfig]="getDropdownConfig(item)?.overlayConfig"
-                                          [itemData]="item.data"
-                                          [itemConfig]="item.config"
-                                          (removeClick)="removeItem(item)"
-                                          [@inOutAnimation]></tfaster-toolbar-item-with-dropdown>
-    </ng-container>
+    <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
+                                        [dropdownTemplate]="getDropdownConfig(item)?.template"
+                                        [dropdownOverlayConfig]="getDropdownConfig(item)?.overlayConfig"
+                                        [itemData]="item.data"
+                                        [itemConfig]="item.config"
+                                        (removeClick)="removeItem(item)"
+                                        [@.disabled]="!enableAnimations"
+                                        [@inOutAnimation]></tfaster-toolbar-item-with-dropdown>
 
   </ng-container>
 
