@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
 import { Subject } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ItemDropdownPanelComponent', () => {
   let component: ItemDropdownPanelComponent<any, any>;
@@ -9,9 +10,13 @@ describe('ItemDropdownPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemDropdownPanelComponent]
-    })
-      .compileComponents();
+      declarations: [
+        ItemDropdownPanelComponent
+      ],
+      imports: [
+        NoopAnimationsModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

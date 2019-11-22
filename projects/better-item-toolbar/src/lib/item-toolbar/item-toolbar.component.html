@@ -15,7 +15,7 @@
 
   <ng-container *ngFor="let item of fixedItemsRight;">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
-                  [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+                  [ngTemplateOutletContext]="{$implicit: item, disableAnimations: true}"></ng-container>
   </ng-container>
 </section>
 
@@ -27,20 +27,25 @@
 </section>
 
 
-<ng-template #itemRenderTemplate let-item>
+<ng-template #itemRenderTemplate let-item let-disableAnimations="disableAnimations">
   <ng-container *ngIf="isItemWithDropdown(item); else templateItem">
-    <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
-                                        [dropdownTemplate]="getDropdownConfig(item)?.template"
-                                        [dropdownOverlayConfig]="getDropdownConfig(item)?.overlayConfig"
-                                        [itemData]="item.data"
-                                        [itemConfig]="item.config"
-                                        (removeClick)="removeItem(item)"></tfaster-toolbar-item-with-dropdown>
+    <ng-container  [@.disabled]="disableAnimations">
+      <tfaster-toolbar-item-with-dropdown [itemTemplate]="item.template"
+                                          [dropdownTemplate]="getDropdownConfig(item)?.template"
+                                          [dropdownOverlayConfig]="getDropdownConfig(item)?.overlayConfig"
+                                          [itemData]="item.data"
+                                          [itemConfig]="item.config"
+                                          (removeClick)="removeItem(item)"
+                                          [@inOutAnimation]></tfaster-toolbar-item-with-dropdown>
+    </ng-container>
+
   </ng-container>
 
   <ng-template #templateItem>
     <tfaster-toolbar-template-item [itemTemplate]="item.template"
                                    [itemData]="item.data"
                                    [itemConfig]="item.config"
-                                   (removeClick)="removeItem(item)"></tfaster-toolbar-template-item>
+                                   (removeClick)="removeItem(item)"
+                                   [@inOutAnimation]></tfaster-toolbar-template-item>
   </ng-template>
 </ng-template>

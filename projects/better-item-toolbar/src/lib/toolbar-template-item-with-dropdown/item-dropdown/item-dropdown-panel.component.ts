@@ -1,21 +1,62 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef
+} from '@angular/core';
 import { ItemDropdownController } from './item-dropdown-controller';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { animate, group, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'tfaster-item-dropdown-panel',
   templateUrl: './item-dropdown-panel.component.html',
   styleUrls: ['./item-dropdown-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({transform: 'scale(1, 0.5)', top: '-50%', opacity: 0}),
+            group([
+              animate('80ms ease-out', style({transform: 'scale(1, 1)', top: 0})),
+              animate('180ms ease-out', style({opacity: 1}))
+            ])
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() panelTemplate: TemplateRef<any>;
-  @Input() itemDropdownController: ItemDropdownController<T, C>;
-  @Input() itemData: T;
-  @Input() itemConfig: C;
-  @Input() emitAvailableHeightOnResize = false;
+  @HostBinding('@.disabled')
+  @Input()
+  public animationsDisabled = false;
+
+  @Input()
+  public panelTemplate: TemplateRef<any>;
+
+  @Input()
+  public itemDropdownController: ItemDropdownController<T, C>;
+
+  @Input()
+  public itemData: T;
+
+  @Input()
+  public itemConfig: C;
+
+  @Input()
+  public emitAvailableHeightOnResize = false;
 
   public panelTemplateContext: any;
 

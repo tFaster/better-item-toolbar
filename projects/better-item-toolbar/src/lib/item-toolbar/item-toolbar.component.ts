@@ -1,11 +1,39 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
+import { animate, group, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'tfaster-item-toolbar',
   templateUrl: './item-toolbar.component.html',
   styleUrls: ['./item-toolbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ width: 0, opacity: 0 }),
+            group([
+              animate('100ms ease-out', style({width: '*'})),
+              animate('300ms ease-out', style({opacity: 1}))
+            ])
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ width: '*', opacity: 1 }),
+            group([
+              animate('100ms ease-out', style({width: 0})),
+              animate('100ms ease-out', style({opacity: 0}))
+            ])
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ItemToolbarComponent implements OnInit {
 

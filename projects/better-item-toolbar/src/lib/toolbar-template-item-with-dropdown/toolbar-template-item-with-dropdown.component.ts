@@ -47,7 +47,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
       if (this.dropdownOverlayConfig.openOnCreate) {
         setTimeout(() => {
           this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
-        }, 500);
+        }, 200);
       }
     } else {
       this.itemTemplateContext = {

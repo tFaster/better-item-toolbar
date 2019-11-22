@@ -1,9 +1,10 @@
 <ng-container *ngIf="items.length > 0">
 
   <div class="toolbar-item-chooser-wrapper"
-       (mouseleave)="isShown = false">
+       (mouseleave)="isShown = false"
+       (mouseenter)="isShown = true">
     <button class="toolbar-item-chooser-add-button"
-            (mouseenter)="isShown = true"
+            [ngClass]="{'toolbar-item-chooser-open': isShown}"
             (keydown)="onAddButtonKeydown($event)"
             cdkMonitorElementFocus
             [tabIndex]="isShown ? -1 : 0"
