@@ -9,7 +9,7 @@
             cdkMonitorElementFocus
             [tabIndex]="isShown ? -1 : 0"
             #itemChooserAddButton
-            (focusout)="isShown = isFocusOnAddButtonOrInItemContainer($event)">
+            (focusout)="isShown = isFocusOnAddButtonOrInItemContainer($event.relatedTarget)">
       <ng-container *ngIf="itemChooserAddIconTemplate; else defaultAddIcon"
                     [ngTemplateOutlet]="itemChooserAddIconTemplate"></ng-container>
       <ng-template #defaultAddIcon>
@@ -28,7 +28,7 @@
                 [title]="item.itemChooserConfig.label"
                 [tabIndex]="isShown ? 0 : -1"
                 cdkMonitorElementFocus
-                (focusout)="isShown = isFocusOnAddButtonOrInItemContainer($event)">
+                (focusout)="isShown = isFocusOnAddButtonOrInItemContainer($event.relatedTarget)">
           <ng-container *ngIf="item.itemChooserConfig.template; else defaultItemChooserTemplate"
                         [ngTemplateOutlet]="item.itemChooserConfig.template"
                         [ngTemplateOutletContext]="{$implicit: item.itemChooserConfig, itemConfig: item.config}"></ng-container>

@@ -58,8 +58,7 @@ export class ItemChooserComponent implements OnInit {
   ngOnInit() {
   }
 
-  isFocusOnAddButtonOrInItemContainer(event: FocusEvent): boolean {
-    const currentFocusedElement: HTMLElement = (event.relatedTarget as HTMLElement);
+  isFocusOnAddButtonOrInItemContainer(currentFocusedElement: HTMLElement): boolean {
     return currentFocusedElement
       && (currentFocusedElement.parentElement === this._availableItemContainer.nativeElement
         || currentFocusedElement === this._itemChooserAddButton.nativeElement);
