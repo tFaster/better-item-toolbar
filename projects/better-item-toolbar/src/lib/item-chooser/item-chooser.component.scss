@@ -1,5 +1,4 @@
 :host {
-  margin: 0 12px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -7,6 +6,7 @@
 }
 
 .toolbar-item-chooser-wrapper {
+  margin: 0 8px;
   display: flex;
   align-items: center;
   transition: background-color 100ms ease-out;
