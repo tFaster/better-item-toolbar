@@ -21,7 +21,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   public dropdownTemplate: TemplateRef<any>;
 
   @Input()
-  public dropdownOverlayConfig: ItemOverlayBuilderConfig;
+  public dropdownOverlayConfig: ItemOverlayBuilderConfig = {};
 
   private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
@@ -30,34 +30,32 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   }
 
   ngOnInit() {
-    if (this._hasDropdown) {
-      this._itemDropdownCtrl = this._itemToolbarService
-        .overlayBuilder<T, C>()
-        .withConfig(this.dropdownOverlayConfig)
-        .buildAndConnect(this._itemDropdownOrigin, this.dropdownTemplate);
-      this.itemTemplateContext = {
-        $implicit: this.itemData,
-        itemConfig: this.itemConfig,
-        dropdownController: this._itemDropdownCtrl,
-        removeClick: () => {
-          this._itemDropdownCtrl.close();
-          this.removeClick.emit();
-        }
-      };
-      if (this.dropdownOverlayConfig.openOnCreate) {
-        setTimeout(() => {
-          this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
-        }, 200);
-      }
-    } else {
-      this.itemTemplateContext = {
-        $implicit: this.itemData,
-        itemConfig: this.itemConfig,
-        removeClick: () => {
-          this.removeClick.emit();
-        }
-      };
+    this._initDropdownController();
+    this._initItemTemplateContext();
+    if (this.dropdownOverlayConfig.openOnCreate) {
+      setTimeout(() => {
+        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
+      }, 200);
     }
+  }
+
+  private _initDropdownController(): void {
+    this._itemDropdownCtrl = this._itemToolbarService
+      .overlayBuilder<T, C>()
+      .withConfig(this.dropdownOverlayConfig)
+      .buildAndConnect(this._itemDropdownOrigin, this.dropdownTemplate);
+  }
+
+  private _initItemTemplateContext(): void {
+    this.itemTemplateContext = {
+      $implicit: this.itemData,
+      itemConfig: this.itemConfig,
+      dropdownController: this._itemDropdownCtrl,
+      removeClick: () => {
+        this._itemDropdownCtrl.close();
+        this.removeClick.emit();
+      }
+    };
   }
 
   onKeydown(event: KeyboardEvent): void {
@@ -73,10 +71,6 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
         this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
         break;
     }
-  }
-
-  private get _hasDropdown(): boolean {
-    return !!this.dropdownTemplate;
   }
 
 }

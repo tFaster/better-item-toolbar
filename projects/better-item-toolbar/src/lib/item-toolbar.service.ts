@@ -1,14 +1,12 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ItemDropdownOverlayBuilder } from './toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-overlay-builder';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemToolbarService implements OnDestroy {
+export class ItemToolbarService {
 
-  private _destroy$: Subject<void> = new Subject<void>();
 
   constructor(private _overlayService: Overlay) {
   }
@@ -17,8 +15,4 @@ export class ItemToolbarService implements OnDestroy {
     return new ItemDropdownOverlayBuilder(this._overlayService);
   }
 
-  public ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
-  }
 }

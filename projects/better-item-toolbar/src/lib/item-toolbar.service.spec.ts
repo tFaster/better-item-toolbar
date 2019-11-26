@@ -14,4 +14,10 @@ describe('ItemOverlayBuilderService', () => {
     const service: ItemToolbarService = TestBed.get(ItemToolbarService);
     expect(service).toBeTruthy();
   });
+
+  it('should create overlayBuilder', () => {
+    const service: ItemToolbarService = TestBed.get(ItemToolbarService);
+    const builder = service.overlayBuilder();
+    expect(builder).toBeTruthy();
+  });
 });

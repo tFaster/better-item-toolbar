@@ -1,4 +1,5 @@
 import { EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 
 export abstract class ToolbarTemplateItemBaseComponent<T, C> {
 
@@ -14,6 +15,6 @@ export abstract class ToolbarTemplateItemBaseComponent<T, C> {
   @Output()
   public removeClick = new EventEmitter<void>();
 
-  public itemTemplateContext: any;
+  public itemTemplateContext: { $implicit: T, itemConfig: C, removeClick: () => void, dropdownController?: ItemDropdownController<T, C> };
 
 }
