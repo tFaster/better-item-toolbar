@@ -32,7 +32,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   ngOnInit() {
     this._initDropdownController();
     this._initItemTemplateContext();
-    if (this.dropdownOverlayConfig.openOnCreate) {
+    if (this.dropdownOverlayConfig && this.dropdownOverlayConfig.openOnCreate) {
       setTimeout(() => {
         this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
       }, 200);

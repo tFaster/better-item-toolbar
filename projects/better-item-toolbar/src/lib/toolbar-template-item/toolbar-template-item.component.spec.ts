@@ -24,6 +24,7 @@ describe('ToolbarTemplateItemComponent', () => {
   });
 
   it('should emit removeClick Output on removeClick call', (done) => {
+    expect(component).toBeTruthy();
     component.removeClick.subscribe(() => {
       done();
     });

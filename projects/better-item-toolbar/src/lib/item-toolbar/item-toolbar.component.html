@@ -1,26 +1,26 @@
 <section class="item-toolbar-left">
-  <ng-container *ngFor="let item of fixedItemsLeft;">
+  <ng-container *ngFor="let item of fixedItemsLeft">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
 
-  <ng-container *ngFor="let item of addedItems;">
+  <ng-container *ngFor="let item of addedItems$ | async">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: true}"></ng-container>
   </ng-container>
 
   <tfaster-item-chooser (itemClick)="addItem($event)"
-                        [items]="choosableItems"
+                        [items]="notYetAddedItems"
                         [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"></tfaster-item-chooser>
 
-  <ng-container *ngFor="let item of fixedItemsRight;">
+  <ng-container *ngFor="let item of fixedItemsRight">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
 </section>
 
 <section class="item-toolbar-right">
-  <ng-container *ngFor="let item of fixedItemsOuterRight;">
+  <ng-container *ngFor="let item of fixedItemsOuterRight">
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"></ng-container>
   </ng-container>
