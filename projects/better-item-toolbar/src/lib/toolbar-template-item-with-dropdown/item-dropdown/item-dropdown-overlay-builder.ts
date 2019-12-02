@@ -79,7 +79,7 @@ export class ItemDropdownOverlayBuilder<T, C> {
 
   private _registerDetachOnEscKey(overlayRef: OverlayRef): void {
     overlayRef.keydownEvents().subscribe((event: KeyboardEvent) => {
-      if (event.keyCode === ESCAPE) {
+      if (event.key === 'Escape') {
         overlayRef.detach();
       }
     });
@@ -152,6 +152,20 @@ export class ItemDropdownOverlayBuilder<T, C> {
       },
       {
         originX: 'center',
+        originY: 'bottom',
+        overlayX: 'center',
+        overlayY: 'top',
+        panelClass: 'item-dropdown-center-aligned'
+      },
+      {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'center',
+        overlayY: 'top',
+        panelClass: 'item-dropdown-center-aligned'
+      },
+      {
+        originX: 'start',
         originY: 'bottom',
         overlayX: 'center',
         overlayY: 'top',

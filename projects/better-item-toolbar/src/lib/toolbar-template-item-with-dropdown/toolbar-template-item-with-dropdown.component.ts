@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { ItemToolbarService } from '../item-toolbar.service';
+import { ItemDropdownService } from './item-dropdown/item-dropdown.service';
 import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
 import { ItemOverlayBuilderConfig } from './item-dropdown/item-dropdown-overlay-builder';
 import { DOWN_ARROW, ENTER, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
@@ -25,7 +25,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
 
   private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
-  constructor(private _itemToolbarService: ItemToolbarService) {
+  constructor(private _itemToolbarService: ItemDropdownService) {
     super();
   }
 

@@ -32,10 +32,25 @@ describe('ItemDropdownPanelComponent', () => {
       availableHeight$: new Subject<number>(),
       dropdownOpen$: new Subject<boolean>()
     };
+    component.emitAvailableHeightOnResize = true;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should update available height on window resize', (done) => {
+    expect(component).toBeTruthy();
+    fixture.whenRenderingDone().then(() => {
+      setTimeout(() => { // wait until initial cal is over
+        component.itemDropdownController.availableHeight$.subscribe(() => {
+          done();
+        });
+        window.dispatchEvent(new Event('resize', {}));
+      }, 1);
+
+    });
+
   });
 });

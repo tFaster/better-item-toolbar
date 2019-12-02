@@ -91,8 +91,11 @@ export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, 
   }
 
   private _updateAvailableHeight(): void {
-    const cdkOverlayBoundingBoxElement: HTMLElement = (this._elementRef.nativeElement as HTMLElement).parentElement.parentElement;
-    this.itemDropdownController.availableHeight$.next(cdkOverlayBoundingBoxElement.offsetHeight);
+    const nativeElement: HTMLElement = this._elementRef.nativeElement as HTMLElement;
+    if (nativeElement.parentElement && nativeElement.parentElement.parentElement) {
+      const cdkOverlayBoundingBoxElement: HTMLElement = nativeElement.parentElement.parentElement;
+      this.itemDropdownController.availableHeight$.next(cdkOverlayBoundingBoxElement.offsetHeight);
+    }
   }
 
   public ngOnDestroy(): void {

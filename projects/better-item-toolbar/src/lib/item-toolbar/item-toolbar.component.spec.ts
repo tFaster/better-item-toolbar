@@ -49,24 +49,24 @@ describe('ItemToolbarComponent', () => {
     beforeEach(() => {
       templateTestComponentFixture = TestBed.createComponent(TemplateTestComponent);
       testToolbarItem = {
-        template: templateTestComponentFixture.componentInstance.itemTemplateA,
+        template: templateTestComponentFixture.componentInstance.itemTemplate,
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplateA
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
         },
         data: 'testItemWithNoOrder'
       };
       testToolbarItem2 = {
-        template: templateTestComponentFixture.componentInstance.itemTemplateA,
+        template: templateTestComponentFixture.componentInstance.itemTemplate,
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplateA
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
         },
         data: 'testItemWithOrderTwo',
         order: 2
       };
       testToolbarItem3 = {
-        template: templateTestComponentFixture.componentInstance.itemTemplateA,
+        template: templateTestComponentFixture.componentInstance.itemTemplate,
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplateA
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
         },
         data: 'testItemWithOrderZero',
         order: 0
@@ -143,16 +143,16 @@ describe('ItemToolbarComponent', () => {
 
 @Component({
   template: `
-    <ng-template #itemTemplateA let-itemData>
+    <ng-template #itemTemplate let-itemData>
       <span class="testItem">{{itemData}}</span>
     </ng-template>
-    <ng-template #itemDropdownTemplateA>
+    <ng-template #itemDropdownTemplate>
       <span class="testItem">Item Dropdown Template Content</span>
-    </ng-template>\``
+    </ng-template>`
 })
 export class TemplateTestComponent {
-  @ViewChild('itemTemplateA', {static: true})
-  itemTemplateA: TemplateRef<any>;
-  @ViewChild('itemDropdownTemplateA', {static: true})
-  itemDropdownTemplateA: TemplateRef<any>;
+  @ViewChild('itemTemplate', {static: true})
+  itemTemplate: TemplateRef<any>;
+  @ViewChild('itemDropdownTemplate', {static: true})
+  itemDropdownTemplate: TemplateRef<any>;
 }
