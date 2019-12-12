@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemDropdownService } from './item-dropdown/item-dropdown.service';
 import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
@@ -23,6 +23,9 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   @Input()
   public dropdownOverlayConfig: ItemOverlayBuilderConfig = {};
 
+  @Output()
+  public dropdownControllerReady = new EventEmitter<ItemDropdownController<T, C>>();
+
   private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
   constructor(private _itemToolbarService: ItemDropdownService) {
@@ -32,11 +35,6 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   ngOnInit() {
     this._initDropdownController();
     this._initItemTemplateContext();
-    if (this.dropdownOverlayConfig && this.dropdownOverlayConfig.openOnCreate) {
-      setTimeout(() => {
-        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
-      }, 200);
-    }
   }
 
   private _initDropdownController(): void {
@@ -44,6 +42,7 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
       .overlayBuilder<T, C>()
       .withConfig(this.dropdownOverlayConfig)
       .buildAndConnect(this._itemDropdownOrigin, this.dropdownTemplate);
+    this.dropdownControllerReady.emit(this._itemDropdownCtrl);
   }
 
   private _initItemTemplateContext(): void {

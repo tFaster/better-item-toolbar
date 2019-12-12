@@ -30,19 +30,6 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create and call open on dropdown controller when openOnCreate is true',
-    fakeAsync(() => {
-      component.itemData = 'testItemData';
-      component.itemConfig = 'testItemConfig';
-      component.dropdownOverlayConfig = {
-        openOnCreate: true
-      };
-      fixture.detectChanges();
-      spyOn(component.itemTemplateContext.dropdownController, 'open');
-      tick(200);
-      expect(component.itemTemplateContext.dropdownController.open).toHaveBeenCalledWith('testItemData', 'testItemConfig');
-    }));
-
   it('should call close() on dropdown controller and emit removeClick output on removeClick() call in template context', (done) => {
     expect(component).toBeTruthy();
     fixture.detectChanges();

@@ -9,7 +9,7 @@
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: true}"></ng-container>
   </ng-container>
 
-  <tfaster-item-chooser (itemClick)="addItem($event)"
+  <tfaster-item-chooser (itemClick)="addItem($event, $event.dropdownConfig?.overlayConfig?.openOnCreate)"
                         [items]="notYetAddedItems"
                         [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"></tfaster-item-chooser>
 
@@ -35,6 +35,7 @@
                                         [itemData]="item.data"
                                         [itemConfig]="item.config"
                                         (removeClick)="removeItem(item)"
+                                        (dropdownControllerReady)="registerDropdownController(item, $event)"
                                         [@.disabled]="!enableAnimations"
                                         [@inOutAnimation]></tfaster-toolbar-item-with-dropdown>
 
