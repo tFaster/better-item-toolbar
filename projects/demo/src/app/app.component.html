@@ -1,6 +1,7 @@
 <h1>Demo</h1>
 
 <tfaster-item-toolbar class="my-item-toolbar"
+                      #betterItemToolbar
                       [fixedItemsLeft]="fixedItemsLeft"
                       [addableItems]="addableItems"
                       [fixedItemsRight]="fixedItemsRight"
@@ -123,5 +124,5 @@
 </ng-template>
 
 <ng-template #buttonsItemTemplate>
-   <button>Menu</button>
+   <button (click)="addMovieItem()">Add Movie Item</button>
 </ng-template>

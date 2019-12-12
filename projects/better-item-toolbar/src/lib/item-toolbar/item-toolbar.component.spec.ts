@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ItemToolbarComponent } from './item-toolbar.component';
 import { ToolbarTemplateItemWithDropdownComponent } from '../toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
@@ -9,6 +9,10 @@ import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
+import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
+
+const itemRegistry = new ToolbarItemRegistryService();
 
 describe('ItemToolbarComponent', () => {
   let component: ItemToolbarComponent;
@@ -26,6 +30,9 @@ describe('ItemToolbarComponent', () => {
       imports: [
         NoopAnimationsModule,
         OverlayModule
+      ],
+      providers: [
+        {provide: ToolbarItemRegistryService, useFactory: () => itemRegistry}
       ]
     }).compileComponents();
   }));
@@ -136,6 +143,17 @@ describe('ItemToolbarComponent', () => {
       testItemsLeft = fixture.debugElement.queryAll(By.css('.item-toolbar-left .testItem'));
       expect(testItemsLeft.length).toBe(0);
     });
+
+    it('should add item and open dropdown if openOnCreate is true', fakeAsync(() => {
+      component.addableItems = [testToolbarItem, testToolbarItem2, testToolbarItem3];
+      fixture.detectChanges();
+      component.addItem(testToolbarItem, true);
+      fixture.detectChanges();
+      const ctrl: ItemDropdownController<any, any> = itemRegistry.getDropdownController(testToolbarItem);
+      spyOn(ctrl, 'open');
+      tick(200);
+      expect(ctrl.open).toHaveBeenCalledTimes(1);
+    }));
 
   });
 });

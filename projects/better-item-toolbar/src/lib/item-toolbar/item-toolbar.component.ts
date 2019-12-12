@@ -3,6 +3,8 @@ import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWith
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
+import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
 
 @Component({
   selector: 'tfaster-item-toolbar',
@@ -74,6 +76,10 @@ export class ItemToolbarComponent {
     })
   );
 
+  constructor(private _toolbarItemRegistryService: ToolbarItemRegistryService) {
+  }
+
+
   public isItemWithDropdown(item: ToolbarTemplateItem): item is ToolbarTemplateItemWithDropdown {
     return 'dropdownConfig' in item;
   }
@@ -82,11 +88,16 @@ export class ItemToolbarComponent {
     return item.dropdownConfig;
   }
 
-  public addItem(item: ToolbarTemplateItemWithDropdown): void {
+  public addItem(item: ToolbarTemplateItemWithDropdown, openOnCreate = false): void {
     const currentSet = this._addedItemsSet$.value;
     if (!currentSet.has(item)) {
       currentSet.add(item);
       this._addedItemsSet$.next(currentSet);
+      if (openOnCreate) {
+        setTimeout(() => {
+          this._toolbarItemRegistryService.getDropdownController(item).open(item.data, item.config);
+        }, 200);
+      }
     }
   }
 
@@ -96,6 +107,11 @@ export class ItemToolbarComponent {
       currentSet.delete(item);
       this._addedItemsSet$.next(currentSet);
     }
+  }
+
+  public registerDropdownController(item: ToolbarTemplateItemWithDropdown,
+                                    ctrl: ItemDropdownController<any, any>): void {
+    this._toolbarItemRegistryService.registerItemController(item, ctrl);
   }
 
   private _isNotYetAddedItem(item): boolean {

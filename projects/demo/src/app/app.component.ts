@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } fr
 import { ToolbarTemplateItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-template-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
 import { DemoListItem } from './demo-list/demo-list.component';
+import { ItemToolbarComponent } from 'better-item-toolbar/lib/item-toolbar/item-toolbar.component';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ import { DemoListItem } from './demo-list/demo-list.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild('betterItemToolbar', {static: false})
+  betterItemToolbar: ItemToolbarComponent;
 
   @ViewChild('itemChooserItemTemplate', {static: true})
   itemChooserItemTemplate: TemplateRef<any>;
@@ -131,5 +135,9 @@ export class AppComponent implements OnInit {
         template: this.buttonsItemTemplate
       }
     ];
+  }
+
+  addMovieItem(): void {
+    this.betterItemToolbar.addItem(this.addableItems[0]);
   }
 }

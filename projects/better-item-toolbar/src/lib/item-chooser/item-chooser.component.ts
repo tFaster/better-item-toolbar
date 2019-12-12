@@ -48,7 +48,7 @@ export class ItemChooserComponent implements OnInit {
   public itemChooserAddIconTemplate: TemplateRef<HTMLElement>;
 
   @Output()
-  public itemClick = new EventEmitter<ToolbarTemplateItem>();
+  public itemClick = new EventEmitter<ToolbarTemplateItem | ToolbarTemplateItemWithDropdown>();
 
   public isShown = false;
 
@@ -73,7 +73,7 @@ export class ItemChooserComponent implements OnInit {
     }
   }
 
-  onItemClick(item: ToolbarTemplateItemWithDropdown): void {
+  onItemClick(item: ToolbarTemplateItem | ToolbarTemplateItemWithDropdown): void {
     this.itemClick.emit(item);
     this.isShown = false;
   }
