@@ -104,7 +104,12 @@ export class ItemDropdownOverlayBuilder<T, C> {
     this._documentClickPath$.pipe(
       withLatestFrom(dropdownOpen$),
       filter(([eventPath, isOpen]) => {
-        return isOpen && !eventPath.includes(overlayRef.overlayElement) && !eventPath.includes(overlayOriginEl);
+        const dropdownOpen = isOpen && !eventPath.includes(overlayRef.overlayElement) && !eventPath.includes(overlayOriginEl);
+        if (this._config.dropdownBypassElement) {
+          return dropdownOpen && !eventPath.includes(this._config.dropdownBypassElement);
+        } else {
+          return dropdownOpen;
+        }
       })
     ).subscribe(() => {
       overlayRef.detach();
@@ -189,5 +194,5 @@ export interface ItemOverlayBuilderConfig {
   offsetY?: number;
   openOnCreate?: boolean;
   emitAvailableHeightOnResize?: boolean;
+  dropdownBypassElement?: HTMLElement;
 }
-
