@@ -1,2 +1,4 @@
-<ng-container [ngTemplateOutlet]="itemTemplate"
-              [ngTemplateOutletContext]="{$implicit: itemData, itemConfig: itemConfig}"></ng-container>
+<div class="toolbar-item">
+  <ng-container [ngTemplateOutlet]="itemTemplate"
+                [ngTemplateOutletContext]="itemTemplateContext"></ng-container>
+</div>

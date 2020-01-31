@@ -17,6 +17,11 @@
   border: none;
   padding: 0;
   outline: none;
+  cursor: pointer;
+}
+
+.toolbar-item-chooser-open {
+  cursor: default;
 }
 
 .toolbar-item-chooser-item-container {
