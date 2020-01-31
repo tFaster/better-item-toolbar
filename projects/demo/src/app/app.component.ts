@@ -21,6 +21,9 @@ export class AppComponent implements OnInit {
   @ViewChild('dropdownItemTemplate', {static: true})
   dropdownItemTemplate: TemplateRef<any>;
 
+  @ViewChild('itemOnlyTemplate', {static: true})
+  itemOnlyTemplate: TemplateRef<any>;
+
   @ViewChild('fixedDropdownItemTemplate', {static: true})
   fixedDropdownItemTemplate: TemplateRef<any>;
 
@@ -108,6 +111,20 @@ export class AppComponent implements OnInit {
           iconName: 'access_time'
         },
         order: 2
+      },
+      {
+        template: this.itemOnlyTemplate,
+        itemChooserConfig: {
+          label: 'Fixed Time',
+          template: this.itemChooserItemTemplate,
+          styleClass: 'my-toolbar-item-chooser-green'
+        },
+        data: {label: 'Fixed Time'},
+        config: {
+          colorClass: 'my-toolbar-item-green',
+          iconName: 'access_time'
+        },
+        order: 3
       }
     ];
 
