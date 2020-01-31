@@ -9,7 +9,9 @@ import { ToolbarTemplateItemBaseComponent } from './toolbar-template-item-base.c
 })
 export class ToolbarTemplateItemComponent<T, C> extends ToolbarTemplateItemBaseComponent<T, C> implements OnInit {
 
-  ngOnInit() {
+  public itemTemplateContext: { $implicit: T, itemConfig: C, removeClick: () => void };
+
+  public ngOnInit(): void {
     this.itemTemplateContext = {
       $implicit: this.itemData,
       itemConfig: this.itemConfig,
