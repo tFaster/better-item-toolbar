@@ -45,7 +45,24 @@
     </ng-container>
     <i class="material-icons md-light"
        [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
-    <i class="material-icons md-light" (click)="removeClick()">close</i>
+    <button class="toolbar-item-close-button"
+            (click)="removeClick()"
+            cdkMonitorElementFocus>
+      <i class="material-icons md-light">close</i>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #itemOnlyTemplate let-itemData let-itemConfig="itemConfig" let-removeClick="removeClick">
+  <div class="my-toolbar-item"
+       [ngClass]="itemConfig.colorClass">
+    <i class="material-icons md-light">{{itemConfig.iconName}}</i>&nbsp;
+    <span>{{itemData.label}}</span>&nbsp;
+    <button class="toolbar-item-close-button"
+            (click)="removeClick()"
+            cdkMonitorElementFocus>
+      <i class="material-icons md-light">close</i>
+    </button>
   </div>
 </ng-template>
 
@@ -61,8 +78,12 @@
       </ng-container>
     </div>
     <ng-container *ngIf="itemData.searchTerm$ | async">
-      <i class="material-icons md-light" style="display: inline-block"
-         (click)="itemData.searchTerm$.next('');">close</i>
+      <button class="toolbar-item-close-button"
+              (click)="removeClick()"
+              cdkMonitorElementFocus>
+        <i class="material-icons md-light"
+           (click)="itemData.searchTerm$.next('');">close</i>
+      </button>
     </ng-container>
   </div>
 </ng-template>
