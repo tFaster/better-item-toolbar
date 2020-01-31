@@ -69,7 +69,7 @@ describe('ItemChooserComponent', () => {
   it('should open on mouseenter and close on mouseleave', () => {
     expect(component.isShown).toBeFalsy();
     const wrapperEl = fixture.debugElement.query(By.css('.toolbar-item-chooser-wrapper'));
-    wrapperEl.triggerEventHandler('mouseenter', {});
+    wrapperEl.triggerEventHandler('click', {});
     expect(component.isShown).toBeTruthy();
     wrapperEl.triggerEventHandler('mouseleave', {});
     expect(component.isShown).toBeFalsy();
@@ -79,7 +79,7 @@ describe('ItemChooserComponent', () => {
   it('should close and emit item click on item click', (done) => {
     expect(component.isShown).toBeFalsy();
     fixture.debugElement.query(By.css('.toolbar-item-chooser-wrapper'))
-      .triggerEventHandler('mouseenter', {});
+      .triggerEventHandler('click', {});
     expect(component.isShown).toBeTruthy();
 
     component.itemClick.subscribe((item: ToolbarTemplateItem) => {
