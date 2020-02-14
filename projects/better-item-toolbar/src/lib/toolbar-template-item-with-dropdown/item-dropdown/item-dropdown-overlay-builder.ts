@@ -6,7 +6,6 @@ import {
   OverlayRef,
   PositionStrategy
 } from '@angular/cdk/overlay';
-import { ESCAPE } from '@angular/cdk/keycodes';
 import { ItemDropdownController } from './item-dropdown-controller';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
@@ -27,7 +26,12 @@ export class ItemDropdownOverlayBuilder<T, C> {
   private _config: ItemOverlayBuilderConfig = DEFAULT_CONFIG;
 
   private _documentClickPath$: Observable<EventTarget[]> = fromEvent<MouseEvent>(document, 'click', {capture: true}).pipe(
-    map((event: MouseEvent) => event.composedPath())
+    map((event: MouseEvent) => {
+      if (event.composedPath) {
+        return event.composedPath();
+      }
+      return getComposedEventPath(event); // Fallback for IE11
+    })
   );
 
   constructor(private _overlayService: Overlay) {
@@ -195,4 +199,18 @@ export interface ItemOverlayBuilderConfig {
   openOnCreate?: boolean;
   emitAvailableHeightOnResize?: boolean;
   dropdownBypassElement?: HTMLElement;
+}
+
+export function getComposedEventPath(event) {
+  let el = event.target;
+  const path = [];
+  while (el) {
+    path.push(el);
+    if (el.tagName === 'HTML') {
+      path.push(document);
+      path.push(window);
+      return path;
+    }
+    el = el.parentElement;
+  }
 }
