@@ -2,7 +2,7 @@
 
   <div class="toolbar-item-chooser-wrapper"
        (mouseleave)="isShown = false"
-       (click)="isShown = true">
+       (click)="isShown = !isShown">
     <button class="toolbar-item-chooser-add-button"
             [ngClass]="{'toolbar-item-chooser-open': isShown}"
             (keydown)="onAddButtonKeydown($event)"
