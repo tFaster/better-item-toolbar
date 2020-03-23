@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ItemChooserComponent } from './item-chooser.component';
 import { By } from '@angular/platform-browser';
@@ -43,22 +43,19 @@ describe('ItemChooserComponent', () => {
 
   it('should open on ENTER keydown', () => {
     expect(component.isShown).toBeFalsy();
-    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button'))
-      .triggerEventHandler('keydown', {keyCode: ENTER});
+    triggerEventOnItemChooserAddButton('keydown', ENTER);
     expect(component.isShown).toBeTruthy();
   });
 
   it('should open on SPACE keydown', () => {
     expect(component.isShown).toBeFalsy();
-    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button'))
-      .triggerEventHandler('keydown', {keyCode: SPACE});
+    triggerEventOnItemChooserAddButton('keydown', SPACE);
     expect(component.isShown).toBeTruthy();
   });
 
   it('should close on ESC keydown', () => {
     expect(component.isShown).toBeFalsy();
-    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button'))
-      .triggerEventHandler('keydown', {keyCode: SPACE});
+    triggerEventOnItemChooserAddButton('keydown', SPACE);
     expect(component.isShown).toBeTruthy();
     const itemContainer = fixture.debugElement.query(By.css('.toolbar-item-chooser-item-container'));
     (itemContainer.nativeElement as HTMLElement)
@@ -66,14 +63,16 @@ describe('ItemChooserComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should open on mouseenter and close on mouseleave', () => {
+  it('should open on mouseenter and close on mouseleave', fakeAsync(() => {
+    component.closeAfterMouseLeaveTimeMs = 1;
     expect(component.isShown).toBeFalsy();
     const wrapperEl = fixture.debugElement.query(By.css('.toolbar-item-chooser-wrapper'));
     wrapperEl.triggerEventHandler('click', {});
     expect(component.isShown).toBeTruthy();
     wrapperEl.triggerEventHandler('mouseleave', {});
+    tick(1);
     expect(component.isShown).toBeFalsy();
-  });
+  }));
 
 
   it('should close and emit item click on item click', (done) => {
@@ -92,17 +91,48 @@ describe('ItemChooserComponent', () => {
 
   });
 
-  describe('isFocusOnAddButtonOrInItemContainer', () => {
-    it('should be falsy when items outside the component are focused', () => {
-      expect(component.isFocusOnAddButtonOrInItemContainer(undefined)).toBeFalsy();
-      expect(component.isFocusOnAddButtonOrInItemContainer(document.body)).toBeFalsy();
+  describe('on focus out', () => {
+    it('should close if focus moved to an external element', () => {
+      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      expect(component.isShown).toBeTruthy();
+      component.onFocusOut(document.body);
+      expect(component.isShown).toBeFalsy();
     });
 
-    it('should be truthy when items inside the component are focused', () => {
-      const addButton = fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button'));
-      expect(component.isFocusOnAddButtonOrInItemContainer(addButton.nativeElement)).toBeTruthy();
-      const item = fixture.debugElement.query(By.css('.toolbar-item-chooser-item'));
-      expect(component.isFocusOnAddButtonOrInItemContainer(item.nativeElement)).toBeTruthy();
+    it('should not close if focus moved to an internal element', () => {
+      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      expect(component.isShown).toBeTruthy();
+      const itemContainerButton = fixture.debugElement.query(By.css('.toolbar-item-chooser-item-container button'));
+      component.onFocusOut(itemContainerButton.nativeElement);
+      expect(component.isShown).toBeTruthy();
     });
   });
+
+  describe('mouse out', () => {
+    it('should close when mouse moved out longer than timeout', fakeAsync(() => {
+      component.closeAfterMouseLeaveTimeMs = 1;
+      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      expect(component.isShown).toBeTruthy();
+      component.onAddButtonWrapperMouseLeave();
+      tick(2);
+      expect(component.isShown).toBeFalsy();
+    }));
+
+    it('should not close when mouse moved out shorter than timeout', fakeAsync(() => {
+      component.closeAfterMouseLeaveTimeMs = 2;
+      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      expect(component.isShown).toBeTruthy();
+      component.onAddButtonWrapperMouseLeave();
+      tick(1);
+      component.onAddButtonWrapperMouseEnter();
+      expect(component.isShown).toBeTruthy();
+    }));
+  });
+
+  function triggerEventOnItemChooserAddButton(eventName: 'keydown', keyCode: number) {
+    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button')).triggerEventHandler(eventName, {keyCode});
+  }
+
 });
+
+

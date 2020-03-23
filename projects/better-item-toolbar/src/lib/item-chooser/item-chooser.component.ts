@@ -1,7 +1,20 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { ENTER, SPACE } from '@angular/cdk/keycodes';
+import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'tfaster-item-chooser',
@@ -33,7 +46,7 @@ import { ENTER, SPACE } from '@angular/cdk/keycodes';
     ])
   ]
 })
-export class ItemChooserComponent implements OnInit {
+export class ItemChooserComponent implements OnInit, OnDestroy {
 
   @ViewChild('itemChooserAddButton', {static: false})
   private _itemChooserAddButton;
@@ -47,35 +60,88 @@ export class ItemChooserComponent implements OnInit {
   @Input()
   public itemChooserAddIconTemplate: TemplateRef<HTMLElement>;
 
+  @Input()
+  public closeAfterMouseLeaveTimeMs = 1000;
+
   @Output()
   public itemClick = new EventEmitter<ToolbarTemplateItem | ToolbarTemplateItemWithDropdown>();
 
-  public isShown = false;
+  public get isShown(): boolean {
+    return this._isShown$.value;
+  }
+
+  private _addButtonKeydown$: Subject<KeyboardEvent> = new Subject<KeyboardEvent>();
+
+  private _addButtonEnterOrSpaceKeydown$: Observable<KeyboardEvent> = this._addButtonKeydown$.pipe(
+    filter((event: KeyboardEvent) => event.keyCode === ENTER || event.keyCode === SPACE)
+  );
+
+  private _isShown$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  public readonly isShown$ = this._isShown$.asObservable();
+
+  private readonly _destroy$ = new Subject<void>();
+
+  private _addButtonWrapperMouseEnter$: Subject<void> = new Subject<void>();
 
   constructor(private _elementRef: ElementRef) {
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this._addButtonEnterOrSpaceKeydown$.pipe(
+      takeUntil(this._destroy$)
+    ).subscribe(() => {
+      this._isShown$.next(true);
+      setTimeout(() => {
+        (this._availableItemContainer.nativeElement.children[0] as HTMLElement).focus();
+      }, 0);
+    });
   }
 
-  isFocusOnAddButtonOrInItemContainer(currentFocusedElement: HTMLElement): boolean {
+  public onAddButtonKeydown(event: KeyboardEvent): void {
+    this._addButtonKeydown$.next(event);
+  }
+
+  public onItemClick(item: ToolbarTemplateItem | ToolbarTemplateItemWithDropdown): void {
+    this.itemClick.emit(item);
+    this._isShown$.next(false);
+  }
+
+  public closeChooserCallout(): void {
+    this._isShown$.next(false);
+  }
+
+  public onAddButtonWrapperMouseLeave(): void {
+    timer(this.closeAfterMouseLeaveTimeMs).pipe(
+      takeUntil(this._destroy$),
+      takeUntil(this._addButtonWrapperMouseEnter$)
+    ).subscribe(() => {
+      this._isShown$.next(false);
+    });
+  }
+
+  public onAddButtonWrapperMouseEnter(): void {
+    this._addButtonWrapperMouseEnter$.next();
+  }
+
+  public onAddButtonWrapperClick(): void {
+    this._isShown$.next(!this._isShown$.value);
+
+  }
+
+  public onFocusOut(relatedTarget: HTMLElement): void {
+    this._isShown$.next(this._isFocusOnAddButtonOrInItemContainer(relatedTarget));
+  }
+
+  private _isFocusOnAddButtonOrInItemContainer(currentFocusedElement: HTMLElement): boolean {
     return currentFocusedElement
       && (currentFocusedElement.parentElement === this._availableItemContainer.nativeElement
         || currentFocusedElement === this._itemChooserAddButton.nativeElement);
   }
 
-  onAddButtonKeydown(event: KeyboardEvent): void {
-    if (event.keyCode === ENTER || event.keyCode === SPACE) {
-      this.isShown = true;
-      setTimeout(() => {
-        (this._availableItemContainer.nativeElement.children[0] as HTMLElement).focus();
-      }, 0);
-    }
-  }
-
-  onItemClick(item: ToolbarTemplateItem | ToolbarTemplateItemWithDropdown): void {
-    this.itemClick.emit(item);
-    this.isShown = false;
+  public ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
 }
