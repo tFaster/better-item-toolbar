@@ -100,7 +100,7 @@ describe('ItemOverlayBuilderService', () => {
       expect(document.querySelector('.test-overlay-panel')).toBeNull();
     });
 
-    it('should build overlay and close on document click', () => {
+    it('should build overlay and close on body click', () => {
       const overlayController: ItemDropdownController<any, any> = builder.withConfig({
         panelClass: 'test-overlay-panel'
       }).buildAndConnect(
@@ -112,6 +112,21 @@ describe('ItemOverlayBuilderService', () => {
       document.querySelector('body').dispatchEvent(new KeyboardEvent('click', {}));
       fixture.detectChanges();
       expect(document.querySelector('.test-overlay-panel')).toBeNull();
+    });
+
+    it('should build overlay and not close on body click when body is bypass element', () => {
+      const overlayController: ItemDropdownController<any, any> = builder.withConfig({
+        panelClass: 'test-overlay-panel',
+        dropdownBypassElement: document.body
+      }).buildAndConnect(
+        templateTestComponentRef.instance.originElement,
+        templateTestComponentRef.instance.itemDropdownTemplate
+      );
+      overlayController.open();
+      fixture.detectChanges();
+      document.querySelector('body').dispatchEvent(new KeyboardEvent('click', {}));
+      fixture.detectChanges();
+      expect(document.querySelector('.test-overlay-panel')).not.toBeNull();
     });
 
   });
