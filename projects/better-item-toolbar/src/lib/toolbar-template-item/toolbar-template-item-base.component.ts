@@ -1,6 +1,7 @@
-import { EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { EventEmitter, Input, Output, TemplateRef, Directive } from '@angular/core';
 import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 
+@Directive()
 export abstract class ToolbarTemplateItemBaseComponent<T, C> {
 
   @Input()
