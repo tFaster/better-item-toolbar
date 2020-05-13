@@ -7,8 +7,10 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^8.2.13",
-    "@angular/core": "^8.2.13",
-    "@angular/cdk": "^8.2.3"
+    "@angular/common": "^8.2.13 || ^9.0.0",
+    "@angular/animations": "^8.2.13 || ^9.0.0",
+    "@angular/core": "^8.2.13 || ^9.0.0",
+    "@angular/cdk": "^8.2.3 || ^9.0.0",
+    "rxjs": "^6.5.0"
   }
 }
