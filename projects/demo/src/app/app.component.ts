@@ -12,7 +12,7 @@ import { ItemToolbarComponent } from 'better-item-toolbar/lib/item-toolbar/item-
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('betterItemToolbar', {static: false})
+  @ViewChild('betterItemToolbar')
   betterItemToolbar: ItemToolbarComponent;
 
   @ViewChild('itemChooserItemTemplate', {static: true})

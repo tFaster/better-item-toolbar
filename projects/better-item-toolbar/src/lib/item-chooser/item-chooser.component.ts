@@ -48,10 +48,10 @@ import { filter, takeUntil } from 'rxjs/operators';
 })
 export class ItemChooserComponent implements OnInit, OnDestroy {
 
-  @ViewChild('itemChooserAddButton', {static: false})
+  @ViewChild('itemChooserAddButton')
   private _itemChooserAddButton;
 
-  @ViewChild('availableItemContainer', {static: false})
+  @ViewChild('availableItemContainer')
   private _availableItemContainer;
 
   @Input()
