@@ -13,5 +13,8 @@
     "@angular/cdk": "^8.2.3 || ^9.0.0",
     "rxjs": "^6.5.0",
     "typescript": "^3.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   }
 }
