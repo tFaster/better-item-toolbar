@@ -11,7 +11,7 @@ before_script:
 script:
   - ng lint better-item-toolbar
   - ng test better-item-toolbar --watch=false --browsers=ChromeHeadless --codeCoverage=true
-  - ng build better-item-toolbar
+  - ng build better-item-toolbar --prod
   - ng build demo --prod --base-href https://tfaster.github.io/better-item-toolbar/
 after_success:
   - codecov
