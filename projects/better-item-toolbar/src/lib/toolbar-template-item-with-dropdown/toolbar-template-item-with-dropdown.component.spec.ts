@@ -3,7 +3,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { ToolbarTemplateItemWithDropdownComponent } from './toolbar-template-item-with-dropdown.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { By } from '@angular/platform-browser';
-import { DOWN_ARROW, ENTER, SPACE, UP_ARROW } from '@angular/cdk/keycodes';
 
 describe('ToolbarTemplateItemWithDropdownComponent', () => {
   let component: ToolbarTemplateItemWithDropdownComponent<any, any>;
@@ -46,8 +45,8 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
     fixture.detectChanges();
     spyOn(component.itemTemplateContext.dropdownController, 'toggle');
     const toolbarItem = fixture.debugElement.query(By.css('.toolbar-item'));
-    toolbarItem.triggerEventHandler('keydown', {keyCode: ENTER});
-    toolbarItem.triggerEventHandler('keydown', {keyCode: SPACE});
+    toolbarItem.triggerEventHandler('keydown', {code: 'Enter'});
+    toolbarItem.triggerEventHandler('keydown', {code: 'Space'});
     expect(component.itemTemplateContext.dropdownController.toggle).toHaveBeenCalledTimes(2);
   });
 
@@ -59,9 +58,9 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
     spyOn(component.itemTemplateContext.dropdownController, 'open');
     spyOn(component.itemTemplateContext.dropdownController, 'close');
     const toolbarItem = fixture.debugElement.query(By.css('.toolbar-item'));
-    toolbarItem.triggerEventHandler('keydown', {keyCode: DOWN_ARROW});
+    toolbarItem.triggerEventHandler('keydown', {code: 'ArrowDown'});
     expect(component.itemTemplateContext.dropdownController.open).toHaveBeenCalledWith('testItemData', 'testItemConfig');
-    toolbarItem.triggerEventHandler('keydown', {keyCode: UP_ARROW});
+    toolbarItem.triggerEventHandler('keydown', {code: 'ArrowUp'});
     expect(component.itemTemplateContext.dropdownController.close).toHaveBeenCalled();
   });
 

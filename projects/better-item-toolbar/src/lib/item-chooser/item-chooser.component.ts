@@ -2,7 +2,6 @@ import type { OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
-import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -63,7 +62,7 @@ export class ItemChooserComponent implements OnInit, OnDestroy {
   private _addButtonKeydown$: Subject<KeyboardEvent> = new Subject<KeyboardEvent>();
 
   private _addButtonEnterOrSpaceKeydown$: Observable<KeyboardEvent> = this._addButtonKeydown$.pipe(
-    filter((event: KeyboardEvent) => event.keyCode === ENTER || event.keyCode === SPACE)
+    filter((event: KeyboardEvent) => event.code === 'Enter' || event.code === 'Space')
   );
 
   private _isShown$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
