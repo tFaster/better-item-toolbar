@@ -1,8 +1,7 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 
 import { ItemChooserComponent } from './item-chooser.component';
 import { By } from '@angular/platform-browser';
-import { ENTER, SPACE } from '@angular/cdk/keycodes';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarTemplateItem } from '../toolbar-template-item-with-dropdown';
 
@@ -10,7 +9,7 @@ describe('ItemChooserComponent', () => {
   let component: ItemChooserComponent;
   let fixture: ComponentFixture<ItemChooserComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ItemChooserComponent
@@ -43,19 +42,19 @@ describe('ItemChooserComponent', () => {
 
   it('should open on ENTER keydown', () => {
     expect(component.isShown).toBeFalsy();
-    triggerEventOnItemChooserAddButton('keydown', ENTER);
+    triggerEventOnItemChooserAddButton('keydown', 'Enter');
     expect(component.isShown).toBeTruthy();
   });
 
   it('should open on SPACE keydown', () => {
     expect(component.isShown).toBeFalsy();
-    triggerEventOnItemChooserAddButton('keydown', SPACE);
+    triggerEventOnItemChooserAddButton('keydown', 'Space');
     expect(component.isShown).toBeTruthy();
   });
 
   it('should close on ESC keydown', () => {
     expect(component.isShown).toBeFalsy();
-    triggerEventOnItemChooserAddButton('keydown', SPACE);
+    triggerEventOnItemChooserAddButton('keydown', 'Space');
     expect(component.isShown).toBeTruthy();
     const itemContainer = fixture.debugElement.query(By.css('.toolbar-item-chooser-item-container'));
     (itemContainer.nativeElement as HTMLElement)
@@ -93,14 +92,14 @@ describe('ItemChooserComponent', () => {
 
   describe('on focus out', () => {
     it('should close if focus moved to an external element', () => {
-      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      triggerEventOnItemChooserAddButton('keydown', 'Space');
       expect(component.isShown).toBeTruthy();
       component.onFocusOut(document.body);
       expect(component.isShown).toBeFalsy();
     });
 
     it('should not close if focus moved to an internal element', () => {
-      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      triggerEventOnItemChooserAddButton('keydown', 'Space');
       expect(component.isShown).toBeTruthy();
       const itemContainerButton = fixture.debugElement.query(By.css('.toolbar-item-chooser-item-container button'));
       component.onFocusOut(itemContainerButton.nativeElement);
@@ -111,7 +110,7 @@ describe('ItemChooserComponent', () => {
   describe('mouse out', () => {
     it('should close when mouse moved out longer than timeout', fakeAsync(() => {
       component.closeAfterMouseLeaveTimeMs = 1;
-      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      triggerEventOnItemChooserAddButton('keydown', 'Space');
       expect(component.isShown).toBeTruthy();
       component.onAddButtonWrapperMouseLeave();
       tick(2);
@@ -120,7 +119,7 @@ describe('ItemChooserComponent', () => {
 
     it('should not close when mouse moved out shorter than timeout', fakeAsync(() => {
       component.closeAfterMouseLeaveTimeMs = 2;
-      triggerEventOnItemChooserAddButton('keydown', SPACE);
+      triggerEventOnItemChooserAddButton('keydown', 'Space');
       expect(component.isShown).toBeTruthy();
       component.onAddButtonWrapperMouseLeave();
       tick(1);
@@ -129,8 +128,8 @@ describe('ItemChooserComponent', () => {
     }));
   });
 
-  function triggerEventOnItemChooserAddButton(eventName: 'keydown', keyCode: number) {
-    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button')).triggerEventHandler(eventName, {keyCode});
+  function triggerEventOnItemChooserAddButton(eventName: 'keydown', code: string) {
+    fixture.debugElement.query(By.css('.toolbar-item-chooser-add-button')).triggerEventHandler(eventName, {code});
   }
 
 });
