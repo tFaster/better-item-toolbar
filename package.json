@@ -1,6 +1,6 @@
 {
   "name": "@tfaster/better-item-toolbar",
-  "version": "1.0.0-rc.10",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve demo",
