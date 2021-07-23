@@ -39,16 +39,16 @@ import { filter, takeUntil } from 'rxjs/operators';
 export class ItemChooserComponent implements OnInit, OnDestroy {
 
   @ViewChild('itemChooserAddButton')
-  private _itemChooserAddButton;
+  private _itemChooserAddButton: ElementRef<HTMLButtonElement> | undefined;
 
   @ViewChild('availableItemContainer')
-  private _availableItemContainer;
+  private _availableItemContainer: ElementRef<HTMLDivElement> | undefined;
 
   @Input()
   public items: ToolbarTemplateItem[] = [];
 
   @Input()
-  public itemChooserAddIconTemplate: TemplateRef<HTMLElement>;
+  public itemChooserAddIconTemplate: TemplateRef<HTMLElement> | undefined;
 
   @Input()
   public closeAfterMouseLeaveTimeMs = 1000;
@@ -83,7 +83,7 @@ export class ItemChooserComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       this._isShown$.next(true);
       setTimeout(() => {
-        (this._availableItemContainer.nativeElement.children[0] as HTMLElement).focus();
+        (this._availableItemContainer?.nativeElement.children[0] as HTMLElement).focus();
       }, 0);
     });
   }
@@ -125,8 +125,8 @@ export class ItemChooserComponent implements OnInit, OnDestroy {
 
   private _isFocusOnAddButtonOrInItemContainer(currentFocusedElement: HTMLElement): boolean {
     return currentFocusedElement
-      && (currentFocusedElement.parentElement === this._availableItemContainer.nativeElement
-        || currentFocusedElement === this._itemChooserAddButton.nativeElement);
+      && (currentFocusedElement.parentElement === this._availableItemContainer?.nativeElement
+        || currentFocusedElement === this._itemChooserAddButton?.nativeElement);
   }
 
   public ngOnDestroy(): void {

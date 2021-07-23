@@ -26,7 +26,7 @@ export class ItemDropdownOverlayBuilder<T, C> {
   private _config: ItemOverlayBuilderConfig = DEFAULT_CONFIG;
 
   private _documentClickPath$: Observable<EventTarget[]> = fromEvent<MouseEvent>(document, 'click', {capture: true}).pipe(
-    map((event: MouseEvent) => event.composedPath ? event.composedPath() : getComposedEventPath(event))
+    map((event: MouseEvent) => event.composedPath())
   );
 
   constructor(private _overlayService: Overlay) {
@@ -194,18 +194,4 @@ export interface ItemOverlayBuilderConfig {
   openOnCreate?: boolean;
   emitAvailableHeightOnResize?: boolean;
   dropdownBypassElement?: HTMLElement;
-}
-
-export function getComposedEventPath(event: Event): EventTarget[] {
-  let el: Element = event.target as Element;
-  const path: EventTarget[] = [];
-  while (el) {
-    path.push(el);
-    if (el.tagName === 'HTML') {
-      path.push(document);
-      path.push(window);
-      return path;
-    }
-    el = el.parentElement;
-  }
 }

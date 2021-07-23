@@ -114,7 +114,7 @@ export class ItemToolbarComponent {
     this._toolbarItemRegistryService.registerItemController(item, ctrl);
   }
 
-  private _isNotYetAddedItem(item): boolean {
+  private _isNotYetAddedItem(item: ToolbarTemplateItem): boolean {
     return !!item.itemChooserConfig && !Array.from(this._addedItemsSet$.value.values()).includes(item);
   }
 
