@@ -1,6 +1,20 @@
 :host {
   display: block;
-  padding: 24px;
+}
+
+.mdl-layout__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.mdl-layout__header-row {
+  padding-left: 16px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  padding: 64px 256px 32px 32px;
 }
 
 .my-item-toolbar {

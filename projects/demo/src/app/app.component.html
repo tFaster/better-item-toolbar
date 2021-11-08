@@ -1,15 +1,27 @@
-<h1>Demo</h1>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">@tfaster/better-item-toolbar</span>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="page-content">
 
-<tfaster-item-toolbar class="my-item-toolbar"
-                      #betterItemToolbar
-                      [fixedItemsLeft]="fixedItemsLeft"
-                      [addableItems]="addableItems"
-                      [fixedItemsRight]="fixedItemsRight"
-                      [fixedItemsOuterRight]="fixedItemsOuterRight"
-                      [itemChooserAddIconTemplate]="addIconTemplate"></tfaster-item-toolbar>
 
-<h3>Lorem Ypsum</h3>
+      <tfaster-item-toolbar class="my-item-toolbar"
+                            #betterItemToolbar
+                            [fixedItemsLeft]="fixedItemsLeft"
+                            [addableItems]="addableItems"
+                            [fixedItemsRight]="fixedItemsRight"
+                            [fixedItemsOuterRight]="fixedItemsOuterRight"
+                            [itemChooserAddIconTemplate]="addIconTemplate"></tfaster-item-toolbar>
 
+      <h3>Lorem Ypsum</h3>
+
+
+    </div>
+  </main>
+</div>
 
 <ng-template #addIconTemplate>
   <i class="material-icons md-light add">add</i>
@@ -145,5 +157,5 @@
 </ng-template>
 
 <ng-template #buttonsItemTemplate>
-   <button (click)="addMovieItem()">Add Movie Item</button>
+   <button class="mdl-button mdl-js-button mdl-button--raised" (click)="addMovieItem()">Add Movie Item</button>
 </ng-template>
