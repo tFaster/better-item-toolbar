@@ -33,6 +33,15 @@
             "tsConfig": "projects/better-item-toolbar/tsconfig.spec.json",
             "karmaConfig": "projects/better-item-toolbar/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/better-item-toolbar/src/**/*.ts",
+              "projects/better-item-toolbar/src/**/*.html"
+            ]
+          }
         }
       }
     },
