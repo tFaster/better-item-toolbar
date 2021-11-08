@@ -2,7 +2,6 @@ import { EventEmitter, Input, Output, TemplateRef, Directive } from '@angular/co
 import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 
 @Directive()
-// tslint:disable-next-line:directive-class-suffix
 export abstract class ToolbarTemplateItemBaseComponent<T, C> {
 
   @Input()

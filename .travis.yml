@@ -1,18 +1,23 @@
 language: node_js
 node_js:
-  - "14.15.0"
+  - "14.18.1"
 dist: trusty
 sudo: required
+addons:
+  apt:
+    packages:
+      - dpkg
+  chrome: stable
 branches:
   only:
-    - master
+    - main
 before_script:
   - npm install -g @angular/cli
 script:
   - ng lint better-item-toolbar
   - ng test better-item-toolbar --watch=false --browsers=ChromeHeadless --codeCoverage=true
-  - ng build better-item-toolbar --prod
-  - ng build demo --prod --base-href https://tfaster.github.io/better-item-toolbar/
+  - ng build better-item-toolbar --configuration production
+  - ng build demo --configuration production --base-href https://tfaster.github.io/better-item-toolbar/
 after_success:
   - codecov
 deploy:
