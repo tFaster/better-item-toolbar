@@ -1,6 +1,6 @@
 {
   "name": "@tfaster/better-item-toolbar",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": {
     "type" : "git",
     "url" : "https://github.com/tFaster/better-item-toolbar"
@@ -8,10 +8,10 @@
   "license": "MIT",
   "homepage": "https://tfaster.github.io/better-item-toolbar/",
   "peerDependencies": {
-    "@angular/common": "^12.1.0",
-    "@angular/core": "^12.1.0",
-    "@angular/animations": "^12.1.0",
-    "@angular/cdk": "^12.1.0",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "@angular/animations": "^13.0.0",
+    "@angular/cdk": "^13.0.0",
     "rxjs": "^6.6.0",
     "typescript": "^4.3.5"
   }
