@@ -11,26 +11,23 @@ import { ToolbarTemplateItemComponent } from './toolbar-template-item/toolbar-te
 
 
 @NgModule({
-  declarations: [
-    ItemToolbarComponent,
-    ToolbarTemplateItemWithDropdownComponent,
-    ItemChooserComponent,
-    ItemDropdownPanelComponent,
-    ToolbarTemplateItemComponent
-  ],
-  imports: [
-    A11yModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    OverlayModule
-  ],
-  exports: [
-    ItemToolbarComponent,
-    ToolbarTemplateItemWithDropdownComponent
-  ],
-  entryComponents: [
-    ItemDropdownPanelComponent
-  ]
+    declarations: [
+        ItemToolbarComponent,
+        ToolbarTemplateItemWithDropdownComponent,
+        ItemChooserComponent,
+        ItemDropdownPanelComponent,
+        ToolbarTemplateItemComponent
+    ],
+    imports: [
+        A11yModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        OverlayModule
+    ],
+    exports: [
+        ItemToolbarComponent,
+        ToolbarTemplateItemWithDropdownComponent
+    ]
 })
 export class ItemToolbarModule {
 }
