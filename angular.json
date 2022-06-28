@@ -19,13 +19,13 @@
           "options": {
             "tsConfig": "projects/better-item-toolbar/tsconfig.lib.json",
             "project": "projects/better-item-toolbar/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/better-item-toolbar/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -61,8 +61,7 @@
         "@schematics/angular:guard": {
           "skipTests": true
         },
-        "@schematics/angular:module": {
-        },
+        "@schematics/angular:module": {},
         "@schematics/angular:pipe": {
           "skipTests": true
         },
@@ -175,6 +174,6 @@
           }
         }
       }
-    }},
-  "defaultProject": "better-item-toolbar"
+    }
+  }
 }
