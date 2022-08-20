@@ -22,11 +22,8 @@
       "dom"
     ],
     "paths": {
-      "better-item-toolbar": [
-        "dist/better-item-toolbar"
-      ],
-      "better-item-toolbar/*": [
-        "dist/better-item-toolbar/*"
+      "@tfaster/better-item-toolbar": [
+        "projects/better-item-toolbar/src/public-api.ts"
       ]
     }
   },

@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } fr
 import { ToolbarTemplateItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-template-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
 import { DemoListItem } from './demo-list/demo-list.component';
-import { ItemToolbarComponent } from 'better-item-toolbar/lib/item-toolbar/item-toolbar.component';
+import { ItemToolbarComponent } from '@tfaster/better-item-toolbar';
+
 
 @Component({
   selector: 'app-root',
