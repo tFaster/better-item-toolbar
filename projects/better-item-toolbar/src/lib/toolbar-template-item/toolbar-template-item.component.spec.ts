@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToolbarTemplateItemComponent } from './toolbar-template-item.component';
 
 describe('ToolbarTemplateItemComponent', () => {
   let component: ToolbarTemplateItemComponent<any, any>;
   let fixture: ComponentFixture<ToolbarTemplateItemComponent<any, any>>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ToolbarTemplateItemComponent
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ToolbarTemplateItemComponent);

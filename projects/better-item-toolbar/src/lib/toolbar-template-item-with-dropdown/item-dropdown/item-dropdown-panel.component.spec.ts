@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
 import { Subject } from 'rxjs';
@@ -8,7 +8,7 @@ describe('ItemDropdownPanelComponent', () => {
   let component: ItemDropdownPanelComponent<any, any>;
   let fixture: ComponentFixture<ItemDropdownPanelComponent<any, any>>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ItemDropdownPanelComponent
@@ -17,7 +17,7 @@ describe('ItemDropdownPanelComponent', () => {
         NoopAnimationsModule
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemDropdownPanelComponent);

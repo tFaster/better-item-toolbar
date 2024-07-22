@@ -6,7 +6,6 @@ import { ItemDropdownOverlayBuilder } from './item-dropdown-overlay-builder';
 import { Component, ComponentRef, TemplateRef, ViewChild } from '@angular/core';
 import { ItemDropdownController } from './item-dropdown-controller';
 import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ItemOverlayBuilderService', () => {
@@ -20,11 +19,7 @@ describe('ItemOverlayBuilderService', () => {
         NoopAnimationsModule,
         OverlayModule
       ]
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [ItemDropdownPanelComponent]
-      }
-    });
+    }).compileComponents();
   });
 
   it('should be created', () => {
