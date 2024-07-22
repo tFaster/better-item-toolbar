@@ -1,7 +1,9 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ItemToolbarComponent } from './item-toolbar.component';
-import { ToolbarTemplateItemWithDropdownComponent } from '../toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
+import {
+  ToolbarTemplateItemWithDropdownComponent
+} from '../toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
 import { ItemChooserComponent } from '../item-chooser/item-chooser.component';
 import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-template-item.component';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
@@ -18,7 +20,7 @@ describe('ItemToolbarComponent', () => {
   let component: ItemToolbarComponent;
   let fixture: ComponentFixture<ItemToolbarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TemplateTestComponent,
@@ -35,7 +37,7 @@ describe('ItemToolbarComponent', () => {
         {provide: ToolbarItemRegistryService, useFactory: () => itemRegistry}
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemToolbarComponent);
@@ -162,7 +164,7 @@ describe('ItemToolbarComponent', () => {
 @Component({
   template: `
     <ng-template #itemTemplate let-itemData>
-      <span class="testItem">{{itemData}}</span>
+      <span class="testItem">{{ itemData }}</span>
     </ng-template>
     <ng-template #itemDropdownTemplate>
       <span class="testItem">Item Dropdown Template Content</span>
