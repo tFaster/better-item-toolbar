@@ -7,7 +7,7 @@ const overlayServiceStub: any = {
   }
 };
 
-describe('ItemOverlayBuilder', () => {
+describe('ItemDropdownOverlayBuilder', () => {
   it('should create an instance', () => {
     expect(new ItemDropdownOverlayBuilder(overlayServiceStub)).toBeTruthy();
   });

@@ -1,16 +1,10 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ItemToolbarComponent } from './item-toolbar.component';
-import {
-  ToolbarTemplateItemWithDropdownComponent
-} from '../toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
-import { ItemChooserComponent } from '../item-chooser/item-chooser.component';
-import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-template-item.component';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
-import { OverlayModule } from '@angular/cdk/overlay';
 import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
 import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 
@@ -22,16 +16,9 @@ describe('ItemToolbarComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TemplateTestComponent,
-        ItemToolbarComponent,
-        ToolbarTemplateItemComponent,
-        ToolbarTemplateItemWithDropdownComponent,
-        ItemChooserComponent
-      ],
       imports: [
         NoopAnimationsModule,
-        OverlayModule
+        ItemToolbarComponent
       ],
       providers: [
         {provide: ToolbarItemRegistryService, useFactory: () => itemRegistry}

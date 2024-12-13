@@ -7,7 +7,7 @@ describe('ToolbarTemplateItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         ToolbarTemplateItemComponent
       ]
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ItemDropdownOverlayBuilder } from './item-dropdown-overlay-builder';
 
@@ -7,11 +7,9 @@ import { ItemDropdownOverlayBuilder } from './item-dropdown-overlay-builder';
 })
 export class ItemDropdownService {
 
+  private _overlayService: Overlay = inject(Overlay);
 
-  constructor(private _overlayService: Overlay) {
-  }
-
-  overlayBuilder<T, C>(): ItemDropdownOverlayBuilder<T, C> {
+  public overlayBuilder<T, C>(): ItemDropdownOverlayBuilder<T, C> {
     return new ItemDropdownOverlayBuilder<T, C>(this._overlayService);
   }
 

@@ -1,16 +1,30 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, TemplateRef } from '@angular/core';
 import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { ItemChooserComponent } from '../item-chooser/item-chooser.component';
+import {
+  ToolbarTemplateItemWithDropdownComponent
+} from '../toolbar-template-item-with-dropdown/toolbar-template-item-with-dropdown.component';
+import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-template-item.component';
 
 @Component({
   selector: 'tfaster-item-toolbar',
+  standalone: true,
   templateUrl: './item-toolbar.component.html',
   styleUrls: ['./item-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgTemplateOutlet,
+    AsyncPipe,
+    ItemChooserComponent,
+    ToolbarTemplateItemWithDropdownComponent,
+    ToolbarTemplateItemComponent
+  ],
   animations: [
     trigger(
       'inOutAnimation',
@@ -41,6 +55,8 @@ import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
 })
 export class ItemToolbarComponent {
 
+  private _toolbarItemRegistryService: ToolbarItemRegistryService = inject(ToolbarItemRegistryService);
+
   @Input()
   public fixedItemsLeft: ToolbarTemplateItem[] = [];
 
@@ -61,6 +77,7 @@ export class ItemToolbarComponent {
   }
 
   private _addedItemsSet$ = new BehaviorSubject<Set<ToolbarTemplateItem>>(new Set<ToolbarTemplateItem>());
+
   public addedItems$: Observable<ToolbarTemplateItem[]> = this._addedItemsSet$.pipe(
     map((items: Set<ToolbarTemplateItem>) => Array.from(items)),
     map((items: ToolbarTemplateItem[]) => {
@@ -75,10 +92,6 @@ export class ItemToolbarComponent {
       return items;
     })
   );
-
-  constructor(private _toolbarItemRegistryService: ToolbarItemRegistryService) {
-  }
-
 
   public isItemWithDropdown(item: ToolbarTemplateItem): item is ToolbarTemplateItemWithDropdown {
     return 'dropdownConfig' in item;

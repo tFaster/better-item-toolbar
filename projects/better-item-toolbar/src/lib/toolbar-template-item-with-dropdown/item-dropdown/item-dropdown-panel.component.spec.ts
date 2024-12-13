@@ -10,11 +10,9 @@ describe('ItemDropdownPanelComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ItemDropdownPanelComponent
-      ],
       imports: [
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        ItemDropdownPanelComponent
       ]
     }).compileComponents();
   });

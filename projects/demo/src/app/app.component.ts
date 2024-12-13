@@ -1,14 +1,26 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ToolbarTemplateItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-template-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
-import { DemoListItem } from './demo-list/demo-list.component';
+import { DemoListComponent, DemoListItem } from './demo-list/demo-list.component';
 import { ItemToolbarComponent } from '@tfaster/better-item-toolbar';
+import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
+import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  imports: [
+    NgClass,
+    AsyncPipe,
+    CdkMonitorFocus,
+    NgStyle,
+    DemoListComponent,
+    CdkTrapFocus,
+    ItemToolbarComponent
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {

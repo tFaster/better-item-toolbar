@@ -11,13 +11,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 describe('ItemOverlayBuilderService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ItemDropdownPanelComponent,
-        OverlayTemplateTestComponent
-      ],
       imports: [
         NoopAnimationsModule,
-        OverlayModule
+        ItemDropdownPanelComponent,
+        OverlayTemplateTestComponent
       ]
     }).compileComponents();
   });
@@ -130,6 +127,10 @@ describe('ItemOverlayBuilderService', () => {
 
 
 @Component({
+  standalone: true,
+  imports: [
+    CdkOverlayOrigin
+  ],
   template: `
     <div cdkOverlayOrigin>ORIGIN</div>
     <ng-template #itemDropdownTemplate>

@@ -4,9 +4,8 @@
   <ol>
     <ng-container *cdkVirtualFor="let item of items" #cdkVirtualFor>
       <li [ngClass]="{'selected': selectedItem && item.id === selectedItem.id}"
-          (click)="onItemClick(item)">{{item.label}}</li>
+          (click)="onItemClick(item)">{{ item.label }}
+      </li>
     </ng-container>
   </ol>
 </cdk-virtual-scroll-viewport>
-
-

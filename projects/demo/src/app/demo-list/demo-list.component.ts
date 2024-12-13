@@ -10,7 +10,8 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { NgClass } from '@angular/common';
 
 export interface DemoListItem {
   id: string;
@@ -19,8 +20,15 @@ export interface DemoListItem {
 
 @Component({
   selector: 'app-demo-list',
+  standalone: true,
   templateUrl: './demo-list.component.html',
   styleUrls: ['./demo-list.component.scss'],
+  imports: [
+    NgClass,
+    CdkVirtualScrollViewport,
+    CdkVirtualForOf,
+    CdkFixedSizeVirtualScroll
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DemoListComponent implements OnInit, OnChanges {

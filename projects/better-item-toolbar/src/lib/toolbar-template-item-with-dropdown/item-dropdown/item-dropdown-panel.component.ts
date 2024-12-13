@@ -4,12 +4,17 @@ import { ItemDropdownController } from './item-dropdown-controller';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { animate, group, style, transition, trigger } from '@angular/animations';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'tfaster-item-dropdown-panel',
+  standalone: true,
   templateUrl: './item-dropdown-panel.component.html',
   styleUrls: ['./item-dropdown-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgTemplateOutlet
+  ],
   animations: [
     trigger(
       'inOutAnimation',
