@@ -11,11 +11,9 @@ describe('ItemChooserComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ItemChooserComponent
-      ],
       imports: [
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        ItemChooserComponent
       ]
     }).compileComponents();
   }));

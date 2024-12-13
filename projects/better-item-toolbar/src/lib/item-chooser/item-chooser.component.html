@@ -1,5 +1,4 @@
-<ng-container *ngIf="items.length > 0">
-
+@if (items.length > 0) {
   <div class="toolbar-item-chooser-wrapper"
        (mouseleave)="onAddButtonWrapperMouseLeave()"
        (mouseenter)="onAddButtonWrapperMouseEnter()"
@@ -11,18 +10,18 @@
             [tabIndex]="(isShown$ | async) ? -1 : 0"
             #itemChooserAddButton
             (focusout)="onFocusOut($event.relatedTarget)">
-      <ng-container *ngIf="itemChooserAddIconTemplate; else defaultAddIcon"
-                    [ngTemplateOutlet]="itemChooserAddIconTemplate"></ng-container>
-      <ng-template #defaultAddIcon>
+      @if (itemChooserAddIconTemplate) {
+        <ng-container [ngTemplateOutlet]="itemChooserAddIconTemplate"/>
+      } @else {
         <div class="toolbar-item-chooser-default-add-icon">+</div>
-      </ng-template>
+      }
     </button>
 
     <div [@showHide]="(isShown$ | async) ? 'shown' : 'hidden'"
          class="toolbar-item-chooser-item-container"
          #availableItemContainer
          (keydown.escape)="closeChooserCallout()">
-      <ng-container *ngFor="let item of items">
+      @for (item of items; track item) {
         <button class="toolbar-item-chooser-item"
                 [ngClass]="item.itemChooserConfig.styleClass"
                 (click)="onItemClick(item)"
@@ -30,18 +29,20 @@
                 [tabIndex]="(isShown$ | async) ? 0 : -1"
                 cdkMonitorElementFocus
                 (focusout)="onFocusOut($event.relatedTarget)">
-          <ng-container *ngIf="item.itemChooserConfig.template; else defaultItemChooserTemplate"
-                        [ngTemplateOutlet]="item.itemChooserConfig.template"
-                        [ngTemplateOutletContext]="{$implicit: item.itemChooserConfig, itemConfig: item.config}"></ng-container>
-          <ng-template #defaultItemChooserTemplate>
-            <div class="toolbar-item-chooser-default-item-template">{{item.itemChooserConfig.label}}</div>
-          </ng-template>
+          @if (item.itemChooserConfig.template) {
+            <ng-container [ngTemplateOutlet]="item.itemChooserConfig.template"
+                          [ngTemplateOutletContext]="{$implicit: item.itemChooserConfig, itemConfig: item.config}"/>
+          } @else {
+            <div class="toolbar-item-chooser-default-item-template">{{ item.itemChooserConfig.label }}</div>
+          }
         </button>
-      </ng-container>
+      }
     </div>
 
   </div>
+}
 
-</ng-container>
+
+
 
 

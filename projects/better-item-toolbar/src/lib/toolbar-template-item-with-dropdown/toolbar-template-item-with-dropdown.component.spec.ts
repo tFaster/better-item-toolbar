@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarTemplateItemWithDropdownComponent } from './toolbar-template-item-with-dropdown.component';
-import { OverlayModule } from '@angular/cdk/overlay';
 import { By } from '@angular/platform-browser';
 
 describe('ToolbarTemplateItemWithDropdownComponent', () => {
@@ -10,11 +9,8 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ToolbarTemplateItemWithDropdownComponent
-      ],
       imports: [
-        OverlayModule
+        ToolbarTemplateItemWithDropdownComponent
       ]
     }).compileComponents();
   });

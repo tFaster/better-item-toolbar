@@ -4,12 +4,21 @@ import { ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar
 import { animate, group, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { CdkMonitorFocus } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'tfaster-item-chooser',
+  standalone: true,
   templateUrl: './item-chooser.component.html',
   styleUrls: ['./item-chooser.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    AsyncPipe,
+    NgTemplateOutlet,
+    CdkMonitorFocus
+  ],
   animations: [
     trigger('showHide', [
       state('shown', style({
@@ -72,9 +81,6 @@ export class ItemChooserComponent implements OnInit, OnDestroy {
   private readonly _destroy$ = new Subject<void>();
 
   private _addButtonWrapperMouseEnter$: Subject<void> = new Subject<void>();
-
-  constructor(private _elementRef: ElementRef) {
-  }
 
   public ngOnInit(): void {
     this._addButtonEnterOrSpaceKeydown$.pipe(

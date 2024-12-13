@@ -32,7 +32,7 @@ export class ItemDropdownOverlayBuilder<T, C> {
   constructor(private _overlayService: Overlay) {
   }
 
-  withConfig(config: ItemOverlayBuilderConfig): this {
+  public withConfig(config: ItemOverlayBuilderConfig): this {
     if (config) {
       this._config = {...this._config, ...config};
     }

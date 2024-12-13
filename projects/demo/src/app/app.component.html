@@ -7,17 +7,15 @@
   <main class="mdl-layout__content">
     <div class="page-content">
 
-
       <tfaster-item-toolbar class="my-item-toolbar"
                             #betterItemToolbar
                             [fixedItemsLeft]="fixedItemsLeft"
                             [addableItems]="addableItems"
                             [fixedItemsRight]="fixedItemsRight"
                             [fixedItemsOuterRight]="fixedItemsOuterRight"
-                            [itemChooserAddIconTemplate]="addIconTemplate"></tfaster-item-toolbar>
+                            [itemChooserAddIconTemplate]="addIconTemplate"/>
 
       <h3>Lorem Ypsum</h3>
-
 
     </div>
   </main>
@@ -38,9 +36,9 @@
        [ngClass]="itemConfig.colorClass"
        (click)="dropdownCtrl.toggle(itemData?.selectedItem$, itemConfig)">
     <i class="material-icons md-light">{{itemConfig.iconName}}</i>&nbsp;
-    <ng-container *ngIf="itemData?.selectedItem$ | async as data">
+    @if (itemData?.selectedItem$ | async; as data) {
       <span>{{data.label}}</span>&nbsp;
-    </ng-container>
+    }
     <i class="material-icons md-light"
        [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
   </div>
@@ -52,9 +50,9 @@
        [ngClass]="itemConfig.colorClass"
        (click)="dropdownCtrl.toggle(itemData?.selectedItem$, itemConfig)">
     <i class="material-icons md-light">{{itemConfig.iconName}}</i>&nbsp;
-    <ng-container *ngIf="itemData?.selectedItem$ | async as data">
+    @if (itemData?.selectedItem$ | async; as data) {
       <span>{{data.label}}</span>&nbsp;
-    </ng-container>
+    }
     <i class="material-icons md-light"
        [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
     <button class="toolbar-item-close-button"
@@ -83,20 +81,20 @@
   <div class="my-toolbar-item" [ngClass]="(itemData.searchTerm$ | async)?.length > 0 || (dropdownCtrl.dropdownOpen$ | async)? itemConfig.colorClass : ''">
     <div (click)="dropdownCtrl.toggle(itemData)" style="display: flex; align-items: center;">
       <i class="material-icons md-light" [style.color]="(dropdownCtrl.dropdownOpen$ | async) || (itemData.searchTerm$ | async)?.length > 0 ? 'black' : 'white'">search</i>
-      <ng-container *ngIf="itemData.searchTerm$ | async as searchTerm">
+      @if (itemData.searchTerm$ | async; as searchTerm) {
         <span>&nbsp;{{searchTerm}}&nbsp;</span>
         <i class="material-icons md-light"
            [ngStyle]="{'transform': (dropdownCtrl.dropdownOpen$ | async) ? 'rotate(180deg)' : 'rotate(0deg)'}">expand_more</i>
-      </ng-container>
+      }
     </div>
-    <ng-container *ngIf="itemData.searchTerm$ | async">
+    @if (itemData.searchTerm$ | async) {
       <button class="toolbar-item-close-button"
               (click)="removeClick()"
               cdkMonitorElementFocus>
         <i class="material-icons md-light"
            (click)="itemData.searchTerm$.next('');">close</i>
       </button>
-    </ng-container>
+    }
   </div>
 </ng-template>
 
@@ -107,7 +105,7 @@
        style="width: 240px">
     <app-demo-list [height]="(availableHeight$ | async)"
                    [selectedItem]="itemData | async"
-                   (selectedItemChange)="itemData.next($event); dropdownCtrl.close()"></app-demo-list>
+                   (selectedItemChange)="itemData.next($event); dropdownCtrl.close()"/>
   </div>
 </ng-template>
 
@@ -118,10 +116,12 @@
        cdkTrapFocus
        cdkTrapFocusAutoCapture="true">
     <div style="flex: 1 1 0%; overflow: auto">
-      <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]" style="padding: 4px 8px">
-        <input type="checkbox" [id]="'opt' + i">
-        <label [for]="'opt' + i">Option {{i}}</label>
-      </div>
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track i) {
+        <div style="padding: 4px 8px">
+          <input type="checkbox" [id]="'opt' + i">
+          <label [for]="'opt' + i">Option {{i}}</label>
+        </div>
+      }
     </div>
     <button (click)="dropdownCtrl.close()">Apply</button>
   </div>
