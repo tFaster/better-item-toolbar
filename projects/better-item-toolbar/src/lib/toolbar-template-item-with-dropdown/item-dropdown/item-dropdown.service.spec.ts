@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemDropdownService } from './item-dropdown.service';
-import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
+import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemDropdownOverlayBuilder } from './item-dropdown-overlay-builder';
-import { Component, ComponentRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ComponentRef, Signal, TemplateRef, viewChild } from '@angular/core';
 import { ItemDropdownController } from './item-dropdown-controller';
 import { ItemDropdownPanelComponent } from './item-dropdown-panel.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,8 +47,8 @@ describe('ItemOverlayBuilderService', () => {
       const overlayController: ItemDropdownController<any, any> = builder.withConfig({
         panelClass: 'test-overlay-panel'
       }).buildAndConnect(
-        templateTestComponentRef.instance.originElement,
-        templateTestComponentRef.instance.itemDropdownTemplate
+        templateTestComponentRef.instance.originElement(),
+        templateTestComponentRef.instance.itemDropdownTemplate()
       );
       expect(document.querySelector('.test-overlay-panel')).toBeNull();
       overlayController.open();
@@ -64,8 +64,8 @@ describe('ItemOverlayBuilderService', () => {
       const overlayController: ItemDropdownController<any, any> = builder.withConfig({
         panelClass: 'test-overlay-panel'
       }).buildAndConnect(
-        templateTestComponentRef.instance.originElement,
-        templateTestComponentRef.instance.itemDropdownTemplate
+        templateTestComponentRef.instance.originElement(),
+        templateTestComponentRef.instance.itemDropdownTemplate()
       );
       expect(document.querySelector('.test-overlay-panel')).toBeNull();
       overlayController.toggle();
@@ -82,8 +82,8 @@ describe('ItemOverlayBuilderService', () => {
         detachOnEscKey: true,
         panelClass: 'test-overlay-panel'
       }).buildAndConnect(
-        templateTestComponentRef.instance.originElement,
-        templateTestComponentRef.instance.itemDropdownTemplate
+        templateTestComponentRef.instance.originElement(),
+        templateTestComponentRef.instance.itemDropdownTemplate()
       );
       overlayController.open();
       fixture.detectChanges();
@@ -96,8 +96,8 @@ describe('ItemOverlayBuilderService', () => {
       const overlayController: ItemDropdownController<any, any> = builder.withConfig({
         panelClass: 'test-overlay-panel'
       }).buildAndConnect(
-        templateTestComponentRef.instance.originElement,
-        templateTestComponentRef.instance.itemDropdownTemplate
+        templateTestComponentRef.instance.originElement(),
+        templateTestComponentRef.instance.itemDropdownTemplate()
       );
       overlayController.open();
       fixture.detectChanges();
@@ -111,8 +111,8 @@ describe('ItemOverlayBuilderService', () => {
         panelClass: 'test-overlay-panel',
         dropdownBypassElement: document.body
       }).buildAndConnect(
-        templateTestComponentRef.instance.originElement,
-        templateTestComponentRef.instance.itemDropdownTemplate
+        templateTestComponentRef.instance.originElement(),
+        templateTestComponentRef.instance.itemDropdownTemplate()
       );
       overlayController.open();
       fixture.detectChanges();
@@ -127,7 +127,6 @@ describe('ItemOverlayBuilderService', () => {
 
 
 @Component({
-  standalone: true,
   imports: [
     CdkOverlayOrigin
   ],
@@ -138,9 +137,7 @@ describe('ItemOverlayBuilderService', () => {
     </ng-template>`
 })
 export class OverlayTemplateTestComponent {
-  @ViewChild(CdkOverlayOrigin, {static: true})
-  originElement: CdkOverlayOrigin;
-  @ViewChild('itemDropdownTemplate', {static: true})
-  itemDropdownTemplate: TemplateRef<any>;
+  public readonly originElement: Signal<CdkOverlayOrigin> = viewChild(CdkOverlayOrigin);
+  public readonly itemDropdownTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemDropdownTemplate');
 }
 

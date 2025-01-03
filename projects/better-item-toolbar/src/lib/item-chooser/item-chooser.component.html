@@ -1,32 +1,32 @@
-@if (items.length > 0) {
+@if (items().length > 0) {
   <div class="toolbar-item-chooser-wrapper"
        (mouseleave)="onAddButtonWrapperMouseLeave()"
        (mouseenter)="onAddButtonWrapperMouseEnter()"
        (click)="onAddButtonWrapperClick()">
     <button class="toolbar-item-chooser-add-button"
-            [ngClass]="{'toolbar-item-chooser-open': isShown$ | async}"
+            [ngClass]="{'toolbar-item-chooser-open': isShown()}"
             (keydown)="onAddButtonKeydown($event)"
             cdkMonitorElementFocus
-            [tabIndex]="(isShown$ | async) ? -1 : 0"
+            [tabIndex]="isShown() ? -1 : 0"
             #itemChooserAddButton
             (focusout)="onFocusOut($event.relatedTarget)">
-      @if (itemChooserAddIconTemplate) {
-        <ng-container [ngTemplateOutlet]="itemChooserAddIconTemplate"/>
+      @if (itemChooserAddIconTemplate()) {
+        <ng-container [ngTemplateOutlet]="itemChooserAddIconTemplate()"/>
       } @else {
         <div class="toolbar-item-chooser-default-add-icon">+</div>
       }
     </button>
 
-    <div [@showHide]="(isShown$ | async) ? 'shown' : 'hidden'"
+    <div [@showHide]="isShown() ? 'shown' : 'hidden'"
          class="toolbar-item-chooser-item-container"
          #availableItemContainer
          (keydown.escape)="closeChooserCallout()">
-      @for (item of items; track item) {
+      @for (item of items(); track item) {
         <button class="toolbar-item-chooser-item"
                 [ngClass]="item.itemChooserConfig.styleClass"
                 (click)="onItemClick(item)"
                 [title]="item.itemChooserConfig.label"
-                [tabIndex]="(isShown$ | async) ? 0 : -1"
+                [tabIndex]="isShown() ? 0 : -1"
                 cdkMonitorElementFocus
                 (focusout)="onFocusOut($event.relatedTarget)">
           @if (item.itemChooserConfig.template) {

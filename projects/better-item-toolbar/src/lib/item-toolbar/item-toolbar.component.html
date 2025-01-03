@@ -1,26 +1,26 @@
 <section class="item-toolbar-left">
-  @for (item of fixedItemsLeft; track item) {
+  @for (item of fixedItemsLeft(); track item) {
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"/>
   }
 
-  @for (item of addedItems$ | async; track item) {
+  @for (item of addedItems(); track item) {
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: true}"/>
   }
 
   <tfaster-item-chooser (itemClick)="addItem($event, $event.dropdownConfig?.overlayConfig?.openOnCreate)"
-                        [items]="notYetAddedItems"
-                        [itemChooserAddIconTemplate]="itemChooserAddIconTemplate"/>
+                        [items]="notYetAddedItems()"
+                        [itemChooserAddIconTemplate]="itemChooserAddIconTemplate()"/>
 
-  @for (item of fixedItemsRight; track item) {
+  @for (item of fixedItemsRight(); track item) {
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"/>
   }
 </section>
 
 <section class="item-toolbar-right">
-  @for (item of fixedItemsOuterRight; track item) {
+  @for (item of fixedItemsOuterRight(); track item) {
     <ng-container [ngTemplateOutlet]="itemRenderTemplate"
                   [ngTemplateOutletContext]="{$implicit: item, enableAnimations: false}"/>
   }

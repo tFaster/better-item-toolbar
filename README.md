@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/tFaster/better-item-toolbar/branch/main/graph/badge.svg)](https://codecov.io/gh/tFaster/better-item-toolbar)
 [![Known Vulnerabilities](https://snyk.io/test/github/tFaster/better-item-toolbar/badge.svg?targetFile=projects/better-item-toolbar/package.json)](https://snyk.io/test/github/tFaster/better-item-toolbar?targetFile=projects/better-item-toolbar/package.json)
 ![GitHub](https://img.shields.io/github/license/tFaster/better-item-toolbar?style=flat-square)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 
 # Better Item Toolbar
 

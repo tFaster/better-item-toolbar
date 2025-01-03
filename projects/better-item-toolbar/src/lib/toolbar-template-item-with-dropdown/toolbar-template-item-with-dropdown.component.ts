@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+  output,
+  OutputEmitterRef,
+  Signal,
+  TemplateRef,
+  viewChild
+} from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemDropdownService } from './item-dropdown/item-dropdown.service';
 import { ItemDropdownController } from './item-dropdown/item-dropdown-controller';
@@ -9,7 +21,6 @@ import { CdkMonitorFocus } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'tfaster-toolbar-item-with-dropdown',
-  standalone: true,
   templateUrl: './toolbar-template-item-with-dropdown.component.html',
   styleUrls: ['./toolbar-template-item-with-dropdown.component.scss'],
   imports: [
@@ -23,18 +34,11 @@ import { CdkMonitorFocus } from '@angular/cdk/a11y';
 export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTemplateItemBaseComponent<T, C> implements OnInit {
 
   private _itemToolbarService: ItemDropdownService = inject(ItemDropdownService);
+  private _itemDropdownOrigin: Signal<CdkOverlayOrigin> = viewChild(CdkOverlayOrigin);
 
-  @ViewChild(CdkOverlayOrigin, {static: true})
-  private _itemDropdownOrigin: CdkOverlayOrigin;
-
-  @Input()
-  public dropdownTemplate: TemplateRef<any>;
-
-  @Input()
-  public dropdownOverlayConfig: ItemOverlayBuilderConfig = {};
-
-  @Output()
-  public dropdownControllerReady = new EventEmitter<ItemDropdownController<T, C>>();
+  public readonly dropdownTemplate: InputSignal<TemplateRef<any>> = input<TemplateRef<any>>();
+  public readonly dropdownOverlayConfig: InputSignal<ItemOverlayBuilderConfig> = input<ItemOverlayBuilderConfig>({});
+  public readonly dropdownControllerReady: OutputEmitterRef<ItemDropdownController<T, C>> = output<ItemDropdownController<T, C>>();
 
   private _itemDropdownCtrl: ItemDropdownController<T, C>;
 
@@ -46,15 +50,15 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
   private _initDropdownController(): void {
     this._itemDropdownCtrl = this._itemToolbarService
       .overlayBuilder<T, C>()
-      .withConfig(this.dropdownOverlayConfig)
-      .buildAndConnect(this._itemDropdownOrigin, this.dropdownTemplate);
+      .withConfig(this.dropdownOverlayConfig())
+      .buildAndConnect(this._itemDropdownOrigin(), this.dropdownTemplate());
     this.dropdownControllerReady.emit(this._itemDropdownCtrl);
   }
 
   private _initItemTemplateContext(): void {
     this.itemTemplateContext = {
-      $implicit: this.itemData,
-      itemConfig: this.itemConfig,
+      $implicit: this.itemData(),
+      itemConfig: this.itemConfig(),
       dropdownController: this._itemDropdownCtrl,
       removeClick: () => {
         this._itemDropdownCtrl.close();
@@ -67,15 +71,14 @@ export class ToolbarTemplateItemWithDropdownComponent<T, C> extends ToolbarTempl
     switch (event.code) {
       case 'Space':
       case 'Enter':
-        this._itemDropdownCtrl.toggle(this.itemData, this.itemConfig);
+        this._itemDropdownCtrl.toggle(this.itemData(), this.itemConfig());
         break;
       case 'ArrowUp':
         this._itemDropdownCtrl.close();
         break;
       case 'ArrowDown':
-        this._itemDropdownCtrl.open(this.itemData, this.itemConfig);
+        this._itemDropdownCtrl.open(this.itemData(), this.itemConfig());
         break;
     }
   }
-
 }

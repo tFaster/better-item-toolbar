@@ -121,20 +121,20 @@ export class ItemDropdownOverlayBuilder<T, C> {
                        itemConfig: C,
                        itemOverlayCtrl: ItemDropdownController<T, C>,
                        dropdownOpen$: Observable<boolean>): void {
-    const overlayComponent: ItemDropdownPanelComponent<T, C> = this._createAndAttachOverlayComponentPortal(overlayRef);
-    overlayComponent.panelTemplate = overlayTemplate;
-    overlayComponent.itemDropdownController = itemOverlayCtrl;
-    overlayComponent.itemData = itemData;
-    overlayComponent.itemConfig = itemConfig;
-    overlayComponent.emitAvailableHeightOnResize = this._config.emitAvailableHeightOnResize;
+    const overlayComponentRef: ComponentRef<ItemDropdownPanelComponent<T, C>> = this._createAndAttachOverlayComponentPortal(overlayRef);
+    overlayComponentRef.setInput('panelTemplate', overlayTemplate);
+    overlayComponentRef.setInput('itemDropdownController', itemOverlayCtrl);
+    overlayComponentRef.setInput('itemData', itemData);
+    overlayComponentRef.setInput('itemConfig', itemConfig);
+    overlayComponentRef.setInput('emitAvailableHeightOnResize', this._config.emitAvailableHeightOnResize);
   }
 
-  private _createAndAttachOverlayComponentPortal(overlayRef: OverlayRef): ItemDropdownPanelComponent<T, C> {
+  private _createAndAttachOverlayComponentPortal(overlayRef: OverlayRef): ComponentRef<ItemDropdownPanelComponent<T, C>> {
     const overlayPortal: ComponentPortal<ItemDropdownPanelComponent<T, C>> =
       new ComponentPortal<ItemDropdownPanelComponent<T, C>>(ItemDropdownPanelComponent);
     const itemOverlayPanelComponentRef: ComponentRef<ItemDropdownPanelComponent<T, C>> =
       overlayRef.attach<ItemDropdownPanelComponent<T, C>>(overlayPortal);
-    return itemOverlayPanelComponentRef.instance;
+    return itemOverlayPanelComponentRef;
   }
 
   private _createOverlay(positionStrategy: PositionStrategy): OverlayRef {

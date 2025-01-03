@@ -9,9 +9,6 @@ export class ToolbarItemRegistryService {
 
   private _registeredItemControllers = new Map<ToolbarTemplateItemWithDropdown, ItemDropdownController<any, any>>();
 
-  constructor() {
-  }
-
   public registerItemController(item: ToolbarTemplateItemWithDropdown,
                                 dropdownController: ItemDropdownController<any, any>) {
     this._registeredItemControllers.set(item, dropdownController);

@@ -4,7 +4,6 @@ import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'tfaster-toolbar-template-item',
-  standalone: true,
   templateUrl: './toolbar-template-item.component.html',
   styleUrls: ['./toolbar-template-item.component.scss'],
   imports: [
@@ -18,8 +17,8 @@ export class ToolbarTemplateItemComponent<T, C> extends ToolbarTemplateItemBaseC
 
   public ngOnInit(): void {
     this.itemTemplateContext = {
-      $implicit: this.itemData,
-      itemConfig: this.itemConfig,
+      $implicit: this.itemData(),
+      itemConfig: this.itemConfig(),
       removeClick: () => {
         this.removeClick.emit();
       }

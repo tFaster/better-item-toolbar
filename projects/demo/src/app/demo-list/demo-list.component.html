@@ -1,9 +1,9 @@
 <cdk-virtual-scroll-viewport #virtualScrollViewport
-                             [itemSize]="itemSize"
+                             [itemSize]="itemSize()"
                              class="list-viewport">
   <ol>
-    <ng-container *cdkVirtualFor="let item of items" #cdkVirtualFor>
-      <li [ngClass]="{'selected': selectedItem && item.id === selectedItem.id}"
+    <ng-container *cdkVirtualFor="let item of items()" #cdkVirtualFor>
+      <li [ngClass]="{'selected': selectedItem() && item.id === selectedItem().id}"
           (click)="onItemClick(item)">{{ item.label }}
       </li>
     </ng-container>

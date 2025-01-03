@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ToolbarTemplateItemWithDropdownComponent } from './toolbar-template-item-with-dropdown.component';
 import { By } from '@angular/platform-browser';
+import { ComponentRef } from '@angular/core';
 
 describe('ToolbarTemplateItemWithDropdownComponent', () => {
+  let componentRef: ComponentRef<ToolbarTemplateItemWithDropdownComponent<any, any>>;
   let component: ToolbarTemplateItemWithDropdownComponent<any, any>;
   let fixture: ComponentFixture<ToolbarTemplateItemWithDropdownComponent<any, any>>;
 
@@ -17,6 +19,7 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ToolbarTemplateItemWithDropdownComponent);
+    componentRef = fixture.componentRef;
     component = fixture.componentInstance;
   });
 
@@ -48,8 +51,8 @@ describe('ToolbarTemplateItemWithDropdownComponent', () => {
 
   it('should open/close dropdown on DOWN_ARROW/UP_ARROW key', () => {
     expect(component).toBeTruthy();
-    component.itemData = 'testItemData';
-    component.itemConfig = 'testItemConfig';
+    componentRef.setInput('itemData', 'testItemData');
+    componentRef.setInput('itemConfig', 'testItemConfig');
     fixture.detectChanges();
     spyOn(component.itemTemplateContext.dropdownController, 'open');
     spyOn(component.itemTemplateContext.dropdownController, 'close');
