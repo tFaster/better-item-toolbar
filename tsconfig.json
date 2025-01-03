@@ -26,7 +26,8 @@
         "projects/better-item-toolbar/src/public-api.ts"
       ]
     },
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

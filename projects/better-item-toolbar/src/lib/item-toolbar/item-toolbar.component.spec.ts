@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { ItemToolbarComponent } from './item-toolbar.component';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ComponentRef, Signal, TemplateRef, viewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
@@ -11,6 +11,7 @@ import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/i
 const itemRegistry = new ToolbarItemRegistryService();
 
 describe('ItemToolbarComponent', () => {
+  let componentRef: ComponentRef<ItemToolbarComponent>;
   let component: ItemToolbarComponent;
   let fixture: ComponentFixture<ItemToolbarComponent>;
 
@@ -28,6 +29,7 @@ describe('ItemToolbarComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemToolbarComponent);
+    componentRef = fixture.componentRef;
     component = fixture.componentInstance;
   });
 
@@ -45,24 +47,24 @@ describe('ItemToolbarComponent', () => {
     beforeEach(() => {
       templateTestComponentFixture = TestBed.createComponent(TemplateTestComponent);
       testToolbarItem = {
-        template: templateTestComponentFixture.componentInstance.itemTemplate,
+        template: templateTestComponentFixture.componentInstance.itemTemplate(),
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate()
         },
         data: 'testItemWithNoOrder'
       };
       testToolbarItem2 = {
-        template: templateTestComponentFixture.componentInstance.itemTemplate,
+        template: templateTestComponentFixture.componentInstance.itemTemplate(),
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate()
         },
         data: 'testItemWithOrderTwo',
         order: 2
       };
       testToolbarItem3 = {
-        template: templateTestComponentFixture.componentInstance.itemTemplate,
+        template: templateTestComponentFixture.componentInstance.itemTemplate(),
         dropdownConfig: {
-          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate
+          template: templateTestComponentFixture.componentInstance.itemDropdownTemplate()
         },
         data: 'testItemWithOrderZero',
         order: 0
@@ -70,7 +72,7 @@ describe('ItemToolbarComponent', () => {
     });
 
     it('should render one fixed item left', () => {
-      component.fixedItemsLeft = [testToolbarItem];
+      componentRef.setInput('fixedItemsLeft', [testToolbarItem]);
       fixture.detectChanges();
       const testItemsLeft = fixture.debugElement.queryAll(By.css('.item-toolbar-left .testItem'));
       expect(testItemsLeft.length).toBe(1);
@@ -80,28 +82,28 @@ describe('ItemToolbarComponent', () => {
     });
 
     it('should render two fixed item right to item chooser', () => {
-      component.fixedItemsRight = [testToolbarItem, testToolbarItem2];
+      componentRef.setInput('fixedItemsRight', [testToolbarItem, testToolbarItem2]);
       fixture.detectChanges();
       const testItemsRight = fixture.debugElement.queryAll(By.css('.item-toolbar-left .testItem'));
       expect(testItemsRight.length).toBe(2);
     });
 
     it('should render two fixed items outer right', () => {
-      component.fixedItemsOuterRight = [testToolbarItem, testToolbarItem2];
+      componentRef.setInput('fixedItemsOuterRight', [testToolbarItem, testToolbarItem2]);
       fixture.detectChanges();
       const testItemsOuterRight = fixture.debugElement.queryAll(By.css('.item-toolbar-right .testItem'));
       expect(testItemsOuterRight.length).toBe(2);
     });
 
     it('should render item chooser when there are addable items', () => {
-      component.addableItems = [testToolbarItem, testToolbarItem2];
+      componentRef.setInput('addableItems', [testToolbarItem, testToolbarItem2]);
       fixture.detectChanges();
       const testItemChooser = fixture.debugElement.query(By.css('tfaster-item-chooser'));
       expect(testItemChooser).toBeDefined();
     });
 
     it('should add not yet added items in correct order', () => {
-      component.addableItems = [testToolbarItem, testToolbarItem2, testToolbarItem3];
+      componentRef.setInput('addableItems', [testToolbarItem, testToolbarItem2, testToolbarItem3]);
       fixture.detectChanges();
       let testItemsLeft = fixture.debugElement.queryAll(By.css('.item-toolbar-left .testItem'));
       expect(testItemsLeft.length).toBe(0);
@@ -117,7 +119,7 @@ describe('ItemToolbarComponent', () => {
     });
 
     it('should remove added items', () => {
-      component.addableItems = [testToolbarItem3, testToolbarItem, testToolbarItem2];
+      componentRef.setInput('addableItems', [testToolbarItem3, testToolbarItem, testToolbarItem2]);
       component.addItem(testToolbarItem);
       component.addItem(testToolbarItem2);
       component.addItem(testToolbarItem3);
@@ -134,7 +136,7 @@ describe('ItemToolbarComponent', () => {
     });
 
     it('should add item and open dropdown if openOnCreate is true', fakeAsync(() => {
-      component.addableItems = [testToolbarItem, testToolbarItem2, testToolbarItem3];
+      componentRef.setInput('addableItems', [testToolbarItem, testToolbarItem2, testToolbarItem3]);
       fixture.detectChanges();
       component.addItem(testToolbarItem, true);
       fixture.detectChanges();
@@ -158,8 +160,6 @@ describe('ItemToolbarComponent', () => {
     </ng-template>`
 })
 export class TemplateTestComponent {
-  @ViewChild('itemTemplate', {static: true})
-  itemTemplate: TemplateRef<any>;
-  @ViewChild('itemDropdownTemplate', {static: true})
-  itemDropdownTemplate: TemplateRef<any>;
+  public readonly itemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemTemplate');
+  public readonly itemDropdownTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemDropdownTemplate');
 }

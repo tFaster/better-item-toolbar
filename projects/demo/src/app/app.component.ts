@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, signal, TemplateRef, viewChild, WritableSignal } from '@angular/core';
 import { ToolbarTemplateItemWithDropdown } from '../../../better-item-toolbar/src/lib/toolbar-template-item-with-dropdown';
 import { BehaviorSubject } from 'rxjs';
 import { DemoListComponent, DemoListItem } from './demo-list/demo-list.component';
@@ -25,50 +25,29 @@ import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('betterItemToolbar')
-  betterItemToolbar: ItemToolbarComponent;
+  private _betterItemToolbar: Signal<ItemToolbarComponent> = viewChild<ItemToolbarComponent>('betterItemToolbar');
+  private _itemChooserItemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemChooserItemTemplate');
+  private _dropdownItemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('dropdownItemTemplate');
+  private _itemOnlyTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemOnlyTemplate');
+  private _fixedDropdownItemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('fixedDropdownItemTemplate');
+  private _searchItemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('searchItemTemplate');
+  private _dropdownTemplateHeroes: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('dropdownTemplateHeroes');
+  private _dropdownTemplateMovies: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('dropdownTemplateMovies');
+  private _dropdownTemplateTime: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('dropdownTemplateTime');
+  private _dropdownTemplateSearch: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('dropdownTemplateSearch');
+  private _buttonsItemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('buttonsItemTemplate');
 
-  @ViewChild('itemChooserItemTemplate', {static: true})
-  itemChooserItemTemplate: TemplateRef<any>;
-
-  @ViewChild('dropdownItemTemplate', {static: true})
-  dropdownItemTemplate: TemplateRef<any>;
-
-  @ViewChild('itemOnlyTemplate', {static: true})
-  itemOnlyTemplate: TemplateRef<any>;
-
-  @ViewChild('fixedDropdownItemTemplate', {static: true})
-  fixedDropdownItemTemplate: TemplateRef<any>;
-
-  @ViewChild('searchItemTemplate', {static: true})
-  searchItemTemplate: TemplateRef<any>;
-
-  @ViewChild('dropdownTemplateHeroes', {static: true})
-  dropdownTemplateHeroes: TemplateRef<any>;
-
-  @ViewChild('dropdownTemplateMovies', {static: true})
-  dropdownTemplateMovies: TemplateRef<any>;
-
-  @ViewChild('dropdownTemplateTime', {static: true})
-  dropdownTemplateTime: TemplateRef<any>;
-
-  @ViewChild('dropdownTemplateSearch', {static: true})
-  dropdownTemplateSearch: TemplateRef<any>;
-
-  @ViewChild('buttonsItemTemplate', {static: true})
-  buttonsItemTemplate: TemplateRef<any>;
-
-  public fixedItemsLeft: ToolbarTemplateItemWithDropdown[] = [];
-  public addableItems: ToolbarTemplateItemWithDropdown[] = [];
-  public fixedItemsRight: ToolbarTemplateItemWithDropdown[] = [];
-  public fixedItemsOuterRight: ToolbarTemplateItemWithDropdown[] = [];
+  public fixedItemsLeft: WritableSignal<ToolbarTemplateItemWithDropdown[]> = signal<ToolbarTemplateItemWithDropdown[]>([]);
+  public addableItems: WritableSignal<ToolbarTemplateItemWithDropdown[]> = signal<ToolbarTemplateItemWithDropdown[]>([]);
+  public fixedItemsRight: WritableSignal<ToolbarTemplateItemWithDropdown[]> = signal<ToolbarTemplateItemWithDropdown[]>([]);
+  public fixedItemsOuterRight: WritableSignal<ToolbarTemplateItemWithDropdown[]> = signal<ToolbarTemplateItemWithDropdown[]>([]);
 
   public ngOnInit(): void {
-    this.fixedItemsLeft = [
+    this.fixedItemsLeft.set([
       {
-        template: this.fixedDropdownItemTemplate,
+        template: this._fixedDropdownItemTemplate(),
         dropdownConfig: {
-          template: this.dropdownTemplateHeroes,
+          template: this._dropdownTemplateHeroes(),
           overlayConfig: {
             offsetY: 4,
             emitAvailableHeightOnResize: true
@@ -82,13 +61,13 @@ export class AppComponent implements OnInit {
           iconName: 'face'
         }
       }
-    ];
+    ]);
 
-    this.addableItems = [
+    this.addableItems.set([
       {
-        template: this.dropdownItemTemplate,
+        template: this._dropdownItemTemplate(),
         dropdownConfig: {
-          template: this.dropdownTemplateMovies,
+          template: this._dropdownTemplateMovies(),
           overlayConfig: {
             offsetY: 4,
             openOnCreate: true
@@ -96,7 +75,7 @@ export class AppComponent implements OnInit {
         },
         itemChooserConfig: {
           label: 'Movie',
-          template: this.itemChooserItemTemplate,
+          template: this._itemChooserItemTemplate(),
           styleClass: 'my-toolbar-item-chooser-lime'
         },
         config: {
@@ -106,9 +85,9 @@ export class AppComponent implements OnInit {
         order: 1
       },
       {
-        template: this.dropdownItemTemplate,
+        template: this._dropdownItemTemplate(),
         dropdownConfig: {
-          template: this.dropdownTemplateTime,
+          template: this._dropdownTemplateTime(),
           overlayConfig: {
             offsetY: 4,
             openOnCreate: true
@@ -116,7 +95,7 @@ export class AppComponent implements OnInit {
         },
         itemChooserConfig: {
           label: 'Time',
-          template: this.itemChooserItemTemplate,
+          template: this._itemChooserItemTemplate(),
           styleClass: 'my-toolbar-item-chooser-green'
         },
         config: {
@@ -126,10 +105,10 @@ export class AppComponent implements OnInit {
         order: 2
       },
       {
-        template: this.itemOnlyTemplate,
+        template: this._itemOnlyTemplate(),
         itemChooserConfig: {
           label: 'Fixed Time',
-          template: this.itemChooserItemTemplate,
+          template: this._itemChooserItemTemplate(),
           styleClass: 'my-toolbar-item-chooser-green'
         },
         data: {label: 'Fixed Time'},
@@ -139,13 +118,13 @@ export class AppComponent implements OnInit {
         },
         order: 3
       }
-    ];
+    ]);
 
-    this.fixedItemsRight = [
+    this.fixedItemsRight.set([
       {
-        template: this.searchItemTemplate,
+        template: this._searchItemTemplate(),
         dropdownConfig: {
-          template: this.dropdownTemplateSearch,
+          template: this._dropdownTemplateSearch(),
           overlayConfig: {
             offsetY: 4
           }
@@ -158,16 +137,16 @@ export class AppComponent implements OnInit {
           iconName: 'search'
         }
       }
-    ];
+    ]);
 
-    this.fixedItemsOuterRight = [
+    this.fixedItemsOuterRight.set([
       {
-        template: this.buttonsItemTemplate
+        template: this._buttonsItemTemplate()
       }
-    ];
+    ]);
   }
 
   addMovieItem(): void {
-    this.betterItemToolbar.addItem(this.addableItems[0]);
+    this._betterItemToolbar().addItem(this.addableItems()[0]);
   }
 }

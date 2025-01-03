@@ -18,8 +18,8 @@ export class ToolbarTemplateItemComponent<T, C> extends ToolbarTemplateItemBaseC
 
   public ngOnInit(): void {
     this.itemTemplateContext = {
-      $implicit: this.itemData,
-      itemConfig: this.itemConfig,
+      $implicit: this.itemData(),
+      itemConfig: this.itemConfig(),
       removeClick: () => {
         this.removeClick.emit();
       }

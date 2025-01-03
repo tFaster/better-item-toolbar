@@ -1,11 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject, Input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  InputSignal,
+  signal,
+  Signal,
+  TemplateRef,
+  WritableSignal
+} from '@angular/core';
 import { ToolbarItemDropdownConfig, ToolbarTemplateItem, ToolbarTemplateItemWithDropdown } from '../toolbar-template-item-with-dropdown';
 import { animate, group, style, transition, trigger } from '@angular/animations';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ItemDropdownController } from '../toolbar-template-item-with-dropdown/item-dropdown/item-dropdown-controller';
 import { ToolbarItemRegistryService } from './toolbar-item-registry.service';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ItemChooserComponent } from '../item-chooser/item-chooser.component';
 import {
   ToolbarTemplateItemWithDropdownComponent
@@ -20,7 +29,6 @@ import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-t
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgTemplateOutlet,
-    AsyncPipe,
     ItemChooserComponent,
     ToolbarTemplateItemWithDropdownComponent,
     ToolbarTemplateItemComponent
@@ -57,41 +65,30 @@ export class ItemToolbarComponent {
 
   private _toolbarItemRegistryService: ToolbarItemRegistryService = inject(ToolbarItemRegistryService);
 
-  @Input()
-  public fixedItemsLeft: ToolbarTemplateItem[] = [];
+  public readonly fixedItemsLeft: InputSignal<ToolbarTemplateItem[]> = input<ToolbarTemplateItem[]>([]);
+  public readonly addableItems: InputSignal<ToolbarTemplateItem[]> = input<ToolbarTemplateItem[]>([]);
+  public readonly fixedItemsRight: InputSignal<ToolbarTemplateItem[]> = input<ToolbarTemplateItem[]>([]);
+  public readonly fixedItemsOuterRight: InputSignal<ToolbarTemplateItem[]> = input<ToolbarTemplateItem[]>([]);
+  public readonly itemChooserAddIconTemplate: InputSignal<TemplateRef<any>> = input<TemplateRef<any>>();
 
-  @Input()
-  public addableItems: ToolbarTemplateItem[] = [];
+  private _addedItemsSet: WritableSignal<Set<ToolbarTemplateItem>> = signal(new Set<ToolbarTemplateItem>());
 
-  @Input()
-  public fixedItemsRight: ToolbarTemplateItem[] = [];
+  public readonly addedItems: Signal<ToolbarTemplateItem[]> = computed(() => {
+    const items: ToolbarTemplateItem[] = Array.from(this._addedItemsSet());
+    items.sort((itemA: ToolbarTemplateItem, itemB: ToolbarTemplateItem) => {
+      if (typeof itemB.order === 'undefined') {
+        return -1;
+      } else if (typeof itemA.order === 'undefined') {
+        return 1;
+      }
+      return itemA.order < itemB.order ? -1 : 1;
+    });
+    return items;
+  });
 
-  @Input()
-  public fixedItemsOuterRight: ToolbarTemplateItem[] = [];
-
-  @Input()
-  public itemChooserAddIconTemplate: TemplateRef<any>;
-
-  public get notYetAddedItems(): ToolbarTemplateItem[] {
-    return this.addableItems.filter((item: ToolbarTemplateItem) => this._isNotYetAddedItem(item));
-  }
-
-  private _addedItemsSet$ = new BehaviorSubject<Set<ToolbarTemplateItem>>(new Set<ToolbarTemplateItem>());
-
-  public addedItems$: Observable<ToolbarTemplateItem[]> = this._addedItemsSet$.pipe(
-    map((items: Set<ToolbarTemplateItem>) => Array.from(items)),
-    map((items: ToolbarTemplateItem[]) => {
-      items.sort((itemA: ToolbarTemplateItem, itemB: ToolbarTemplateItem) => {
-        if (typeof itemB.order === 'undefined') {
-          return -1;
-        } else if (typeof itemA.order === 'undefined') {
-          return 1;
-        }
-        return itemA.order < itemB.order ? -1 : 1;
-      });
-      return items;
-    })
-  );
+  public readonly notYetAddedItems: Signal<ToolbarTemplateItem[]> = computed(() => {
+    return this.addableItems().filter((item: ToolbarTemplateItem) => this._isNotYetAddedItem(item));
+  });
 
   public isItemWithDropdown(item: ToolbarTemplateItem): item is ToolbarTemplateItemWithDropdown {
     return 'dropdownConfig' in item;
@@ -102,10 +99,10 @@ export class ItemToolbarComponent {
   }
 
   public addItem(item: ToolbarTemplateItemWithDropdown, openOnCreate = false): void {
-    const currentSet = this._addedItemsSet$.value;
+    const currentSet = this._addedItemsSet();
     if (!currentSet.has(item)) {
       currentSet.add(item);
-      this._addedItemsSet$.next(currentSet);
+      this._addedItemsSet.set(new Set(currentSet));
       if (openOnCreate) {
         setTimeout(() => {
           this._toolbarItemRegistryService.getDropdownController(item).open(item.data, item.config);
@@ -115,10 +112,10 @@ export class ItemToolbarComponent {
   }
 
   public removeItem(item: ToolbarTemplateItem): void {
-    const currentSet = this._addedItemsSet$.value;
+    const currentSet = this._addedItemsSet();
     if (currentSet.has(item)) {
       currentSet.delete(item);
-      this._addedItemsSet$.next(currentSet);
+      this._addedItemsSet.set(new Set(currentSet));
     }
   }
 
@@ -128,7 +125,6 @@ export class ItemToolbarComponent {
   }
 
   private _isNotYetAddedItem(item: ToolbarTemplateItem): boolean {
-    return !!item.itemChooserConfig && !Array.from(this._addedItemsSet$.value.values()).includes(item);
+    return !!item.itemChooserConfig && !Array.from(this._addedItemsSet().values()).includes(item);
   }
-
 }

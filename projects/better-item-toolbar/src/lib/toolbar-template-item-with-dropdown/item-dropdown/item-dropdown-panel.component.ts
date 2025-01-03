@@ -1,10 +1,23 @@
-import type { AfterViewInit, OnDestroy, OnInit, TemplateRef  } from '@angular/core';
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  HostBinding,
+  inject,
+  input,
+  Input,
+  InputSignal,
+  OnInit,
+  TemplateRef
+} from '@angular/core';
 import { ItemDropdownController } from './item-dropdown-controller';
-import { fromEvent, Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { NgTemplateOutlet } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tfaster-item-dropdown-panel',
@@ -33,40 +46,28 @@ import { NgTemplateOutlet } from '@angular/common';
     )
   ]
 })
-export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, OnDestroy {
-
+export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit {
+  private _elementRef = inject(ElementRef);
   @HostBinding('@.disabled')
   @Input()
   public animationsDisabled = false;
 
-  @Input()
-  public panelTemplate: TemplateRef<any>;
-
-  @Input()
-  public itemDropdownController: ItemDropdownController<T, C>;
-
-  @Input()
-  public itemData: T;
-
-  @Input()
-  public itemConfig: C;
-
-  @Input()
-  public emitAvailableHeightOnResize = false;
+  public readonly panelTemplate: InputSignal<TemplateRef<any>> = input<TemplateRef<any>>();
+  public readonly itemDropdownController: InputSignal<ItemDropdownController<T, C>> = input<ItemDropdownController<T, C>>();
+  public readonly itemData: InputSignal<T> = input<T>();
+  public readonly itemConfig: InputSignal<C> = input<C>();
+  public readonly emitAvailableHeightOnResize: InputSignal<boolean> = input(false);
 
   public panelTemplateContext: any;
 
-  private readonly _destroy$ = new Subject<void>();
-
-  constructor(private  _elementRef: ElementRef) {
-  }
+  private readonly _destroyRef: DestroyRef = inject(DestroyRef);
 
   ngOnInit() {
     this.panelTemplateContext = {
-      $implicit: this.itemData,
-      itemConfig: this.itemConfig,
-      dropdownController: this.itemDropdownController,
-      availableHeight$: this.itemDropdownController.availableHeight$.asObservable()
+      $implicit: this.itemData(),
+      itemConfig: this.itemConfig(),
+      dropdownController: this.itemDropdownController(),
+      availableHeight$: this.itemDropdownController().availableHeight$.asObservable()
     };
   }
 
@@ -75,9 +76,9 @@ export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, 
       this._updateAvailableHeight();
     }, 1);
 
-    if (this.emitAvailableHeightOnResize) {
+    if (this.emitAvailableHeightOnResize()) {
       fromEvent(window, 'resize').pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         debounceTime(20)
       ).subscribe(() => {
         this._updateAvailableHeight();
@@ -90,13 +91,8 @@ export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit, 
     const nativeElement: HTMLElement = this._elementRef.nativeElement as HTMLElement;
     if (nativeElement.parentElement && nativeElement.parentElement.parentElement) {
       const cdkOverlayBoundingBoxElement: HTMLElement = nativeElement.parentElement.parentElement;
-      this.itemDropdownController.availableHeight$.next(cdkOverlayBoundingBoxElement.offsetHeight);
+      this.itemDropdownController().availableHeight$.next(cdkOverlayBoundingBoxElement.offsetHeight);
     }
-  }
-
-  public ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
 }
