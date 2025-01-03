@@ -23,7 +23,6 @@ import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-t
 
 @Component({
   selector: 'tfaster-item-toolbar',
-  standalone: true,
   templateUrl: './item-toolbar.component.html',
   styleUrls: ['./item-toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,31 +33,22 @@ import { ToolbarTemplateItemComponent } from '../toolbar-template-item/toolbar-t
     ToolbarTemplateItemComponent
   ],
   animations: [
-    trigger(
-      'inOutAnimation',
-      [
-        transition(
-          ':enter',
-          [
-            style({width: 0, opacity: 0}),
-            group([
-              animate('100ms ease-out', style({width: '*'})),
-              animate('300ms ease-out', style({opacity: 1}))
-            ])
-          ]
-        ),
-        transition(
-          ':leave',
-          [
-            style({width: '*', opacity: 1}),
-            group([
-              animate('100ms ease-out', style({width: 0})),
-              animate('100ms ease-out', style({opacity: 0}))
-            ])
-          ]
-        )
-      ]
-    )
+    trigger('inOutAnimation', [
+      transition(':enter', [
+        style({width: 0, opacity: 0}),
+        group([
+          animate('100ms ease-out', style({width: '*'})),
+          animate('300ms ease-out', style({opacity: 1}))
+        ])
+      ]),
+      transition(':leave', [
+        style({width: '*', opacity: 1}),
+        group([
+          animate('100ms ease-out', style({width: 0})),
+          animate('100ms ease-out', style({opacity: 0}))
+        ])
+      ])
+    ])
   ]
 })
 export class ItemToolbarComponent {

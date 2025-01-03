@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit,
-  TemplateRef,
-  output,
-  viewChild,
   input,
+  InputSignal,
+  OnInit,
+  output,
+  OutputEmitterRef,
   Signal,
-  InputSignal, OutputEmitterRef
+  TemplateRef,
+  viewChild
 } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ItemDropdownService } from './item-dropdown/item-dropdown.service';
@@ -20,7 +21,6 @@ import { CdkMonitorFocus } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'tfaster-toolbar-item-with-dropdown',
-  standalone: true,
   templateUrl: './toolbar-template-item-with-dropdown.component.html',
   styleUrls: ['./toolbar-template-item-with-dropdown.component.scss'],
   imports: [

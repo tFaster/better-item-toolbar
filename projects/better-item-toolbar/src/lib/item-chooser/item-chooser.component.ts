@@ -23,40 +23,39 @@ import { CdkMonitorFocus } from '@angular/cdk/a11y';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'tfaster-item-chooser',
-  standalone: true,
-  templateUrl: './item-chooser.component.html',
-  styleUrls: ['./item-chooser.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgClass,
-    NgTemplateOutlet,
-    CdkMonitorFocus
-  ],
-  animations: [
-    trigger('showHide', [
-      state('shown', style({
-        width: '*',
-        opacity: 1
-      })),
-      state('hidden', style({
-        width: 0,
-        opacity: 0
-      })),
-      transition('shown => hidden', [
-        group([
-          animate('100ms ease-out', style({width: 0})),
-          animate('100ms ease-out', style({opacity: 0}))
+    selector: 'tfaster-item-chooser',
+    templateUrl: './item-chooser.component.html',
+    styleUrls: ['./item-chooser.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgClass,
+        NgTemplateOutlet,
+        CdkMonitorFocus
+    ],
+    animations: [
+        trigger('showHide', [
+            state('shown', style({
+                width: '*',
+                opacity: 1
+            })),
+            state('hidden', style({
+                width: 0,
+                opacity: 0
+            })),
+            transition('shown => hidden', [
+                group([
+                    animate('100ms ease-out', style({ width: 0 })),
+                    animate('100ms ease-out', style({ opacity: 0 }))
+                ])
+            ]),
+            transition('hidden => shown', [
+                group([
+                    animate('100ms ease-out', style({ width: '*' })),
+                    animate('100ms 100ms ease-out', style({ opacity: 1 }))
+                ])
+            ])
         ])
-      ]),
-      transition('hidden => shown', [
-        group([
-          animate('100ms ease-out', style({width: '*'})),
-          animate('100ms 100ms ease-out', style({opacity: 1}))
-        ])
-      ])
-    ])
-  ]
+    ]
 })
 export class ItemChooserComponent {
 

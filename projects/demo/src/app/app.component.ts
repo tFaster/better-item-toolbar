@@ -9,7 +9,6 @@ import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   imports: [

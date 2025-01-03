@@ -127,7 +127,6 @@ describe('ItemOverlayBuilderService', () => {
 
 
 @Component({
-  standalone: true,
   imports: [
     CdkOverlayOrigin
   ],
@@ -139,6 +138,6 @@ describe('ItemOverlayBuilderService', () => {
 })
 export class OverlayTemplateTestComponent {
   public readonly originElement: Signal<CdkOverlayOrigin> = viewChild(CdkOverlayOrigin);
-  public readonly itemDropdownTemplate:Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemDropdownTemplate');
+  public readonly itemDropdownTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemDropdownTemplate');
 }
 

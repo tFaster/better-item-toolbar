@@ -27,7 +27,6 @@ export interface DemoListItem {
 
 @Component({
   selector: 'app-demo-list',
-  standalone: true,
   templateUrl: './demo-list.component.html',
   styleUrls: ['./demo-list.component.scss'],
   imports: [

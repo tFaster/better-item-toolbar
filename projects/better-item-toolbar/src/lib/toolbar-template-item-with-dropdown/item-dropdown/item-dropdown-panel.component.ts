@@ -21,7 +21,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'tfaster-item-dropdown-panel',
-  standalone: true,
   templateUrl: './item-dropdown-panel.component.html',
   styleUrls: ['./item-dropdown-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,21 +28,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     NgTemplateOutlet
   ],
   animations: [
-    trigger(
-      'inOutAnimation',
-      [
-        transition(
-          ':enter',
-          [
-            style({transform: 'scale(1, 0.5)', top: '-50%', opacity: 0}),
-            group([
-              animate('80ms ease-out', style({transform: 'scale(1, 1)', top: 0})),
-              animate('180ms ease-out', style({opacity: 1}))
-            ])
-          ]
-        )
-      ]
-    )
+    trigger('inOutAnimation', [
+      transition(':enter', [
+        style({transform: 'scale(1, 0.5)', top: '-50%', opacity: 0}),
+        group([
+          animate('80ms ease-out', style({transform: 'scale(1, 1)', top: 0})),
+          animate('180ms ease-out', style({opacity: 1}))
+        ])
+      ])
+    ])
   ]
 })
 export class ItemDropdownPanelComponent<T, C> implements OnInit, AfterViewInit {

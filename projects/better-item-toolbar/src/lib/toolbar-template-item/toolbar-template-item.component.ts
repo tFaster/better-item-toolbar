@@ -4,7 +4,6 @@ import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'tfaster-toolbar-template-item',
-  standalone: true,
   templateUrl: './toolbar-template-item.component.html',
   styleUrls: ['./toolbar-template-item.component.scss'],
   imports: [

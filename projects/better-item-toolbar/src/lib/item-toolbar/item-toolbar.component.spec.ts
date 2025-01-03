@@ -157,7 +157,8 @@ describe('ItemToolbarComponent', () => {
     </ng-template>
     <ng-template #itemDropdownTemplate>
       <span class="testItem">Item Dropdown Template Content</span>
-    </ng-template>`
+    </ng-template>`,
+  standalone: false
 })
 export class TemplateTestComponent {
   public readonly itemTemplate: Signal<TemplateRef<any>> = viewChild<TemplateRef<any>>('itemTemplate');
