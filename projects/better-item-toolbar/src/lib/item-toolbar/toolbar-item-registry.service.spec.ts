@@ -9,12 +9,12 @@ describe('ToolbarItemRegistryService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ToolbarItemRegistryService = TestBed.get(ToolbarItemRegistryService);
+    const service: ToolbarItemRegistryService = TestBed.inject(ToolbarItemRegistryService);
     expect(service).toBeTruthy();
   });
 
   it('should register dropdown controller', () => {
-    const service: ToolbarItemRegistryService = TestBed.get(ToolbarItemRegistryService);
+    const service: ToolbarItemRegistryService = TestBed.inject(ToolbarItemRegistryService);
 
     const itemConfig: ToolbarTemplateItemWithDropdown = {
       config: {}, data: {}, dropdownConfig: {}, template: null

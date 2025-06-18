@@ -20,12 +20,12 @@ describe('ItemOverlayBuilderService', () => {
   });
 
   it('should be created', () => {
-    const service: ItemDropdownService = TestBed.get(ItemDropdownService);
+    const service: ItemDropdownService = TestBed.inject(ItemDropdownService);
     expect(service).toBeTruthy();
   });
 
   it('should create overlayBuilder', () => {
-    const service: ItemDropdownService = TestBed.get(ItemDropdownService);
+    const service: ItemDropdownService = TestBed.inject(ItemDropdownService);
     const builder = service.overlayBuilder();
     expect(builder).toBeTruthy();
   });
@@ -37,7 +37,7 @@ describe('ItemOverlayBuilderService', () => {
     let fixture: ComponentFixture<OverlayTemplateTestComponent>;
 
     beforeEach(() => {
-      const service: ItemDropdownService = TestBed.get(ItemDropdownService);
+      const service: ItemDropdownService = TestBed.inject(ItemDropdownService);
       builder = service.overlayBuilder();
       fixture = TestBed.createComponent(OverlayTemplateTestComponent);
       templateTestComponentRef = fixture.componentRef;
